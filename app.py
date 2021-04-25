@@ -14,6 +14,8 @@ t_trial = text(
     'select * from attractions limit 5'
 )
 
+print('trial: ', execute(t_trial).first())
+
 # app.secret_key的目的為何？
 
 '''
@@ -139,4 +141,4 @@ def api_attraction(attractionId):
 		return response
 '''
 
-app.run(port=3000)
+app.run(host="0.0.0.0", port=3000)
