@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Index</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css">
+    <!--<link rel="stylesheet" href="styles/styledIndex.css" />-->
+    <style>
+        html {
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+                    box-sizing: border-box;
+        }
+        
+            
+        *,
+        *::before,
+        *::after {
+            -webkit-box-sizing: inherit;
+                -moz-box-sizing: inherit;
+                    box-sizing: inherit;
+        }
+
+        /*
+        */
+
+        header {
+            padding: 2rem 0;
+            background-color: black;
+            color: white;
+            display: flex;
+            justify-content: center;
+        }
+
+        header > h1 {
+            margin: 0;
+        }
+
+        main {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        main > * {
+            width: 100%;
+            text-align: center;
+        }
+
+        form > * {
+            margin: 4px 0;
+        }
+
+        button {
+            padding: 4px;
+            margin: 20px 0;
+            font-size: 14px;
+        }        
+    </style>
+</head>
+<body>
+    <header>
+        <h1>歡迎光臨，請輸入帳號密碼</h1>
+    </header>
+    <main>
+        <h2>登入系統</h2>
+        <form action="/signin" method="POST">
+            <label for="userName">帳號</label>
+            <input id="userName" type="text" name="userName" value="test" /><br/>
+            <label for="passWord">密碼</label>
+            <input id="passWord" type="password" name="passWord" value="test" /><br/>    
+            <button type="submit">登入</button>
+        </form>
+    </main>
+</body>
+</html>
