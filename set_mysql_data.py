@@ -8,7 +8,8 @@ with engine.connect() as connection:
 
     metasrcdata = sa.MetaData()
     tb_attractions = sa.Table('attractions', metasrcdata,
-        sa.Column('id', sa.Integer, primary_key=True),
+        # sqlalchemy中，設置為primary_key者，預設autoincrement=True
+        sa.Column('id', sa.Integer, primary_key=True, autoincrement=False),
         sa.Column('name', sa.String(length=255), nullable=False),
         sa.Column('category', sa.String(length=255), nullable=False),
         sa.Column('description', sa.String(length=4095), nullable=False),
@@ -21,7 +22,7 @@ with engine.connect() as connection:
     )
     metasrcdata.create_all(engine)
 
-    t_insertTbAtrs = sa.text('insert into attractions(name, category, description, address, transport, mrt, latitude, longitude, images) VALUES(:name, :category, :description, :address, :transport, :mrt, :latitude, :longitude, :images)')
+    t_insertTbAtrs = sa.text('insert into attractions(id, name, category, description, address, transport, mrt, latitude, longitude, images) VALUES(:id, :name, :category, :description, :address, :transport, :mrt, :latitude, :longitude, :images)')
 
 
     with open('data/taipei-attractions.json', mode='r') as file:

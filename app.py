@@ -13,10 +13,10 @@ connection = engine.connect()
 execute = connection.execute
 
 t_api_attrs_keyword = text(
-    "select * from attractions where name like :keyword limit :idStart, 12"
+    "select * from attractions where name like :keyword limit :id, 12"
 )
 t_api_attrs_noKeyword = text(
-    'select * from attractions limit :idStart, 12'
+    'select * from attractions limit :id, 12'
 )
 t_api_attr_id = text(
     'select * from attractions where id = :id'
@@ -25,21 +25,19 @@ t_api_attr_id = text(
 # Function Library
 def cleanseImagesData(originStr):
     originStr = originStr.replace("\\", "")
-    print('\noriginStr: ', originStr)
+    # print('\noriginStr: ', originStr)
 
     originStr = originStr.replace("http", ",http")
     originStr = originStr.replace(",http", "http", 1)
     listStr = originStr.split(",")
     listStrReturn = []
 
-    print('\nlistStr: ', listStr)
+    # print('\nlistStr: ', listStr)
 
     for str in listStr:
         # print("\nstr: ", str)
         if bool((re.match(r"http.*jpg", str, flags=re.IGNORECASE))) | bool((re.match(r"http.*png", str, flags=re.IGNORECASE))):
             listStrReturn.append(str)
-        else:
-            print("delete: ", str)
 
     return listStrReturn
 
@@ -62,12 +60,12 @@ def api_attractions():
 	try:
 		page = int(request.args.get('page'))
 		srckeyword = request.args.get('keyword')
-		print(page, type(page))
-		print(srckeyword, type(srckeyword))
+		# print(page, type(page))
+		# print(srckeyword, type(srckeyword))
 
 		if page >= 0:
-			idStart = (page * 12 ) + 1
-			print(idStart, type(idStart))
+			id = page * 12
+			# print(id, type(id))
 			dataReturn = {
 				'nextPage': page + 1,
 				'data': []
@@ -77,28 +75,25 @@ def api_attractions():
 			def fetchSrcdatas():
 				if bool(srckeyword):
 					keyword = "%" + srckeyword + "%"
-					print(keyword, type(keyword))
+					# print(keyword, type(keyword))
 					# 如果有keyword
-					srcdatas = execute(t_api_attrs_keyword, keyword=keyword, idStart=idStart)
+					srcdatas = execute(t_api_attrs_keyword, keyword=keyword, id=id)
 					# print(bool(srcdatas))
 					# srcdatas = where(attractions.c.name.like(’梅%’))
 
 				else:
 					# 如果沒有keyword
-					srcdatas = execute(t_api_attrs_noKeyword, idStart=idStart)
+					srcdatas = execute(t_api_attrs_noKeyword, id=id)
 					
 				return srcdatas
 		
 			srcdatas = fetchSrcdatas()
-			print('type(srcdatas): ', type(srcdatas))
+			# print('type(srcdatas): ', type(srcdatas))
 
-			id = idStart - 1
-			# print('id: ', id)
-			
 			for srcdata in srcdatas:
 	
 				srcdata = dict(srcdata)
-				print('srcdata: ', srcdata)
+				# print('srcdata: ', srcdata)
 				dataToAppend = {}
 
 				for key in srcdata:
@@ -109,7 +104,6 @@ def api_attractions():
 
 				else:
 					dataReturn['data'].append(dataToAppend)
-					id += 1
 
 			# print('dataReturn: ', dataReturn)
 		
@@ -117,7 +111,7 @@ def api_attractions():
 
 
 	except Exception as e:
-		print(e)
+		# print(e)
 		errorReturn = {
 			"error": True,
 			"message": "自訂的錯誤訊息"
@@ -141,7 +135,7 @@ def api_attraction(attractionId):
 		
 		else:
 			srcdata = dict(srcdata)
-			print('srcdata: ', srcdata)
+			# print('srcdata: ', srcdata)
 			dataToAppend = {}
 
 			for key in srcdata:
@@ -154,12 +148,12 @@ def api_attraction(attractionId):
 				'data': dataToAppend
 			}
 
-			print('dataReturn: ', dataReturn)
+			# print('dataReturn: ', dataReturn)
 
 			return json.dumps(dataReturn, ensure_ascii=False), 200
 	
 	except Exception as e:
-		print(e)
+		# print(e)
 		errorReturn = {
 			"error": True,
 			"message": "自訂的錯誤訊息"
