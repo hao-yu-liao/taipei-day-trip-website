@@ -8,7 +8,7 @@ with engine.connect() as connection:
 
     metasrcdata = sa.MetaData()
     tb_attractions = sa.Table('attractions', metasrcdata,
-        sa.Column('id', sa.Integer, autoincrement=True, primary_key=True),
+        sa.Column('id', sa.Integer, primary_key=True),
         sa.Column('name', sa.String(length=255), nullable=False),
         sa.Column('category', sa.String(length=255), nullable=False),
         sa.Column('description', sa.String(length=4095), nullable=False),
@@ -24,11 +24,12 @@ with engine.connect() as connection:
     t_insertTbAtrs = sa.text('insert into attractions(name, category, description, address, transport, mrt, latitude, longitude, images) VALUES(:name, :category, :description, :address, :transport, :mrt, :latitude, :longitude, :images)')
 
 
-    with open('data/trial.json', mode='r') as file:
+    with open('data/taipei-attractions.json', mode='r') as file:
         srcdatas = json.load(file)['result']['results']
 
         for srcdata in srcdatas:
             data = {}
+            data['id'] = srcdata['_id']
             data['name'] = srcdata['stitle']
             data['category'] = srcdata['CAT2']
             data['description'] = srcdata['xbody']

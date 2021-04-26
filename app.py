@@ -13,7 +13,7 @@ connection = engine.connect()
 execute = connection.execute
 
 t_api_attrs_keyword = text(
-    "select * from attractions like '%':keyword'%' limit :idStart, 12"
+    "select * from attractions where name like :keyword limit :idStart, 12"
 )
 t_api_attrs_noKeyword = text(
     'select * from attractions limit :idStart, 12'
@@ -24,19 +24,24 @@ t_api_attr_id = text(
 
 # Function Library
 def cleanseImagesData(originStr):
-	originStr = originStr.replace("\\", ",")
-	originStr = originStr.replace("http", ",http")
-	originStr = originStr.replace(",http", "http", 1)
-	listStr = originStr.split(",")
-	
-	for str in listStr:
-		if not (re.match(r".*jpg", str, flags=re.IGNORECASE)):
-			if not (re.match(r".*png", str, flags=re.IGNORECASE)):
-				# print('delete: ', str)
-				listStr.remove(str)
+    originStr = originStr.replace("\\", "")
+    print('\noriginStr: ', originStr)
 
-	# print('listStr: ', listStr)
-	return listStr
+    originStr = originStr.replace("http", ",http")
+    originStr = originStr.replace(",http", "http", 1)
+    listStr = originStr.split(",")
+    listStrReturn = []
+
+    print('\nlistStr: ', listStr)
+
+    for str in listStr:
+        # print("\nstr: ", str)
+        if bool((re.match(r"http.*jpg", str, flags=re.IGNORECASE))) | bool((re.match(r"http.*png", str, flags=re.IGNORECASE))):
+            listStrReturn.append(str)
+        else:
+            print("delete: ", str)
+
+    return listStrReturn
 
 # Pages
 @app.route("/")
@@ -54,14 +59,15 @@ def thankyou():
 
 @app.route("/api/attractions", methods=["GET"])
 def api_attractions():
-	# try:
+	try:
 		page = int(request.args.get('page'))
-		keyword = request.args.get('keyword')
-		print(page)
-		print(keyword)
+		srckeyword = request.args.get('keyword')
+		print(page, type(page))
+		print(srckeyword, type(srckeyword))
 
 		if page >= 0:
 			idStart = (page * 12 ) + 1
+			print(idStart, type(idStart))
 			dataReturn = {
 				'nextPage': page + 1,
 				'data': []
@@ -69,9 +75,12 @@ def api_attractions():
 			# print('dataReturn: ', dataReturn)
 
 			def fetchSrcdatas():
-				if bool(keyword):
+				if bool(srckeyword):
+					keyword = "%" + srckeyword + "%"
+					print(keyword, type(keyword))
 					# 如果有keyword
 					srcdatas = execute(t_api_attrs_keyword, keyword=keyword, idStart=idStart)
+					# print(bool(srcdatas))
 					# srcdatas = where(attractions.c.name.like(’梅%’))
 
 				else:
@@ -79,17 +88,17 @@ def api_attractions():
 					srcdatas = execute(t_api_attrs_noKeyword, idStart=idStart)
 					
 				return srcdatas
-
+		
 			srcdatas = fetchSrcdatas()
-			# print('srcdatas: ', srcdatas)
+			print('type(srcdatas): ', type(srcdatas))
 
 			id = idStart - 1
 			# print('id: ', id)
 			
 			for srcdata in srcdatas:
-
+	
 				srcdata = dict(srcdata)
-				# print('srcdata: ', srcdata)
+				print('srcdata: ', srcdata)
 				dataToAppend = {}
 
 				for key in srcdata:
@@ -103,19 +112,19 @@ def api_attractions():
 					id += 1
 
 			# print('dataReturn: ', dataReturn)
-
 		
 		return json.dumps(dataReturn, ensure_ascii=False), 200
 
-'''	
-except:
-	errorReturn = {
-		"error": True,
-		"message": "自訂的錯誤訊息"
-	}
 
-	return json.dumps(errorReturn, ensure_ascii=False), 500
-'''
+	except Exception as e:
+		print(e)
+		errorReturn = {
+			"error": True,
+			"message": "自訂的錯誤訊息"
+		}
+
+		return json.dumps(errorReturn, ensure_ascii=False), 500
+
 
 @app.route("/api/attraction/<attractionId>", methods=["GET"])
 def api_attraction(attractionId):
@@ -149,7 +158,8 @@ def api_attraction(attractionId):
 
 			return json.dumps(dataReturn, ensure_ascii=False), 200
 	
-	except:
+	except Exception as e:
+		print(e)
 		errorReturn = {
 			"error": True,
 			"message": "自訂的錯誤訊息"
