@@ -4,13 +4,21 @@ from flask import *
 from sqlalchemy import create_engine, text
 
 
-app=Flask(__name__)
+app=Flask(
+	__name__,
+	static_folder="static",
+    static_url_path="/static"
+)
 app.config["JSON_AS_ASCII"]=False
 app.config["TEMPLATES_AUTO_RELOAD"]=True
+
+# Model
 
 engine = create_engine('mysql+pymysql://root:haoyuliao@localhost/web_tdtw')
 connection = engine.connect()
 execute = connection.execute
+
+# text()
 
 t_api_attrs_keyword = text(
     "select * from attractions where name like :keyword limit :id, 12"
@@ -21,6 +29,14 @@ t_api_attrs_noKeyword = text(
 t_api_attr_id = text(
     'select * from attractions where id = :id'
 )
+t_count_api_attrs_keyword = text(
+    "select count(id) from attractions where name like :keyword"
+)
+t_count_api_attrs_noKeyword = text(
+    'select count(id) from attractions'
+)
+
+#
 
 # Function Library
 def cleanseImagesData(originStr):
@@ -87,25 +103,40 @@ def api_attractions():
 					
 				return srcdatas
 		
-			srcdatas = fetchSrcdatas()
-			# print('type(srcdatas): ', type(srcdatas))
+		
+			def dataNum():
+				if bool(srckeyword):
+					keyword = "%" + srckeyword + "%"
 
-			for srcdata in srcdatas:
-	
-				srcdata = dict(srcdata)
-				# print('srcdata: ', srcdata)
-				dataToAppend = {}
-
-				for key in srcdata:
-					if key != 'images':
-						dataToAppend[key] = srcdata[key]
-					else:
-						dataToAppend[key] = cleanseImagesData(srcdata[key])
-
+					return list(execute(t_count_api_attrs_keyword, keyword=keyword).first())[0]
+				
 				else:
-					dataReturn['data'].append(dataToAppend)
+					return list(execute(t_count_api_attrs_noKeyword).first())[0]
 
-			# print('dataReturn: ', dataReturn)
+			if (id < dataNum()):
+				srcdatas = fetchSrcdatas()
+				# print('type(srcdatas): ', type(srcdatas))
+
+				for srcdata in srcdatas:
+		
+					srcdata = dict(srcdata)
+					# print('srcdata: ', srcdata)
+					dataToAppend = {}
+
+					for key in srcdata:
+						if key != 'images':
+							dataToAppend[key] = srcdata[key]
+						else:
+							dataToAppend[key] = cleanseImagesData(srcdata[key])
+
+					else:
+						dataReturn['data'].append(dataToAppend)
+
+				# print('dataReturn: ', dataReturn)
+			
+			else:
+				dataReturn['nextPage'] = None
+				
 		
 		return json.dumps(dataReturn, ensure_ascii=False), 200
 
