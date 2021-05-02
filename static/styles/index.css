@@ -13,10 +13,16 @@
 /* Size */
 /* Layout */
 /* Global */
+html {
+  width: 100vw;
+  height: 100%;
+}
+
 body {
   min-width: 360px;
   width: 100vw;
-  height: 100vh;
+  height: 100%;
+  position: relative;
 }
 
 /* Global: Border-box */
@@ -232,11 +238,11 @@ form.c_search button {
 main {
   width: 100vw;
   height: auto;
-  min-height: calc(100vh - 54px - 320px - 104px + 1px);
+  min-height: calc(100% - 54px - 104px + 1px);
 }
 @media (max-width: 1285px) {
   main {
-    min-height: calc(100vh - 54px - 280px - 104px + 1px);
+    min-height: calc(100% - 54px - 104px + 1px);
   }
 }
 main > section.c_scrlSec {

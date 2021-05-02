@@ -89,9 +89,14 @@ $breakpoint_pad: 1285px;
 
 /* Global */
 
+html {
+    @include elsize(100vw, 100%);
+}
+
 body {
     min-width: $content_min_width;
-    @include elsize(100vw, 100vh)
+    @include elsize(100vw, 100%);
+    position: relative;
 }
 
 /* Global: Border-box */
@@ -313,9 +318,9 @@ form.c_search {
 
 main {
     @include elsize(100vw);
-    min-height: calc(100vh - #{$c_nav_height} - #{$c_hero_sec_height} - #{$footer_height} + 1px);
+    min-height: calc(100% - #{$c_nav_height} - #{$footer_height} + 1px);
     @include pad {
-        min-height: calc(100vh - #{$c_nav_height} - #{$pad_c_hero_sec_height} - #{$footer_height} + 1px);
+        min-height: calc(100% - #{$c_nav_height} - #{$footer_height} + 1px);
     }
 
     > section.c_scrlSec {
@@ -473,8 +478,6 @@ footer {
     @include elsize(100vw, $footer_height);
     background-color: $gray_700;
     @include flex(center, center);
-    // position: absolute;
-    // bottom: 0;
 
     > .body {
         color: white;
