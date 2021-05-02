@@ -82,6 +82,7 @@ def api_attractions():
 		if page >= 0:
 			id = page * 12
 			# print(id, type(id))
+
 			dataReturn = {
 				'nextPage': page + 1,
 				'data': []
@@ -104,16 +105,23 @@ def api_attractions():
 				return srcdatas
 		
 		
-			def dataNum():
+			def getDataNum():
 				if bool(srckeyword):
 					keyword = "%" + srckeyword + "%"
+					dataNum = list(execute(t_count_api_attrs_keyword, keyword=keyword).first())[0]
+					print('dataNum: ', dataNum)
 
-					return list(execute(t_count_api_attrs_keyword, keyword=keyword).first())[0]
+					return dataNum
 				
 				else:
 					return list(execute(t_count_api_attrs_noKeyword).first())[0]
 
-			if (id < dataNum()):
+			dataNum = getDataNum()
+
+			if (dataNum == 0):
+				dataReturn['nextPage'] = None
+				
+			else:
 				srcdatas = fetchSrcdatas()
 				# print('type(srcdatas): ', type(srcdatas))
 
@@ -132,11 +140,10 @@ def api_attractions():
 					else:
 						dataReturn['data'].append(dataToAppend)
 
+				if (dataNum <= 12):
+					dataReturn['nextPage'] = None
+
 				# print('dataReturn: ', dataReturn)
-			
-			else:
-				dataReturn['nextPage'] = None
-				
 		
 		return json.dumps(dataReturn, ensure_ascii=False), 200
 
