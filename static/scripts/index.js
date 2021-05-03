@@ -61,7 +61,7 @@ const scrlUnit = (data) => {
 };
 
 //
-function generateURL(page, keyword, path = 'http://18.136.117.43:3000/api/attractions') {
+function generateURL(page, keyword, path = 'http://127.0.0.1:3000/api/attractions') {
     // console.log(`page: ${page}`);
 
     if (page === null) return null
