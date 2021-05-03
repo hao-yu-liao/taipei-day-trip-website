@@ -1,0 +1,404 @@
+/* Property */
+.dp-none {
+  display: none !important;
+}
+
+/* Font */
+.body, .content, button, h3, h2, h1 {
+  font-family: Noto Sans TC;
+  font-style: normal;
+}
+
+/* Color */
+/* Size */
+/* Layout */
+/* Global */
+html {
+  width: 100vw;
+  height: 100%;
+}
+
+body {
+  min-width: 360px;
+  width: 100vw;
+  height: 100%;
+  position: relative;
+}
+
+/* Global: Border-box */
+html {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  -webkit-box-sizing: inherit;
+  -moz-box-sizing: inherit;
+  box-sizing: inherit;
+}
+
+/* Typography */
+.bold {
+  font-weight: bold !important;
+}
+
+h1 {
+  /* Slogan Title */
+  margin: 0;
+  font-size: 28px;
+  line-height: 64px;
+  font-weight: bold;
+}
+
+h2 {
+  /* Header */
+  margin: 0;
+  font-size: 30px;
+  line-height: 34px;
+  font-weight: bold;
+}
+
+h3 {
+  /* Dialog Title */
+  margin: 0;
+  font-size: 24px;
+  line-height: 24px;
+  font-weight: bold;
+}
+
+p {
+  margin: 0;
+}
+
+button {
+  /* Button */
+  font-size: 19px;
+  line-height: 16px;
+  font-weight: bold;
+}
+
+.content {
+  /* <p>: Content */
+  font-size: 16px;
+  line-height: 23px;
+  font-weight: normal;
+}
+
+.body {
+  /* <p>: Body */
+  font-size: 16px;
+  line-height: 21px;
+  font-weight: normal;
+}
+
+/* Component */
+.c_nav {
+  width: 100vw;
+  height: 54px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: white;
+  position: fixed;
+  top: 0;
+  z-index: 1;
+}
+.c_nav > nav {
+  width: 64%;
+  height: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  position: relative;
+}
+@media (max-width: 1785px) {
+  .c_nav > nav {
+    width: 89%;
+    height: 100%;
+  }
+}
+.c_nav > nav > * {
+  display: inline;
+  color: #666666;
+  border: none;
+}
+.c_nav > nav > button {
+  background-color: white;
+}
+.c_nav > nav > :focus {
+  outline: none;
+}
+.c_nav > nav > :not(:first-child) {
+  padding: 10px;
+}
+.c_nav > nav > :first-child {
+  color: #448899;
+  position: absolute;
+  left: 0px;
+}
+
+.c_hero_sec {
+  width: 100vw;
+  height: 320px;
+  background: linear-gradient(135deg, #AADDEE 0%, #66AABB 100%);
+  position: relative;
+  z-index: 0;
+  overflow: hidden;
+  margin-top: 54px;
+}
+@media (max-width: 1285px) {
+  .c_hero_sec {
+    width: 100vw;
+    height: 280px;
+  }
+}
+.c_hero_sec > img {
+  position: absolute;
+  bottom: 0;
+  right: 232px;
+  z-index: 1;
+  mix-blend-mode: normal;
+}
+@media (max-width: 1285px) {
+  .c_hero_sec > img {
+    width: 276px;
+    height: 148px;
+    right: -64px;
+  }
+}
+.c_hero_sec > div {
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  width: 64%;
+  height: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: wrap;
+}
+@media (max-width: 1785px) {
+  .c_hero_sec > div {
+    width: 89%;
+    height: 100%;
+  }
+}
+.c_hero_sec > div > div > h1 {
+  color: #f8f8f8;
+  text-shadow: #AABBCC, 0px, 0px, 30px;
+}
+.c_hero_sec > div > div > p.body {
+  margin-bottom: 25px;
+  color: #f8f8f8;
+}
+
+form.c_search {
+  width: 460px;
+  height: 46px;
+  position: relative;
+}
+@media screen and (max-width: 630px) {
+  form.c_search {
+    width: calc(100vw * 0.64);
+    height: 46px;
+  }
+}
+form.c_search :focus {
+  outline: none;
+}
+form.c_search input {
+  border-radius: 6px 0 0 6px;
+  position: absolute;
+  background-color: white;
+  width: calc(100% - 60px);
+  height: 100%;
+  border: none;
+  padding: 15px;
+}
+form.c_search button {
+  background-color: #448899;
+  background-image: url(images/icons/icon_search.svg);
+  background-size: 30px 30px;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 0 6px 6px 0;
+  position: absolute;
+  right: 0px;
+  width: 60px;
+  height: 100%;
+  border: none;
+}
+
+main {
+  width: 100vw;
+  height: auto;
+  min-height: calc(100% - 54px - 104px + 1px);
+}
+@media (max-width: 1285px) {
+  main {
+    min-height: calc(100% - 54px - 104px + 1px);
+  }
+}
+main > section.c_scrlSec {
+  width: 64%;
+  height: auto;
+  margin: 0 auto;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  max-width: calc((270px * 4) + (20px * 3) + (1px * 8));
+  margin-bottom: 55px;
+}
+@media (max-width: 1785px) {
+  main > section.c_scrlSec {
+    width: 89%;
+    height: auto;
+  }
+}
+@media screen and (max-width: 630px) {
+  main > section.c_scrlSec {
+    display: flex;
+    justify-content: center;
+    align-items: normal;
+    flex-wrap: wrap;
+  }
+}
+@media (max-width: 1285px) {
+  main > section.c_scrlSec {
+    max-width: calc((270px * 3) + (20px * 2) + (1px * 6));
+  }
+}
+@media (max-width: 960px) {
+  main > section.c_scrlSec {
+    max-width: calc((270px * 2) + (20px * 1) + (1px * 4));
+  }
+}
+@media screen and (min-width: calc(1285px + 1px)) {
+  main > section.c_scrlSec > :not(:nth-of-type(4n+1)) {
+    margin-left: 20px;
+  }
+}
+@media (max-width: 1285px) {
+  main > section.c_scrlSec > :not(:nth-of-type(3n+1)) {
+    margin-left: 20px;
+  }
+}
+@media (max-width: 960px) {
+  main > section.c_scrlSec > :not(:nth-of-type(3n+1)) {
+    margin-left: 0;
+  }
+}
+@media (max-width: 960px) {
+  main > section.c_scrlSec > :nth-of-type(even) {
+    margin-left: 20px;
+  }
+}
+@media screen and (max-width: 630px) {
+  main > section.c_scrlSec > :nth-of-type(n) {
+    margin-left: 0;
+  }
+}
+main > section.c_scrlSec > div.c_scrlUnit {
+  width: 270px;
+  height: 242px;
+  position: relative;
+  border-color: #E8E8E8;
+  border-width: 1px;
+  border-style: solid;
+  overflow: hidden;
+  margin-top: 30px;
+}
+@media screen and (max-width: 630px) {
+  main > section.c_scrlSec > div.c_scrlUnit {
+    width: 322px;
+    height: 280px;
+  }
+}
+main > section.c_scrlSec > div.c_scrlUnit > figure {
+  width: calc(270px - (1px * 2));
+  height: 160px;
+  margin: 0;
+  display: block;
+  overflow: hidden;
+  position: relative;
+}
+@media screen and (max-width: 630px) {
+  main > section.c_scrlSec > div.c_scrlUnit > figure {
+    width: calc(322px - (1px * 2));
+    height: 200px;
+  }
+}
+main > section.c_scrlSec > div.c_scrlUnit > figure > img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  object-position: center center;
+  position: relative;
+  z-index: -1;
+}
+@media screen and (max-width: 630px) {
+  main > section.c_scrlSec > div.c_scrlUnit > figure > img {
+    width: 119.2592592593%;
+    height: auto;
+  }
+}
+main > section.c_scrlSec > div.c_scrlUnit > figcaption {
+  margin: 0px 10px;
+  color: #757575;
+  width: auto;
+  height: calc(242px - 160px);
+}
+@media screen and (max-width: 630px) {
+  main > section.c_scrlSec > div.c_scrlUnit > figcaption {
+    width: auto;
+    height: calc(280px - 200px);
+  }
+}
+main > section.c_scrlSec > div.c_scrlUnit > figcaption > p {
+  position: relative;
+  top: 12px;
+}
+main > section.c_scrlSec > div.c_scrlUnit > figcaption > div {
+  width: calc(100% - (10px * 2));
+  height: auto;
+  position: absolute;
+  bottom: 0;
+  margin-bottom: 12px;
+}
+main > section.c_scrlSec > div.c_scrlUnit > figcaption > div > * {
+  display: inline-block;
+  margin-bottom: 0;
+}
+main > section.c_scrlSec > div.c_scrlUnit > figcaption > div > :last-child {
+  position: absolute;
+  right: 0px;
+}
+main > section.c_scrlSec > p.c_noScrlUnitMessage {
+  width: 100%;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #757575;
+}
+
+footer {
+  width: 100vw;
+  height: 104px;
+  background-color: #757575;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+footer > .body {
+  color: white;
+}
+
+/*# sourceMappingURL=index.css.map */

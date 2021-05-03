@@ -5,73 +5,162 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Index</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css">
-    <!--<link rel="stylesheet" href="styles/styledIndex.css" />-->
-    <style>
-        html {
-            -webkit-box-sizing: border-box;
-            -moz-box-sizing: border-box;
-                    box-sizing: border-box;
-        }
-        
-            
-        *,
-        *::before,
-        *::after {
-            -webkit-box-sizing: inherit;
-                -moz-box-sizing: inherit;
-                    box-sizing: inherit;
-        }
-
-        /*
-        */
-
-        header {
-            padding: 2rem 0;
-            background-color: black;
-            color: white;
-            display: flex;
-            justify-content: center;
-        }
-
-        header > h1 {
-            margin: 0;
-        }
-
-        main {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        main > * {
-            width: 100%;
-            text-align: center;
-        }
-
-        form > * {
-            margin: 4px 0;
-        }
-
-        button {
-            padding: 4px;
-            margin: 20px 0;
-            font-size: 14px;
-        }        
-    </style>
+    <link rel="stylesheet" href="../static/styles/index.css" />
 </head>
 <body>
     <header>
-        <h1>歡迎光臨，請輸入帳號密碼</h1>
+        <section class="c_nav">
+            <nav>
+                <h1>台北一日遊</h1>
+                <button class="body">預定行程</button>
+                <button class="body">登入/註冊</button>
+            </nav>
+        </section>
     </header>
-    <main>
-        <h2>登入系統</h2>
-        <form action="/signin" method="POST">
-            <label for="userName">帳號</label>
-            <input id="userName" type="text" name="userName" value="test" /><br/>
-            <label for="passWord">密碼</label>
-            <input id="passWord" type="password" name="passWord" value="test" /><br/>    
-            <button type="submit">登入</button>
-        </form>
+    <main id="main">
+        <section class="c_hero_sec">
+            <img src="../static/styles/images/welcome_1.png">
+            <div>
+                <div>
+                    <h1>輕鬆享受台北一日悠閒</h1>
+                    <p class="body">探索每個角落，體驗城市的深度旅遊行程</p>
+                    <form action="/" method="get" id="searchSpot" class="c_search">
+                        <label for="searchSpot_input"></label>
+                        <input id="searchSpot_input" type="text" placeholder="輸入景點名稱查詢" name="keyword">
+                        <button type="submit" id="searchSpot_btn"></button>
+                    </form>
+                </div>
+            </div>                
+        </section>
     </main>
+    <footer>
+        <p class="body">COPYRIGHT © 2021 台北一日遊</p>
+    </footer>
+    <script type="module" src="../static/scripts/index.js"></script>
 </body>
 </html>
+
+<!--
+        <section class="c_scrlSec">
+            <div class="c_scrlUnit">
+                <figure>
+                    <img src="../static/styles/images/Picture.png">
+                </figure>
+                <figcaption>
+                    <p class="body bold">平安鐘</p>
+                    <div>
+                        <p class="body">忠孝復興</p>
+                        <p class="body">公共藝術</p>
+                    </div>
+                </figcaption>
+            </div>
+            <div class="c_scrlUnit">
+                <figure>
+                    <img src="../static/styles/images/Picture-02.jpeg">
+                </figure>
+                <figcaption>
+                    <p class="body bold">平安鐘</p>
+                    <div>
+                        <p class="body">忠孝復興</p>
+                        <p class="body">公共藝術</p>
+                    </div>
+                </figcaption>
+            </div>
+            <div class="c_scrlUnit">
+                <figure>
+                    <img src="../static/styles/images/Picture.png">
+                </figure>
+                <figcaption>
+                    <p class="body bold">平安鐘</p>
+                    <div>
+                        <p class="body">忠孝復興</p>
+                        <p class="body">公共藝術</p>
+                    </div>
+                </figcaption>
+            </div>
+            <div class="c_scrlUnit">
+                <figure>
+                    <img src="../static/styles/images/Picture.png">
+                </figure>
+                <figcaption>
+                    <p class="body bold">平安鐘</p>
+                    <div>
+                        <p class="body">忠孝復興</p>
+                        <p class="body">公共藝術</p>
+                    </div>
+                </figcaption>
+            </div>
+            <div class="c_scrlUnit">
+                <figure>
+                    <img src="../static/styles/images/Picture.png">
+                </figure>
+                <figcaption>
+                    <p class="body bold">平安鐘</p>
+                    <div>
+                        <p class="body">忠孝復興</p>
+                        <p class="body">公共藝術</p>
+                    </div>
+                </figcaption>
+            </div>
+            <div class="c_scrlUnit">
+                <figure>
+                    <img src="../static/styles/images/Picture.png">
+                </figure>
+                <figcaption>
+                    <p class="body bold">平安鐘</p>
+                    <div>
+                        <p class="body">忠孝復興</p>
+                        <p class="body">公共藝術</p>
+                    </div>
+                </figcaption>
+            </div>
+            <div class="c_scrlUnit">
+                <figure>
+                    <img src="../static/styles/images/Picture.png">
+                </figure>
+                <figcaption>
+                    <p class="body bold">平安鐘</p>
+                    <div>
+                        <p class="body">忠孝復興</p>
+                        <p class="body">公共藝術</p>
+                    </div>
+                </figcaption>
+            </div>
+            <div class="c_scrlUnit">
+                <figure>
+                    <img src="../static/styles/images/Picture.png">
+                </figure>
+                <figcaption>
+                    <p class="body bold">平安鐘</p>
+                    <div>
+                        <p class="body">忠孝復興</p>
+                        <p class="body">公共藝術</p>
+                    </div>
+                </figcaption>
+            </div>
+            <div class="c_scrlUnit">
+                <figure>
+                    <img src="../static/styles/images/Picture.png">
+                </figure>
+                <figcaption>
+                    <p class="body bold">平安鐘</p>
+                    <div>
+                        <p class="body">忠孝復興</p>
+                        <p class="body">公共藝術</p>
+                    </div>
+                </figcaption>
+            </div>
+            <div class="c_scrlUnit">
+                <figure>
+                    <img src="../static/styles/images/Picture.png">
+                </figure>
+                <figcaption>
+                    <p class="body bold">平安鐘</p>
+                    <div>
+                        <p class="body">忠孝復興</p>
+                        <p class="body">公共藝術</p>
+                    </div>
+                </figcaption>
+            </div>
+        </section>
+-->
