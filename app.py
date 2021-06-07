@@ -56,6 +56,39 @@ def cleanseImagesData(originStr):
 
     return listStrReturn
 
+def getErrorReponse(errorMessage, errorStatusCode):
+	responseBody = {
+		"error": True,
+		"message": errorMessage		
+	}	
+	response = make_response(
+		json.dumps(responseBody, ensure_ascii=False),
+		errorStatusCode
+	)
+	return response
+
+def getOkReponse():
+	responseBody = {
+		"ok": True	
+	}	
+	response = make_response(
+		json.dumps(responseBody, ensure_ascii=False),
+		200
+	)
+	return response
+
+def checkBookingById(id):
+	t_checkBookingById = text('select attractions.id, attractions.name, attractions.address, attractions.images, booking.date, booking.time, booking.price from booking inner join attractions on booking.attractionId = attractions.id where booking.id = :id')
+	result = execute(
+		t_checkBookingById,
+		id = id
+	).first()
+	
+	if result != None:
+		return dict(result)
+	else:
+		return None
+
 # Pages
 @app.route("/")
 def index():
@@ -436,18 +469,140 @@ def handleApiBookingPreflight():
 	response = make_response(responseBody, responseHeaders)
 	return response
 
-@app.route("/api/booking", methods=["GET", "POST", "DELETE"])
+@app.route("/api/booking", methods=["GET", "POST"])
 def handleApiBooking():
-	'''
-	responseBody = {
-		  "ok": True
+	def checkIsBookingCreated():
+		t_checkBookingCreated = ("select * from booking where (createTime > subtime(current_timestamp(), '0:5:0')) and (userId = ':userId')")
+		result = execute(
+			t_checkBookingCreated,
+			userId = session['id']
+		).first()
+
+		if result != None:
+			return True
+		else:
+			return False
+
+	def checkBookingByUserId(userId):
+		t_checkBookingByUserId = text('select booking.id, booking.attractionId, attractions.name, attractions.address, attractions.images, booking.date, booking.time, booking.price from booking inner join attractions on booking.attractionId = attractions.id where booking.userId = :userId')
+		results = execute(
+			t_checkBookingByUserId,
+			userId = userId
+		)
+		bookingData = []
+		bookingDataCounter = 0
+
+		if results != None:
+			for result in results:
+				bookingData[bookingDataCounter] = dict(result)
+				bookingDataCounter += 1
+			return bookingData
+		else:
+			return None
+
+	def createBooking(bookingData):
+		t_createBooking = text('insert into booking (date, time, price, userId, attractionId) values (:date, :time, :price, :userId, :attractionId)')
+		execute(
+			t_createBooking,
+			date = bookingData['date'],
+			time = bookingData['time'],
+			price = bookingData['price'],
+			userId = bookingData['userId'],
+			attractionId = bookingData['attractionId']
+		)
+		result = checkBookingById()
+
+	
+	if request.method == "GET":
+		if bool(session):
+			bookingDataList = checkBookingByUserId(session['id'])
+			responseBody = {
+				'data': None
+			}
+
+			if bookingDataList != None:
+				responseBody['data'] = []
+				for bookingData in bookingDataList:
+					imageList = cleanseImagesData(bookingData['image'])
+
+					responseData = {
+						'id': bookingData['id'],
+						'attraction': {
+							'id': bookingData['attractionId'],
+							'name': bookingData['name'],
+							'address': bookingData['address'],
+							'image': imageList[0]
+						},
+						'date': bookingData['date'],
+						'time': bookingData['time'],
+						'price': bookingData['price']
+					}
+					responseBody['data'].append(responseData)
+
+				return make_response(json.dumps(responseBody, ensure_ascii=False), 200)
+
+			else:
+				return make_response(json.dumps(responseBody, ensure_ascii=False), 200)
+		else:
+			return getErrorReponse('未登入系統，拒絕存取', 403)
+	if request.method == "POST":
+		try:
+			if bool(session):
+				data = request.json
+
+				# bookingData
+				bookingData = {}
+				for key in data:
+					bookingData['key'] = data['key']
+				bookingData['userId'] = session['id']
+
+				# fetch database
+				createBooking(bookingData)
+				checkResult = checkIsBookingCreated()
+
+				if checkResult != None:
+					return getOkReponse()
+				else:
+					return getErrorReponse('建立失敗，輸入不正確或其他原因', 400)
+			else:
+				return getErrorReponse('未登入系統，拒絕存取', 403)
+		except:
+				return getErrorReponse('伺服器內部錯誤', 500)
+
+@app.route("/api/booking/<bookingId>", methods=['OPTION'])
+def handleApiBookingDeletePreflight(bookingId):
+	responseBody = {}
+	responseHeaders = {
+		"Access-Control-Request-Headers": "content-type",
+		"Access-Control-Request-Methods": "['GET', 'POST', 'DELETE']"
 	}
-	'''
-	responseBody = {
-		"error": True,
-		"message": "自訂的錯誤訊息"		
-	}	
-	response = make_response(responseBody)
+
+	response = make_response(responseBody, responseHeaders)
 	return response
+
+@app.route("/api/booking/<bookingId>", methods=['DELETE'])
+def handleApiBookingDelete(bookingId):
+	def deleteBooking(bookingId):
+		t_deleteBooking = text('delete from booking where id = :bookingId')
+		execute(
+			t_deleteBooking,
+			bookingId = bookingId
+		)
+
+		result = checkBookingById(bookingId)
+		if result == None:
+			return True
+		else:
+			return False
+
+	if request.method == "DELETE":
+		if bool(session):
+			result = deleteBooking(bookingId)
+			if result:
+				return getOkReponse()
+			else:
+				return getErrorReponse('刪除失敗，輸入不正確或其他原因', 400)
+		else:
+			return getErrorReponse('未登入系統，拒絕存取', 403)
 
 app.run(host="0.0.0.0", port=3000)
