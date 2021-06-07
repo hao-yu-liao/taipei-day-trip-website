@@ -1,3 +1,5 @@
+import lib from './library.js'
+
 // global
 let nextPage = null;
 let _onsrclTimeout = null;
@@ -57,19 +59,21 @@ const scrlUnit = (data) => {
     scrlUnit.appendChild(scrlUnitFig);
     scrlUnit.appendChild(scrlUnitCnt);
 
+    // 加入 id property
+    scrlUnit.attractionId = data.id;
+
     return scrlUnit;
 };
 
 //
-function generateURL(page, keyword, path = 'http://127.0.0.1:3000/api/attractions') {
-    // console.log(`page: ${page}`);
-
+function getURLwithQueryString(page, keyword, path) {
+    if (path === undefined) {
+        path = lib.getURL('/api/attractions');
+    }
+    
     if (page === null) return null
 
-    /// console.log(`path: ${path}`);
     let url = `${path}?page=${page}`;
-    // let url = 'http://18.136.117.43:3000/api/attractions?page=1';
-    // console.log(`url: ${url}`);
 
     if (!(keyword)) {
         return new Request(url)
@@ -111,7 +115,12 @@ function addScrlUnits(request, scrlSecOpt) {
         }
 
         data.forEach(function(value, index){
-            scrlSecOpt.appendChild(scrlUnit(value));
+            let currentScrlUnit = scrlUnit(value);
+            scrlSecOpt.appendChild(currentScrlUnit);
+            currentScrlUnit.addEventListener('click', function() {
+                console.log('trial');
+                window.location = lib.getURL(`/attraction/${currentScrlUnit.attractionId}`);
+            })
         });
 
         console.log(`succesfully fetch data`);
@@ -176,6 +185,8 @@ function onscrlAddScrlUnits(request, scrlSecOpt) {
     }  
 }
 
+
+
 // 主程式
 window.addEventListener('load', function() {
     console.log(`window loaded`);
@@ -185,7 +196,7 @@ window.addEventListener('load', function() {
 
     currentScrlSec.classList.remove('dp-none');
     addScrlUnits(
-        generateURL(0, keyword), 
+        getURLwithQueryString(0, keyword), 
         currentScrlSec
     );
 });
@@ -193,7 +204,7 @@ window.addEventListener('load', function() {
 window.addEventListener('scroll', function() {
     // console.log(`window scrolled`);
     onscrlAddScrlUnits(
-        generateURL(nextPage, keyword),
+        getURLwithQueryString(nextPage, keyword),
         currentScrlSec
     );
 });
@@ -215,7 +226,7 @@ document.getElementById('searchSpot').addEventListener('submit', function(event)
     currentScrlSec = scrlSecOpt[keyword];
     currentScrlSec.classList.remove('dp-none');
     addScrlUnits(
-        generateURL(0, keyword), 
+        getURLwithQueryString(0, keyword), 
         currentScrlSec
     );
 })

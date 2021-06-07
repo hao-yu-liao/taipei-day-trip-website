@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Index</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css">
+    <link rel="stylesheet" href="../static/styles/attraction.css" />
+</head>
+<body>
+    <header>
+        <section class="c_nav">
+            <nav>
+                <h1><a>台北一日遊</a></h1>
+                <a class="c_nav_anchor_booking body">預定行程</a>
+                <a class="body">登入/註冊</a>
+            </nav>
+        </section>
+    </header>
+    <main id="main">
+        <div id="modal_signIn" class="modal_signIn dp-none">
+            <div class="modalMask"></div>
+            <form id="modal_signIn_form">
+                <div class="deco_modal"></div>
+                <div class="icon_close"></div>
+                <h3>註冊會員帳號</h3>
+                <label id="modal_signIn_label_name">
+                    <input id="modal_signIn_input_name" class="body" placeholder="輸入姓名" value="彭彭彭">
+                </label>
+                <label>
+                    <input id="modal_signIn_input_email" class="body" placeholder="輸入電子郵件" value="ply@ply.com">
+                </label>
+                <label>
+                    <input id="modal_signIn_input_password" class="body" placeholder="輸入密碼" value="12345678">
+                </label>
+                <div>
+                    <p class="modal_signIn_errorMessage body vb-hidden"></p>
+                    <button class="button">註冊新帳戶</button>
+                    <p id="modal_signIn_message" class="body">已經有帳戶了？點此登入</p>
+                </div>
+            </form>
+        </div>
+        <article class="attraction contentLayout">
+            <div class="attraction_part_1">
+                <div class="carousel">
+                    <div class="chevron-left"></div>
+                    <div class="chevron-right"></div>
+                    <div class="dot_selector"></div>
+                </div>
+                <div class="profile">
+                    <h3 class="attraction_name bold"></h3>
+                    <p class="body"><span class="attraction_category"></span> at <span class="attraction_mrt"></span></p>
+                    <form class="bookingForm">
+                        <p class="body bold">訂購導覽行程</p>
+                        <p class="body">以此景點為中心的一日行程，帶您探索城市角落故事</p>
+                        <div>
+                            <label class="bold">選擇日期：</label>
+                            <input class="inputDate" value="2021-06-12" type="date"> 
+                        </div>
+                        <div>
+                            <label class="bold">選擇時間：</label>
+                            <label class="radio">
+                                <input class="inputRadio_morning" name="time" type="radio" value="morning" checked>
+                                <span class="radio_dot"></span>
+                                <span>上半天</span>
+                            </label>
+                            <label class="radio">
+                                <input class="inputRadio_afternoon" name="time" type="radio" value="afternoon">
+                                <span class="radio_dot"></span>
+                                <span>下半天</span>    
+                            </label>
+                        </div>
+                        <div>
+                            <label class="bold">導覽費用：</label>
+                            <p class="body">新台幣 <span class="touringFee">2000</span> 元</p>
+                        </div>
+                        <div class="buttonSet">
+                            <p class="body vb-hidden"></p>
+                            <button>開始預訂行程</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="attraction_part_2">
+                <p class="attraction_description content"></p>
+                <div>
+                    <p class="body bold">景點地址：</p>
+                    <p class="attraction_address content"></p>
+                </div>
+                <div>
+                    <p class="body bold">交通方式：</p>
+                    <p class="attraction_transport content"></p>
+                </div>
+            </div>
+        </article>
+    </main>
+    <footer>
+        <p class="body">COPYRIGHT © 2021 台北一日遊</p>
+    </footer>
+    <script type="module" src="../static/scripts/library.js"></script>
+    <script type="module" src="../static/scripts/general.js"></script>
+    <script type="module" src="../static/scripts/attraction.js"></script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+@use "library" as lib;
+@use "general" as gen;
+
+.modal_signIn {
+    @include lib.size(100%, 100%);
+    position: fixed;
+    z-index: 5 !important;
+    top: 0;
+
+    > .modalMask {
+        @include lib.size(100%, 100%);
+        background-color: rgba(0,0,0, 0.25);
+    }
+
+    > form {
+        $modalLog_form_hor_space: 15px;
+        @include lib.size(340px, 380px);
+        background-color: white;
+        position: absolute;
+        top: 80px;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+        border-radius: 6px;
+        padding: 25px $modalLog_form_hor_space 15px $modalLog_form_hor_space;
+
+        > * {
+            display: block;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        > .icon_close {
+            @include lib.size(16px, 16px);
+            position: absolute;
+            background-image: url(images/icons/icon_close.svg);
+            top: 27px;
+            right: 17px;
+        }
+
+        > .deco_modal {
+            @include lib.size(100%, 10px);
+            background: linear-gradient(270deg, #337788 0%, #{gen.$cyan_700} 100%);
+            border-radius: 6px 6px 0 0;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        > h3 {
+            color: gen.$gray_800;
+            margin-bottom: 15px;
+        }
+
+        > label {
+            > input {
+                @include lib.size(100%);
+                padding: 15px;
+                margin-bottom: 10px;
+                @include lib.border(#CCCCCC);
+                border-radius: 5px;
+            }
+        }
+
+        > :last-child {
+            position: absolute;
+            bottom: 15px;
+            left: 0;
+            right: 0;
+            margin: 0 $modalLog_form_hor_space;
+            
+            > button {
+                @include lib.size(100%, 47px);
+                background-color: gen.$cyan_800;
+                border: none;
+                border-radius: 5px;
+                color: white;
+                text-align: center;
+            }
+    
+            > p {
+                margin-top: 10px;
+                text-align: center;
+                color: gen.$gray_800;
+            }
+
+            > p:first-child {
+                margin-bottom: 10px;
+            }
+        }
+    }
+}

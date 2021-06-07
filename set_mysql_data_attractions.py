@@ -14,7 +14,7 @@ with engine.connect() as connection:
         sa.Column('category', sa.String(length=255), nullable=False),
         sa.Column('description', sa.String(length=4095), nullable=False),
         sa.Column('address', sa.String(length=255), nullable=False),
-        sa.Column('transport', sa.String(length=255), nullable=False),
+        sa.Column('transport', sa.String(length=4095)),
         sa.Column('mrt', sa.String(length=255)), # 有item的mrt是空值，RR：((j8wqrFBc7))
         sa.Column('latitude', sa.Float, nullable=False),
         sa.Column('longitude', sa.Float, nullable=False),
@@ -35,7 +35,7 @@ with engine.connect() as connection:
             data['category'] = srcdata['CAT2']
             data['description'] = srcdata['xbody']
             data['address'] = srcdata['address']
-            data['transport'] = srcdata['address']
+            data['transport'] = srcdata['info']
             data['mrt'] = srcdata['MRT']
             data['latitude'] = srcdata['latitude']
             data['longitude'] = srcdata['longitude']

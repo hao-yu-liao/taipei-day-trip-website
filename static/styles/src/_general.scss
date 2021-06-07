@@ -1,0 +1,232 @@
+@use "library" as lib;
+
+/* Font */
+%f_stack {
+    font-family: Noto Sans TC;
+    font-style: normal;
+    text-align: justify;
+}
+
+/* Color */
+$cyan_800: #448899;
+$cyan_700: #66AABB;
+$cyan_100: #AADDEE;
+$gray_800: #666666;
+$gray_700: #757575;
+$gray_300: #E8E8E8;
+$gray_50: #f8f8f8;
+
+
+/* Layout */
+$content_width: 64%;
+$content_min_width: 360px;
+$content_max-width: 1200px;
+$pad_content_width: 89%;
+
+$c_nav_height: 54px;
+$c_hero_sec_height: 320px;
+$pad_c_hero_sec_height: 280px;
+$header_height: calc(#{$c_nav_height});
+$footer_height: 104px;
+
+$breakpoint_pad: 1285px;
+$bp_contentLayout: 1050px;
+
+@mixin vw_1785px {
+    @media (max-width: 1785px) {
+      @content;
+    }
+}
+
+@mixin pad {
+    @media (max-width: $breakpoint_pad) {
+      @content;
+    }
+}
+
+@mixin vw_960px {
+    @media (max-width: 960px) {
+      @content;
+    }
+}
+
+@mixin mobile {
+    @media screen and (max-width: 630px) {
+        @content;
+    }
+}
+
+@mixin contentLayout_media($breakpoint: $bp_contentLayout) {
+    @include lib.media($breakpoint) {
+        @include lib.size(100%);
+        max-width: none;
+        min-width: 360px;
+        padding-left: calc( -189px + 36%);
+        padding-right: calc( -189px + 36%);
+    }
+}
+
+.contentLayout {
+    @include lib.size($content_width);
+    max-width: $content_max-width;
+    margin: 0 auto;
+
+    /* media_contentLayout */
+    @include contentLayout_media();
+}
+
+/* Global */
+
+html {
+    @include lib.size(100vw, 100vh);
+    min-width: 360px;
+    min-height: 1080px;
+}
+
+body {
+    @include lib.size(100%, calc(100% + 1px));
+    position: relative;
+}
+
+/* Typography */
+
+.bold {
+    font-weight: bold !important;
+}
+
+h1 {
+    /* Slogan Title */
+    margin: 0;
+    @extend %f_stack;
+    @include lib.textline(28px, 64px);
+    font-weight: bold;
+}
+
+h2 {
+    /* Header */
+    margin: 0;
+    @extend %f_stack;
+    @include lib.textline(30px, 34px);
+    font-weight: bold;
+}
+
+h3 {
+    /* Dialog Title */
+    margin: 0;
+    @extend %f_stack;
+    @include lib.textline(24px, 24px);
+    font-weight: bold;
+
+}
+
+p {
+    margin: 0;
+}
+
+button {
+    /* Button */
+    @extend %f_stack;
+    @include lib.textline(19px, 16px);
+    font-weight: normal;
+}
+
+.content {
+    /* <p>: Content */
+    @extend %f_stack;
+    @include lib.textline(16px, 23px);
+    font-weight: normal;
+}
+
+.body {
+    /* <p>: Body */
+    @extend %f_stack;
+    @include lib.textline(16px, 21px);
+    font-weight: normal;
+}
+
+/* Component */
+
+header {
+    @include lib.size(100%, $header_height);
+    // margin: auto;
+    position: fixed;
+    top: 0;
+    z-index: 1;
+    background: white;
+
+    .c_nav {
+        @include lib.size(100%, 100%);
+        @include lib.flex(center, center);
+        border-bottom: solid $gray_300 1px;
+    
+        > nav {
+            @include lib.size($content_width, 100%);
+            @include vw_1785px {
+                @include lib.size($pad_content_width, 100%);
+            }
+            // min-width: $content_min_width;
+    
+            @include lib.flex(flex-end, center);
+            position: relative;
+            
+            > * {
+                display: inline;
+                color: $gray_800;
+                border: none;
+            }
+    
+            > a {
+                background-color: white;
+            }
+    
+            > a:link {
+                text-decoration: none;
+            }
+    
+            > a:visited {
+                text-decoration: none;
+            }
+
+            > :not(:first-child) {
+                padding: 10px;        
+            }
+    
+            > :first-child {
+                position: absolute;
+                left: 0px;
+
+                > a {
+                    color: $cyan_800;
+                }
+
+                > a:link {
+                    text-decoration: none;
+                }
+
+                > a:visited {
+                    text-decoration: none;
+                    color: $cyan_800;
+                }
+            }
+        }
+    }
+}
+
+main {
+    @include lib.size(100%);
+    min-height: 100%;
+    padding-top: $header_height;
+    padding-bottom: $footer_height;
+}
+
+footer {
+    @include lib.size(100%, $footer_height);
+    position: fixed;
+    bottom: 0;
+    background-color: $gray_700;
+    @include lib.flex(center, center);
+
+    > .body {
+        color: white;
+    }
+}

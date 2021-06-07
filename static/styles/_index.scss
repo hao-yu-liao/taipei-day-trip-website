@@ -1,0 +1,261 @@
+@use "sass:string";
+@use "sass:math";
+
+// SCSS
+@use "src/library" as lib; 
+@use "src/general" as gen; 
+@use "src/modal_log" as modalLog; 
+
+/* Component */
+
+.c_hero_sec {
+    @include lib.size(100vw, gen.$c_hero_sec_height);
+    @include gen.pad {
+        @include lib.size(100vw, gen.$pad_c_hero_sec_height);
+    }
+
+    background: linear-gradient(135deg, gen.$cyan_100 0%, gen.$cyan_700 100%);
+    position: relative;
+    z-index: 0;
+    overflow: hidden;
+    
+    > img {
+        position: absolute;
+        bottom: 0;
+        right: 232px;
+        z-index: 1;
+        mix-blend-mode: normal;
+
+        @include gen.pad {
+            @include lib.size(276px, 148px);
+            right: -64px;
+        };
+    }
+
+    > div {
+        position: absolute;
+        z-index: 2;
+        top: 0;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+        @include lib.size(gen.$content_width, 100%);
+        @include gen.vw_1785px {
+            @include lib.size(gen.$pad_content_width, 100%);
+        }
+        // min-width: $content_min_width;
+
+        @include lib.flex(flex-start, center);
+        flex-wrap: wrap;
+
+        > div {
+
+            > h1 {
+                // margin-bottom: 15px;
+                color: gen.$gray_50;
+                text-shadow: #AABBCC, 0px, 0px, 30px;
+            }
+
+            > p.body {
+                margin-bottom: 25px;
+                color: gen.$gray_50;
+            }
+        }
+    }
+
+
+}
+
+form.c_search {
+    @include lib.size(460px, 46px);
+    @include gen.mobile {
+        @include lib.size(calc(100vw * 0.64), 46px);
+    }
+    position: relative;
+    // @include lib.border;
+
+    $button_width: 60px;
+    $radius: 6px;
+
+    :focus {
+        outline: none;
+    }
+
+    input {
+        border-radius: $radius 0 0 $radius;
+        position: absolute;
+        background-color: white;
+        @include lib.size(calc(100% - #{$button_width}), 100%);
+
+        border: none;
+        padding: 15px;
+    }
+
+    button {
+        background-color: gen.$cyan_800;
+        background-image: url(images/icons/icon_search.svg);
+        background-size: 30px 30px;
+        background-position: center;
+        background-repeat: no-repeat;
+
+        border-radius: 0 $radius $radius 0;
+        position: absolute;
+        right: 0px;
+        @include lib.size($button_width, 100%);
+
+        border: none;
+    }
+}
+
+main {
+
+    > section.c_scrlSec {
+        $scrlUnit_width: 270px;
+        $mobile_scrlUnit_width: 322px;
+        $scrlUnit_margin: 20px;
+        $scrlUnit_border: 1px;
+
+        @include lib.size(gen.$content_width);
+        @include gen.vw_1785px {
+            @include lib.size(gen.$pad_content_width);
+        }
+        // min-width: $content_min_width;
+
+        margin: 0 auto;
+        @include lib.flex(flex-start, flex-start);
+        flex-wrap: wrap;
+        @include gen.mobile {
+            @include lib.flex(center);
+            flex-wrap: wrap;
+        }
+
+        max-width: calc((#{$scrlUnit_width} * 4) + (#{$scrlUnit_margin} * 3) + (#{$scrlUnit_border} * 8));
+        @include gen.pad {
+            max-width: calc((#{$scrlUnit_width} * 3) + (#{$scrlUnit_margin} * 2) + (#{$scrlUnit_border} * 6));
+        }
+        @include gen.vw_960px {
+            max-width: calc((#{$scrlUnit_width} * 2) + (#{$scrlUnit_margin} * 1) + (#{$scrlUnit_border} * 4));
+        }
+
+        margin-bottom: 55px;
+
+        // 顯示每行scrlUnit之個數
+
+        > :not(:nth-of-type(4n+1)) {
+            @media screen and (min-width: calc(#{gen.$breakpoint_pad} + 1px)) {
+                margin-left: $scrlUnit_margin;
+            }
+        }
+
+        > :not(:nth-of-type(3n+1)) {
+            @include gen.pad {
+                margin-left: $scrlUnit_margin;
+            }
+            @include gen.vw_960px {
+                margin-left: 0;
+            }
+        }
+
+        > :nth-of-type(even) {
+            @include gen.vw_960px {
+                margin-left: $scrlUnit_margin;
+            }
+        }
+
+        > :nth-of-type(n) {
+            @include gen.mobile {
+                margin-left: 0;
+            }
+        }
+
+        //
+
+        > div.c_scrlUnit {
+            $scrlUnit_height: 242px;
+            $mobile_scrlUnit_height: 280px;
+
+            @include lib.size($scrlUnit_width, $scrlUnit_height);
+            @include gen.mobile {
+                @include lib.size($mobile_scrlUnit_width, $mobile_scrlUnit_height);
+            }
+
+            position: relative;
+            @include lib.border(#E8E8E8, $scrlUnit_border);
+            overflow: hidden;
+            margin-top: 30px;
+
+            $scrlUnit_img_width: calc(#{$scrlUnit_width} - (#{$scrlUnit_border} * 2));
+            $mobile_scrlUnit_img_width: calc(#{$mobile_scrlUnit_width} - (#{$scrlUnit_border} * 2));
+            $scrlUnit_img_height: 160px;
+            $mobile_scrlUnit_img_height: 200px;
+
+            > figure {
+                // img part
+
+                @include lib.size($scrlUnit_img_width, $scrlUnit_img_height);
+                @include gen.mobile {
+                    @include lib.size($mobile_scrlUnit_img_width, $mobile_scrlUnit_img_height);
+                }
+                margin: 0;
+                display: block;
+                overflow: hidden;
+                position: relative;
+
+                > img {
+                    @include lib.size(100%);
+                    @include gen.mobile {
+                        @include lib.size(math.percentage( $mobile_scrlUnit_width / $scrlUnit_width ));
+                    }
+
+                    object-fit: cover;
+                    object-position: center center;
+                    position: relative;
+                    z-index: -1;
+                }
+            }
+
+            > figcaption {
+                // text part
+                $figcap_hoz_margin: 10px;
+                margin: 0px $figcap_hoz_margin;
+                color: gen.$gray_700;
+                @include lib.size(auto, calc(#{$scrlUnit_height} - #{$scrlUnit_img_height}));
+                @include gen.mobile {
+                    @include lib.size(auto, calc(#{$mobile_scrlUnit_height} - #{$mobile_scrlUnit_img_height}));
+                }
+
+                > p {
+                    // line 1
+                    position: relative;
+                    top: 12px;
+                }
+
+                > div {
+                    // line 2
+                    @include lib.size(calc(100% - (#{$figcap_hoz_margin} * 2)));
+                    position: absolute;
+                    bottom: 0;
+                    margin-bottom: 12px;
+                    // @include lib.flex(flex-start);
+
+                    > * {
+                        display: inline-block;
+                        margin-bottom: 0;
+                    }
+
+                    > :last-child {
+                        position: absolute;
+                        right: 0px;
+                    }
+                }
+            }
+        }
+
+        > p.c_noScrlUnitMessage {
+            @include lib.size(100%, 200px);
+            @include lib.flex(center, center);
+            color: gen.$gray_700;
+        }
+    }
+
+}

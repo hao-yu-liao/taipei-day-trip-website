@@ -1,0 +1,543 @@
+/* Border-box */
+html {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  -webkit-box-sizing: inherit;
+  -moz-box-sizing: inherit;
+  box-sizing: inherit;
+}
+
+/* Property Class-option */
+.dp-none {
+  display: none !important;
+}
+
+.vb-hidden {
+  visibility: hidden !important;
+}
+
+.pt-relative {
+  position: relative !important;
+}
+
+.errorMessage {
+  color: red !important;
+}
+
+/* Property Mixin */
+/* Font */
+.body, .content, button, h3, h2, h1 {
+  font-family: Noto Sans TC;
+  font-style: normal;
+  text-align: justify;
+}
+
+/* Color */
+/* Layout */
+.contentLayout {
+  width: 64%;
+  height: auto;
+  max-width: 1200px;
+  margin: 0 auto;
+  /* media_contentLayout */
+}
+@media (max-width: 1050px) {
+  .contentLayout {
+    width: 100%;
+    height: auto;
+    max-width: none;
+    min-width: 360px;
+    padding-left: calc( -189px + 36%);
+    padding-right: calc( -189px + 36%);
+  }
+}
+
+/* Global */
+html {
+  width: 100vw;
+  height: 100vh;
+  min-width: 360px;
+  min-height: 1080px;
+}
+
+body {
+  width: 100%;
+  height: calc(100% + 1px);
+  position: relative;
+}
+
+/* Typography */
+.bold {
+  font-weight: bold !important;
+}
+
+h1 {
+  /* Slogan Title */
+  margin: 0;
+  font-size: 28px;
+  line-height: 64px;
+  font-weight: bold;
+}
+
+h2 {
+  /* Header */
+  margin: 0;
+  font-size: 30px;
+  line-height: 34px;
+  font-weight: bold;
+}
+
+h3 {
+  /* Dialog Title */
+  margin: 0;
+  font-size: 24px;
+  line-height: 24px;
+  font-weight: bold;
+}
+
+p {
+  margin: 0;
+}
+
+button {
+  /* Button */
+  font-size: 19px;
+  line-height: 16px;
+  font-weight: normal;
+}
+
+.content {
+  /* <p>: Content */
+  font-size: 16px;
+  line-height: 23px;
+  font-weight: normal;
+}
+
+.body {
+  /* <p>: Body */
+  font-size: 16px;
+  line-height: 21px;
+  font-weight: normal;
+}
+
+/* Component */
+header {
+  width: 100%;
+  height: calc(54px);
+  position: fixed;
+  top: 0;
+  z-index: 1;
+  background: white;
+}
+header .c_nav {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom: solid #E8E8E8 1px;
+}
+header .c_nav > nav {
+  width: 64%;
+  height: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  position: relative;
+}
+@media (max-width: 1785px) {
+  header .c_nav > nav {
+    width: 89%;
+    height: 100%;
+  }
+}
+header .c_nav > nav > * {
+  display: inline;
+  color: #666666;
+  border: none;
+}
+header .c_nav > nav > a {
+  background-color: white;
+}
+header .c_nav > nav > a:link {
+  text-decoration: none;
+}
+header .c_nav > nav > a:visited {
+  text-decoration: none;
+}
+header .c_nav > nav > :not(:first-child) {
+  padding: 10px;
+}
+header .c_nav > nav > :first-child {
+  position: absolute;
+  left: 0px;
+}
+header .c_nav > nav > :first-child > a {
+  color: #448899;
+}
+header .c_nav > nav > :first-child > a:link {
+  text-decoration: none;
+}
+header .c_nav > nav > :first-child > a:visited {
+  text-decoration: none;
+  color: #448899;
+}
+
+main {
+  width: 100%;
+  height: auto;
+  min-height: 100%;
+  padding-top: calc(54px);
+  padding-bottom: 104px;
+}
+
+footer {
+  width: 100%;
+  height: 104px;
+  position: fixed;
+  bottom: 0;
+  background-color: #757575;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+footer > .body {
+  color: white;
+}
+
+.modal_signIn {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  z-index: 5 !important;
+  top: 0;
+}
+.modal_signIn > .modalMask {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.25);
+}
+.modal_signIn > form {
+  width: 340px;
+  height: 380px;
+  background-color: white;
+  position: absolute;
+  top: 80px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  border-radius: 6px;
+  padding: 25px 15px 15px 15px;
+}
+.modal_signIn > form > * {
+  display: block;
+  margin: 0 auto;
+  text-align: center;
+}
+.modal_signIn > form > .icon_close {
+  width: 16px;
+  height: 16px;
+  position: absolute;
+  background-image: url(images/icons/icon_close.svg);
+  top: 27px;
+  right: 17px;
+}
+.modal_signIn > form > .deco_modal {
+  width: 100%;
+  height: 10px;
+  background: linear-gradient(270deg, #337788 0%, #66AABB 100%);
+  border-radius: 6px 6px 0 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.modal_signIn > form > h3 {
+  color: #666666;
+  margin-bottom: 15px;
+}
+.modal_signIn > form > label > input {
+  width: 100%;
+  height: auto;
+  padding: 15px;
+  margin-bottom: 10px;
+  border-color: #CCCCCC;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 5px;
+}
+.modal_signIn > form > :last-child {
+  position: absolute;
+  bottom: 15px;
+  left: 0;
+  right: 0;
+  margin: 0 15px;
+}
+.modal_signIn > form > :last-child > button {
+  width: 100%;
+  height: 47px;
+  background-color: #448899;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  text-align: center;
+}
+.modal_signIn > form > :last-child > p {
+  margin-top: 10px;
+  text-align: center;
+  color: #666666;
+}
+.modal_signIn > form > :last-child > p:first-child {
+  margin-bottom: 10px;
+}
+
+main {
+  display: flex;
+  justify-content: center;
+  align-items: normal;
+}
+main > .attraction {
+  color: #666666;
+  position: relative;
+  z-index: 1;
+  /*
+  gen.$bp_contentLayout: 1050px;
+
+  @include lib.media(gen.$bp_contentLayout) {
+      @include lib.size(100%);
+      max-width: none;
+      min-width: 360px;
+      padding-left: calc( -189px + 36%);
+      padding-right: calc( -189px + 36%);
+  }
+  */
+}
+main > .attraction > .attraction_part_1 {
+  padding: 40px 0;
+  width: 100%;
+  height: 45%;
+  min-height: 460px;
+  border-bottom: solid #E8E8E8 1px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+@media (max-width: 1050px) {
+  main > .attraction > .attraction_part_1 {
+    flex-wrap: wrap;
+    width: 100%;
+    height: auto;
+  }
+}
+main > .attraction > .attraction_part_1 > .carousel {
+  width: 45%;
+  height: 100%;
+  background-color: #E8E8E8;
+  position: relative;
+}
+@media (max-width: 1050px) {
+  main > .attraction > .attraction_part_1 > .carousel {
+    width: 100%;
+    height: 350px;
+  }
+}
+main > .attraction > .attraction_part_1 > .carousel > .chevron-left {
+  width: 36px;
+  height: 36px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 10px;
+  margin: auto 0;
+  background-image: url(images/icons/icon_chevron_left.svg);
+}
+main > .attraction > .attraction_part_1 > .carousel > .chevron-right {
+  width: 36px;
+  height: 36px;
+  position: absolute;
+  z-index: 5;
+  top: 0;
+  bottom: 0;
+  right: 10px;
+  margin: auto 0;
+  background-image: url(images/icons/icon_chevron_left.svg);
+  transform: scaleX(-1);
+}
+main > .attraction > .attraction_part_1 > .carousel > .dot_selector {
+  position: absolute;
+  z-index: 5;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  bottom: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+main > .attraction > .attraction_part_1 > .carousel > .dot_selector > .dot {
+  width: 12px;
+  height: 12px;
+  background-color: white;
+  display: inline-block;
+  border-radius: 6px;
+  border-color: white;
+  border-width: 1px;
+  border-style: solid;
+}
+main > .attraction > .attraction_part_1 > .carousel > .dot_selector > .dot_selected {
+  background-color: black;
+}
+main > .attraction > .attraction_part_1 > .carousel > .dot_selector > :not(:first-child) {
+  margin-left: 12px;
+}
+main > .attraction > .attraction_part_1 > .carousel > img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  object-fit: cover;
+  object-position: center center;
+}
+main > .attraction > .attraction_part_1 > .profile {
+  padding: 0 3%;
+  width: calc(100% - 45%);
+  height: 100%;
+  position: relative;
+}
+@media (max-width: 1050px) {
+  main > .attraction > .attraction_part_1 > .profile {
+    margin-top: 30px;
+    width: 100%;
+    height: 390px;
+    margin-left: 10px;
+    margin-right: 10px;
+    padding: 0;
+  }
+}
+main > .attraction > .attraction_part_1 > .profile > :first-child {
+  width: 100%;
+  height: 39px;
+  padding-bottom: 15px;
+}
+main > .attraction > .attraction_part_1 > .profile > :nth-child(2) {
+  width: 100%;
+  height: 41px;
+  padding-bottom: 20px;
+}
+main > .attraction > .attraction_part_1 > .profile > form {
+  background-color: #E8E8E8;
+  width: 100%;
+  height: calc(100% - 39px - 41px);
+  min-height: 340px;
+  min-width: 340px;
+  padding-top: 3%;
+  padding-left: 3.5%;
+  padding-right: 3.5%;
+  position: relative;
+  border-radius: 5px;
+}
+main > .attraction > .attraction_part_1 > .profile > form > :nth-child(2) {
+  margin-top: 2.5%;
+}
+main > .attraction > .attraction_part_1 > .profile > form > div {
+  margin-top: 2.5%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+main > .attraction > .attraction_part_1 > .profile > form > div > p {
+  display: inline-block;
+}
+main > .attraction > .attraction_part_1 > .profile > form > div input[type=date] {
+  width: 193px;
+  height: 35px;
+  margin-left: 5px;
+  border: none;
+  outline: none;
+}
+main > .attraction > .attraction_part_1 > .profile > form > div > label.radio {
+  width: 87px;
+  height: 22px;
+  padding-left: 5px;
+  padding-right: 8px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+main > .attraction > .attraction_part_1 > .profile > form > div > label.radio > :nth-child(2) {
+  margin-right: 4px;
+}
+main > .attraction > .attraction_part_1 > .profile > form > div > label.radio input[type=radio] {
+  width: 0;
+  height: 0;
+}
+main > .attraction > .attraction_part_1 > .profile > form > div > label.radio input[type=radio] + .radio_dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 8px;
+  border-color: white;
+  border-width: 2px;
+  border-style: solid;
+  display: inline-block;
+  background-color: white;
+}
+main > .attraction > .attraction_part_1 > .profile > form > div > label.radio input[type=radio]:checked + .radio_dot {
+  background-color: #448899;
+}
+main > .attraction > .attraction_part_1 > .profile > form > div > label.radio input[type=radio]:disabled + .radio_dot {
+  background-color: white;
+}
+main > .attraction > .attraction_part_1 > .profile > form > .buttonSet {
+  width: 154px;
+  height: 70px;
+  position: absolute;
+  bottom: 14%;
+}
+main > .attraction > .attraction_part_1 > .profile > form > .buttonSet > p {
+  position: absolute;
+  bottom: calc(10px + 36px);
+}
+main > .attraction > .attraction_part_1 > .profile > form > .buttonSet > button {
+  width: 154px;
+  height: 36px;
+  position: absolute;
+  bottom: 0;
+  background-color: #448899;
+  color: white;
+  border-radius: 5px;
+  border: none;
+  font-weight: normal;
+  text-align: center;
+}
+main > .attraction > .attraction_part_2 {
+  margin-top: 50px;
+  width: 100%;
+  height: auto;
+}
+@media (max-width: 1050px) {
+  main > .attraction > .attraction_part_2 {
+    width: 100%;
+    height: auto;
+  }
+}
+main > .attraction > .attraction_part_2 > * {
+  margin-left: 20px;
+  margin-right: 20px;
+}
+main > .attraction > .attraction_part_2 > :not(:first-child) {
+  margin-top: 30px;
+}
+main > .attraction > .attraction_part_2 .bold + .content {
+  margin-top: 6px;
+}
+main > .attraction > .attraction_part_2 > :last-child {
+  margin-bottom: 60px;
+}
+
+/*# sourceMappingURL=attraction.css.map */
