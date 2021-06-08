@@ -8,6 +8,8 @@ const element = {
             chevronLeft: document.querySelector('.chevron-left'),
             chevronRight: document.querySelector('.chevron-right'),
             dotSelector: document.querySelector('.dot_selector'),
+            imageList: [],
+            dotList: [],
         },
         bookingForm: {
             self: document.querySelector('.bookingForm'),
@@ -32,7 +34,11 @@ const model = {
     attraction: {
         getAttractionId: function() {},
         fetchAttractionData: function() {},
-        postBookingData: function() {}
+        postBookingData: function() {},
+        carousel: {
+            _accessImagesListSwitcher: function() {},
+            accessImagesListSwitcher: function() {}
+        }
     }
 };
 
@@ -92,12 +98,62 @@ model.attraction.postBookingData = async function() {
     return response
 }
 
+model.attraction.carousel._accessImagesListSwitcher = function() {
+    let currentImgId = 0;
+    let imgAmount = null;
+
+    let clsAccessImagesListSwitcher = function(command, amount) {
+        // console.log('start - ', 'currentImgId: ', currentImgId, 'imgAmount: ', imgAmount);
+
+        if (command === 'init') {
+            imgAmount = amount;
+            // console.log('imgAmount: ', imgAmount);
+        }
+    
+        if (command === 'add') {
+            if (currentImgId < (imgAmount - 1)) {
+                currentImgId += 1;
+            }
+            else {
+                console.log('when currentImgId = 6');
+                currentImgId = 0;
+                console.log('now currentImgId = ', currentImgId);
+            }
+            // console.log('imgAmount: ', imgAmount);
+            // console.log('counter: ', counter);
+        }
+    
+        if (command === 'sub') {
+            if (currentImgId > 0) {
+                currentImgId -= 1;
+            }
+            else {
+                currentImgId = (imgAmount - 1);
+            }
+            // console.log('imgAmount: ', imgAmount);
+            // console.log('counter: ', counter);
+        }   
+        
+        // console.log('end - ', 'currentImgId: ', currentImgId, 'imgAmount: ', imgAmount);
+        let returnElement = {
+            img: element.attraction.carousel.imageList[currentImgId],
+            dot: element.attraction.carousel.dotList[currentImgId],
+        }
+        console.log(returnElement['img'], returnElement['dot']);
+        
+        return returnElement
+    }
+    return clsAccessImagesListSwitcher
+}
+
+model.attraction.carousel.accessImagesListSwitcher = model.attraction.carousel._accessImagesListSwitcher() ;
+
 const view = {
     attraction: {
         renderComponent: function() {},
         carousel: {
-            showNextImage: function() {},
-            showLastImage: function() {},
+            displayNextImage: function() {},
+            displayLastImage: function() {},
         },
         bookingForm: {
             switchTouringFee: function() {},
@@ -118,6 +174,7 @@ view.attraction.renderComponent = function(data) {
     for (let i = 0; i < data['images'].length; i++) {
         let img = document.createElement('img');
         img.setAttribute('src', data['images'][i]);
+        img.classList.add('transitionVisibilityProp');
         let dot = document.createElement('div');
         dot.classList.add('dot');
         if (i === 0) {
@@ -125,18 +182,64 @@ view.attraction.renderComponent = function(data) {
             element.attraction.carousel.dotSelector.appendChild(dot);
         }
         else {
-            img.classList.add('dp-none');
+            img.classList.add('vb-hidden');
         }
         element.attraction.carousel.self.appendChild(img);
+        let imgElement = document.querySelectorAll('.carousel > img')[i];
+        element.attraction.carousel.imageList.push(imgElement);
+        // console.log('imgElement: ', imgElement);
+
         element.attraction.carousel.dotSelector.appendChild(dot);
+        // console.log(document.querySelectorAll('.dot_selector > .dot'));
+        let dotElement = document.querySelectorAll('.dot_selector > .dot')[i];
+        element.attraction.carousel.dotList.push(dotElement);
+        
     }
+    // console.log(element.attraction.carousel.imageList);
+    // console.log(element.attraction.carousel.dotList);
 }
-view.attraction.carousel.showNextImage = function() {
+view.attraction.carousel.displayNextImage = async function() {
+    console.log('trigger displayNextImage');
+    // console.log('imageList', element.attraction.carousel.imageList);
+    // console.log(document.querySelector('.carousel > img'));
+    let currentElement = model.attraction.carousel.accessImagesListSwitcher();
+    // console.log(currentElement['img'], currentElement['dot']);
+    let nextElement = model.attraction.carousel.accessImagesListSwitcher('add');
+    // console.log(nextElement['img'], nextElement['dot']);
 
-}
-view.attraction.carousel.showLastImage = function() {
+    let currentImg = currentElement['img'];
+    let nextImg = nextElement['img'];    
+    let currentDot = currentElement['dot'];
+    let nextDot = nextElement['dot'];
+    // console.log(currentImg, currentDot);
+    // console.log(nextImg, nextDot);
 
+    currentImg.classList.add('zidx-negativeOne');
+    currentDot.classList.remove('dot_selected');
+    nextDot.classList.add('dot_selected');
+    nextImg.classList.remove('vb-hidden');
+    currentImg.classList.add('vb-hidden');
+    currentImg.classList.remove('zidx-negativeOne');
 }
+
+view.attraction.carousel.displayLastImage = function() {
+    console.log('trigger displayLastImage');
+    let currentElement = model.attraction.carousel.accessImagesListSwitcher();
+    let lastElement = model.attraction.carousel.accessImagesListSwitcher('sub');
+
+    let currentImg = currentElement['img'];
+    let lastImg = lastElement['img'];
+    let currentDot = currentElement['dot'];
+    let lastDot = lastElement['dot'];
+    
+    currentImg.classList.add('zidx-negativeOne');
+    currentDot.classList.remove('dot_selected');
+    lastDot.classList.add('dot_selected');
+    lastImg.classList.remove('vb-hidden');
+    currentImg.classList.add('vb-hidden');  
+    currentImg.classList.add('zidx-negativeOne');  
+}
+
 view.attraction.bookingForm.switchTouringFee = function(eventTarget) {
     if (eventTarget === element.attraction.bookingForm.inputRadio_morning) {
         element.attraction.bookingForm.touringFee.textContent = 2000;
@@ -154,11 +257,13 @@ const controller = {
             view.attraction.renderComponent(attractionData);
             
             // carousel
+            // init carousel imagesCounter
+            model.attraction.carousel.accessImagesListSwitcher('init', attractionData['images'].length);
             element.attraction.carousel.chevronRight.addEventListener('click', function() {
-                view.attraction.carousel.showNextImage();
+                view.attraction.carousel.displayNextImage();
             })
             element.attraction.carousel.chevronLeft.addEventListener('click', function() {
-                view.attraction.carousel.showLastImage();
+                view.attraction.carousel.displayLastImage();
             })
 
             // bookingForm

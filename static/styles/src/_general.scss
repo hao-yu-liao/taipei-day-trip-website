@@ -75,6 +75,10 @@ $bp_contentLayout: 1050px;
     @include contentLayout_media();
 }
 
+.transitionVisibilityProp {
+    transition: visibility 2s ease-out;
+}
+
 /* Global */
 
 html {

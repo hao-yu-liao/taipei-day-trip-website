@@ -30,6 +30,11 @@ html {
   color: red !important;
 }
 
+.zidx-negativeOne {
+  position: relative;
+  z-index: -1 !important;
+}
+
 /* Property Mixin */
 /* Font */
 .body, .content, button, h3, h2, h1 {
@@ -56,6 +61,10 @@ html {
     padding-left: calc( -189px + 36%);
     padding-right: calc( -189px + 36%);
   }
+}
+
+.transitionVisibilityProp {
+  transition: visibility 2s ease-out;
 }
 
 /* Global */
@@ -350,6 +359,7 @@ main > .attraction > .attraction_part_1 > .carousel > .chevron-left {
   width: 36px;
   height: 36px;
   position: absolute;
+  z-index: 5;
   top: 0;
   bottom: 0;
   left: 10px;
@@ -403,6 +413,7 @@ main > .attraction > .attraction_part_1 > .carousel > img {
   left: 0;
   object-fit: cover;
   object-position: center center;
+  visibility: visible;
 }
 main > .attraction > .attraction_part_1 > .profile {
   padding: 0 3%;
