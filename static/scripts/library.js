@@ -2,9 +2,10 @@ function getURL(path) {
     // protocal
     let protocal = 'http';
     // domain
-    let localServer = '127.0.0.1:3000';
     let vsCodeliveServer = '127.0.0.1:5500';
     let EC2 = '18.136.117.43:3000';
+    // let localServer = '127.0.0.1:3000';
+    let localServer = EC2;
 
     let domain = localServer;
 
