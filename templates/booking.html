@@ -12,7 +12,7 @@
         <section class="c_nav">
             <nav>
                 <h1><a>台北一日遊</a></h1>
-                <a class="c_nav_anchor_booking body">預定行程</a>
+                <a class="c_nav_anchor_booking body">預訂行程</a>
                 <a class="body">登入/註冊</a>
             </nav>
         </section>
@@ -41,19 +41,22 @@
             </form>
         </div>
         <section class="section_unpaidBooking contentLayout">
-            <p class="welcomingMessage button bold">
+            <p class="welcomingMessageSpec button bold dp-none">
                 您好，
-                <span class="button bold">TestData</span>
+                <span class="button bold"></span>
                 ，待預訂的行程如下：
             </p>
-            <p class="emptyBookingMessage body dp-none">目前沒有任何待預訂的行程</p>
-            <div>
+            <p class="welcomingMessageGen button bold">您好，請先登入帳戶，以瀏覽您的預訂行程</p>
+            <!--<div>
                 <div class="UnpaidBookingCard">
                     <div class="UnpaidBookingCard_info">
                         <div>
                             <img src="../static/styles/images/Picture.png">
                             <div>
-                                <p class="body bold">台北一日遊：平安鐘</p>
+                                <p class="body bold">
+                                    台北一日遊：
+                                    <span class="body">平安鐘</span>
+                                </p>
                                 <p class="body">
                                     日期：
                                     <span class="body">2021-04-23</span>
@@ -80,7 +83,7 @@
                             <p class="button bold">您的聯絡資訊</p>
                             <label class="body">
                                 聯絡姓名：
-                                <input class="body" type="text" value="TestData">
+                                <input class="body" type="text">
                             </label>
                             <label class="body">
                                 聯絡信箱：
@@ -105,11 +108,7 @@
                             <label class="body">
                                 驗證密碼：
                                 <input type="text">
-                            </label>                        <!--
-                            <div class="tpfield" id="card-number"></div>
-                            <div class="tpfield" id="card-expiration-date"></div>
-                            <div class="tpfield" id="card-ccv"></div>
-                            -->                    
+                            </label>
                         </div>
                         <div class="UnpaidBookingCard_details_buttonSet">
                             <p class="body bold">總價：新台幣 2000 元</p>
@@ -117,6 +116,7 @@
                         </div>
                     </form>
                 </div>
+                
                 <div class="UnpaidBookingCard">
                     <div class="UnpaidBookingCard_info">
                         <div>
@@ -174,11 +174,7 @@
                             <label class="body">
                                 驗證密碼：
                                 <input type="text">
-                            </label>                        <!--
-                            <div class="tpfield" id="card-number"></div>
-                            <div class="tpfield" id="card-expiration-date"></div>
-                            <div class="tpfield" id="card-ccv"></div>
-                            -->                    
+                            </label>                 
                         </div>
                         <div class="UnpaidBookingCard_details_buttonSet">
                             <p class="body bold">總價：新台幣 2000 元</p>
@@ -243,11 +239,7 @@
                             <label class="body">
                                 驗證密碼：
                                 <input type="text">
-                            </label>                        <!--
-                            <div class="tpfield" id="card-number"></div>
-                            <div class="tpfield" id="card-expiration-date"></div>
-                            <div class="tpfield" id="card-ccv"></div>
-                            -->                    
+                            </label>                  
                         </div>
                         <div class="UnpaidBookingCard_details_buttonSet">
                             <p class="body bold">總價：新台幣 2000 元</p>
@@ -255,7 +247,7 @@
                         </div>
                     </form>
                 </div>                  
-            </div>
+            </div>-->
         </section>
         <section class="section_paidBooking">
             <div  class="PaidBookingCard">
@@ -271,3 +263,9 @@
     <script type="module" src="../static/scripts/booking.js"></script>
 </body>
 </html>
+
+<!--
+    <div class="tpfield" id="card-number"></div>
+    <div class="tpfield" id="card-expiration-date"></div>
+    <div class="tpfield" id="card-ccv"></div>
+-->                    

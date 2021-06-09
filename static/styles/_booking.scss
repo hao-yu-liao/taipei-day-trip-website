@@ -5,6 +5,10 @@
 
 $padding_constant: 2.8%;
 
+.upsideDown {
+    transform: rotate(0.5turn);
+}
+
 main {
     > .section_unpaidBooking {
         padding-top: 46px;
@@ -68,6 +72,9 @@ main {
                             > .bold {
                                 color: gen.$cyan_800;
                                 margin-bottom: 20px;
+                                > span {
+                                    color: gen.$cyan_800;
+                                }
                             }
                             > :not(.bold) {
                                 margin-bottom: 10px;

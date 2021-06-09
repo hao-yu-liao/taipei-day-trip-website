@@ -1,4 +1,5 @@
 import lib from './library.js'
+import gen from './general.js'
 
 // global
 let nextPage = null;
@@ -99,12 +100,12 @@ function addScrlUnits(request, scrlSecOpt) {
     .then((srcData) => {
 
         let data = srcData['data'];
-        console.log(data)
+        // console.log(data)
         nextPage = srcData['nextPage'];
-        console.log(`nextPage: ${nextPage}`);
+        // console.log(`nextPage: ${nextPage}`);
 
         if (JSON.stringify(data) === JSON.stringify([])){
-            console.log('addScrlUnits: false');
+            // console.log('addScrlUnits: false');
 
             let noScrlUnitMessage = document.createElement('p');
             noScrlUnitMessage.classList.add('c_noScrlUnitMessage', 'body');
@@ -118,12 +119,12 @@ function addScrlUnits(request, scrlSecOpt) {
             let currentScrlUnit = scrlUnit(value);
             scrlSecOpt.appendChild(currentScrlUnit);
             currentScrlUnit.addEventListener('click', function() {
-                console.log('trial');
+                // console.log('trial');
                 window.location = lib.getURL(`/attraction/${currentScrlUnit.attractionId}`);
             })
         });
 
-        console.log(`succesfully fetch data`);
+        // console.log(`succesfully fetch data`);
     })
 }
 
@@ -140,7 +141,7 @@ function onscrlAddScrlUnits(request, scrlSecOpt) {
                 //異步請求數據,局部刷新dom
                 addScrlUnits(request, scrlSecOpt)
             }
-            // console.log('successfully onsrclAddScrlUnits()')
+            // // console.log('successfully onsrclAddScrlUnits()')
         }, 105);
       }, 100);
   
@@ -154,7 +155,7 @@ function onscrlAddScrlUnits(request, scrlSecOpt) {
             documentScrollTop = document.documentElement.scrollTop;
         }
         scrollTop = (bodyScrollTop - documentScrollTop > 0) ? bodyScrollTop : documentScrollTop;
-        // console.log("scrollTop: "+scrollTop);
+        // // console.log("scrollTop: "+scrollTop);
         return scrollTop;
       }
   
@@ -166,7 +167,7 @@ function onscrlAddScrlUnits(request, scrlSecOpt) {
         } else {
             windowHeight = document.body.clientHeight;
         }
-        // console.log("windowHeight: "+windowHeight);
+        // // console.log("windowHeight: "+windowHeight);
         return windowHeight;
       }
   
@@ -180,7 +181,7 @@ function onscrlAddScrlUnits(request, scrlSecOpt) {
             documentScrollHeight = document.documentElement.scrollHeight;
         }
         scrollHeight = (bodyScrollHeight - documentScrollHeight > 0) ? bodyScrollHeight : documentScrollHeight;
-        // console.log("scrollHeight: "+scrollHeight);
+        // // console.log("scrollHeight: "+scrollHeight);
         return scrollHeight;
     }  
 }
@@ -188,8 +189,9 @@ function onscrlAddScrlUnits(request, scrlSecOpt) {
 
 
 // 主程式
-window.addEventListener('load', function() {
-    console.log(`window loaded`);
+window.addEventListener('load', async function() {
+    // console.log(`window loaded`);
+    await gen.exportFunc.initGeneral();
     createScrlSec('attractions');
     currentScrlSec = scrlSecOpt['attractions'];
     nextPage = 0;
@@ -202,7 +204,7 @@ window.addEventListener('load', function() {
 });
 
 window.addEventListener('scroll', function() {
-    // console.log(`window scrolled`);
+    // // console.log(`window scrolled`);
     onscrlAddScrlUnits(
         getURLwithQueryString(nextPage, keyword),
         currentScrlSec
@@ -213,11 +215,11 @@ window.addEventListener('scroll', function() {
 // 創造新的scrlSec
 
 document.getElementById('searchSpot').addEventListener('submit', function(event) {
-    console.log(`search submited`);
+    // console.log(`search submited`);
 
     event.preventDefault();
     keyword = document.getElementById('searchSpot_input').value;
-    console.log(keyword);
+    // console.log(keyword);
 
     createScrlSec(keyword);
     currentScrlSec.classList.add('dp-none');

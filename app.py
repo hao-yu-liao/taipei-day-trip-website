@@ -4,6 +4,11 @@ from flask import *
 from sqlalchemy import create_engine, text
 
 
+# for print error; ref: https://dotblogs.com.tw/caubekimo/2018/09/17/145733
+import sys
+import traceback
+
+
 app=Flask(
 	__name__,
 	static_folder="static",
@@ -88,6 +93,17 @@ def checkBookingById(id):
 		return dict(result)
 	else:
 		return None
+
+def printError(e):
+	error_class = e.__class__.__name__ #取得錯誤類型
+	detail = e.args[0] #取得詳細內容
+	cl, exc, tb = sys.exc_info() #取得Call Stack
+	lastCallStack = traceback.extract_tb(tb)[-1] #取得Call Stack的最後一筆資料
+	fileName = lastCallStack[0] #取得發生的檔案名稱
+	lineNum = lastCallStack[1] #取得發生的行號
+	funcName = lastCallStack[2] #取得發生的函數名稱
+	errMsg = "File \"{}\", line {}, in {}: [{}] {}".format(fileName, lineNum, funcName, error_class, detail)
+	print(errMsg)
 
 # Pages
 @app.route("/")
@@ -490,12 +506,10 @@ def handleApiBooking():
 			userId = userId
 		)
 		bookingData = []
-		bookingDataCounter = 0
 
 		if results != None:
 			for result in results:
-				bookingData[bookingDataCounter] = dict(result)
-				bookingDataCounter += 1
+				bookingData.append(dict(result))
 			return bookingData
 		else:
 			return None
@@ -510,10 +524,13 @@ def handleApiBooking():
 			userId = bookingData['userId'],
 			attractionId = bookingData['attractionId']
 		)
-		result = checkBookingById()
+		# result = checkBookingById()
+		result = {}
+		return result
 
 	
 	if request.method == "GET":
+		print('session: ', session)
 		if bool(session):
 			bookingDataList = checkBookingByUserId(session['id'])
 			responseBody = {
@@ -523,7 +540,7 @@ def handleApiBooking():
 			if bookingDataList != None:
 				responseBody['data'] = []
 				for bookingData in bookingDataList:
-					imageList = cleanseImagesData(bookingData['image'])
+					imageList = cleanseImagesData(bookingData['images'])
 
 					responseData = {
 						'id': bookingData['id'],
@@ -548,13 +565,14 @@ def handleApiBooking():
 	if request.method == "POST":
 		try:
 			if bool(session):
+				print('access POST with session')
 				data = request.json
 
 				# bookingData
 				bookingData = {}
 				for key in data:
-					bookingData['key'] = data['key']
-				bookingData['userId'] = session['id']
+					bookingData[key] = data[key]
+					bookingData['userId'] = session['id']
 
 				# fetch database
 				createBooking(bookingData)
@@ -566,8 +584,9 @@ def handleApiBooking():
 					return getErrorReponse('建立失敗，輸入不正確或其他原因', 400)
 			else:
 				return getErrorReponse('未登入系統，拒絕存取', 403)
-		except:
-				return getErrorReponse('伺服器內部錯誤', 500)
+		except Exception as error:
+			printError(error)
+			return getErrorReponse('伺服器內部錯誤', 500)
 
 @app.route("/api/booking/<bookingId>", methods=['OPTION'])
 def handleApiBookingDeletePreflight(bookingId):

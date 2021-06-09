@@ -28,11 +28,14 @@ const element = {
 const model = {
     nav: {
         updateCurrentState: function() {},
+        checkHasSignIn: function() {},
         currentState: null,
         hasSignIn: {
             name: 'hasSignIn',
             data: {
-                anchorText_signIn: '登出帳戶'
+                anchorText_signIn: '登出帳戶',
+                name: null,
+                email: null,
             }
         },
         hasNotSignIn: {
@@ -75,7 +78,6 @@ const model = {
 
         },
         getSomeElementHeight: function() {},
-        checkHasSignIn: function() {}
     }
 };
 
@@ -212,23 +214,31 @@ model.nav.child_modal_signIn.fetchData = async function(currentState) {
     }
 }
 
-model.nav.checkHasSignIn = function() {
+model.nav.checkHasSignIn = async function() {
     // trial for not to fetch data
-    return model.modal_signIn.ifNotSignUp
+    // return model.modal_signIn.ifNotSignUp
 
-    fetch(lib.getURL('/api/user'))
-    .then((response) => (response.json()))
-    .then((data) => {
-        if (data["data"] === null) {
-            return model.modal_signIn.ifNotSignUp
-        }
-        else {
-            model.nav.hasSignIn.data.name = data['data']['name'];
-            model.nav.hasSignIn.data.email = data['data']['email'];
-            
-            return model.modal_signIn.ifSignUp
-        }
-    })
+    let returnPromise = new Promise(function(resolve, reject) {
+        fetch(lib.getURL('/api/user'))
+        .then((response) => (response.json()))
+        .then((data) => {
+            if (data["data"] !== null) {
+                model.nav.currentState = model.nav.hasSignIn;
+                model.nav.hasSignIn.data.name = data['data']['name'];
+                model.nav.hasSignIn.data.email = data['data']['email']; 
+                // console.log('trigger returnPromise true');
+                resolve(true);
+            }
+    
+            else {
+                model.nav.currentState = model.nav.hasNotSignIn;
+                // console.log('trigger returnPromise false');
+                resolve(false);
+            }
+        })
+    });
+
+    return returnPromise
 }
 model.nav.updateCurrentState = function() {
     if (model.nav.currentState === model.nav.hasNotSignIn) {
@@ -315,9 +325,11 @@ const view = {
 };
 
 const controller = {
+    initGeneral: function() {},
     nav: {
         initComponent: async function() {
             view.nav.setAnchorURL();
+            /*
             let getCurrentSignInState = async function() {
                 let srcResponse = await fetch('/api/user');
                 let response = await srcResponse.json();
@@ -329,9 +341,12 @@ const controller = {
                     return model.nav.hasNotSignIn
                 }
             }
-
             model.nav.currentState = await getCurrentSignInState();
+            */
+
+            let response = await model.nav.checkHasSignIn();
             console.log('currentState: ', model.nav.currentState.name);
+
             view.nav.renderComponent();
 
             element.nav.anchor_signIn.addEventListener('click', async function() {
@@ -352,10 +367,18 @@ const controller = {
                     isResponseOk = srcResponse.ok;
                     response = await srcResponse.json(); 
                     */
+
+                    model.nav.hasSignIn.data.name = null;
+                    model.nav.hasSignIn.data.email = null;
                     
                     controller.nav.setComponent();
+
+                    // 暫時：重新 load 頁面
+                    window.location = window.location;
                 }
             })
+
+            return Promise.resolve(true)
         },
         setComponent: function() {
             model.nav.updateCurrentState();
@@ -376,7 +399,9 @@ const controller = {
             
             element.modal_signIn.icon_close.addEventListener('click', function() {
                 element.modal_signIn.self.classList.add('dp-none');
-            })        
+            })
+            
+            return Promise.resolve(true)
         },
         setComponent: function() {
             model.modal_signIn.updateCurrentState();
@@ -455,6 +480,9 @@ controller.modal_signIn.submitForm = function() {
                 // 之後優化，多一個「成功登入」、「註冊成功」 modal
                 view.modal_signIn.displayComponent(false);
                 controller.nav.setComponent();
+
+                // 暫時：重新 load 頁面
+                window.location = window.location;
             }
             else {
                 console.log('start to renderComponentText()');
@@ -464,12 +492,34 @@ controller.modal_signIn.submitForm = function() {
         }
         catch(error) {}
     });
+
+    return Promise.resolve(true)
 }
 
-window.addEventListener('load', function() {
-    controller.nav.initComponent();
-    controller.modal_signIn.initComponent();
-    controller.modal_signIn.submitForm();
+const exportFunc = {
+    initGeneral: function() {},
+    getSignInData: function() {},
+};
 
-    // trial
-})
+exportFunc.initGeneral = async function() {
+    await controller.nav.initComponent();
+    await controller.modal_signIn.initComponent();
+    await controller.modal_signIn.submitForm();
+
+    return Promise.resolve(true)
+}
+
+exportFunc.getSignInData = function() {
+    let returnValue = {
+        name: model.nav.hasSignIn.data.name,
+        email: model.nav.hasSignIn.data.email,
+    }
+
+    return returnValue
+}
+
+
+
+export default {
+    exportFunc,
+};

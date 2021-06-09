@@ -1,4 +1,5 @@
 import lib from './library.js'
+import gen from './general.js'
 
 const element = {
     attraction: {
@@ -303,7 +304,8 @@ const controller = {
     }
 };
 
-window.addEventListener('load', function() {
+window.addEventListener('load', async function() {
+    await gen.exportFunc.initGeneral();
     controller.attraction.initComponent();
 })
 

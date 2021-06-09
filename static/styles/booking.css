@@ -141,7 +141,7 @@ header {
   height: calc(54px);
   position: fixed;
   top: 0;
-  z-index: 1;
+  z-index: 10;
   background: white;
 }
 header .c_nav {
@@ -210,6 +210,7 @@ footer {
   width: 100%;
   height: 104px;
   position: fixed;
+  z-index: 10;
   bottom: 0;
   background-color: #757575;
   display: flex;
@@ -305,6 +306,10 @@ footer > .body {
   margin-bottom: 10px;
 }
 
+.upsideDown {
+  transform: rotate(0.5turn);
+}
+
 main > .section_unpaidBooking {
   padding-top: 46px;
   padding-bottom: 40px;
@@ -388,6 +393,9 @@ main > .section_unpaidBooking > div > .UnpaidBookingCard > .UnpaidBookingCard_in
 main > .section_unpaidBooking > div > .UnpaidBookingCard > .UnpaidBookingCard_info > div > div > .bold {
   color: #448899;
   margin-bottom: 20px;
+}
+main > .section_unpaidBooking > div > .UnpaidBookingCard > .UnpaidBookingCard_info > div > div > .bold > span {
+  color: #448899;
 }
 main > .section_unpaidBooking > div > .UnpaidBookingCard > .UnpaidBookingCard_info > div > div > :not(.bold) {
   margin-bottom: 10px;
