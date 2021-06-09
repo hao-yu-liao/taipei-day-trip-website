@@ -2,7 +2,23 @@ import sqlalchemy as sa
 import json
 
 engine = sa.create_engine('mysql+pymysql://root:haoyuliao@localhost/web_tdtw')
+# engine = sa.create_engine('mysql+pymysql://root:haoyuliao@localhost/trial')
 
+with engine.connect() as connection:
+    execute = connection.execute
+
+    metasrcdata = sa.MetaData()
+    booking = sa.Table('booking', metasrcdata,
+        sa.Column('id', sa.Integer, primary_key=True, autoincrement=True),
+        sa.Column('date', sa.Date, nullable=False),
+        sa.Column('time', sa.String(length=32), nullable=False),
+        sa.Column('price', sa.Integer, nullable=False),
+        # sa.Column('userId', sa.Integer, sa.ForeignKey('user.id'), nullable=False),
+        # sa.Column('attractionId', sa.Integer, sa.ForeignKey('attractions.id'), nullable=False),
+    )
+    metasrcdata.create_all(engine)
+
+'''
 with engine.connect() as connection:
     execute = connection.execute
 
@@ -23,3 +39,4 @@ with engine.connect() as connection:
         sa.Column('attractionId', sa.Integer, sa.ForeignKey('tb_attractions.id'), nullable=False),
     )
     virtualMetaData.create_all(engine)
+'''

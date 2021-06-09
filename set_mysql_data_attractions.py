@@ -2,12 +2,13 @@ import sqlalchemy as sa
 import json
 
 engine = sa.create_engine('mysql+pymysql://root:haoyuliao@localhost/web_tdtw')
+# engine = sa.create_engine('mysql+pymysql://root:haoyuliao@localhost/trial')
 
 with engine.connect() as connection:
     execute = connection.execute
 
     metasrcdata = sa.MetaData()
-    tb_attractions = sa.Table('attractions', metasrcdata,
+    attractions = sa.Table('attractions', metasrcdata,
         # sqlalchemy中，設置為primary_key者，預設autoincrement=True
         sa.Column('id', sa.Integer, primary_key=True, autoincrement=False),
         sa.Column('name', sa.String(length=255), nullable=False),
