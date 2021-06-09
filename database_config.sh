@@ -27,8 +27,8 @@ ADD CONSTRAINT FK_Booking_userId
 FOREIGN KEY (userId) REFERENCES user(id)
 
 ALTER TABLE booking
-ADD CONSTRAINT FK_Booking_userId
-FOREIGN KEY (userId) REFERENCES user(id)
+ADD CONSTRAINT FK_Booking_attractionId
+FOREIGN KEY (attractionId) REFERENCES attractions(id)
 
 create table booking (
 id int auto_increment,
@@ -54,3 +54,5 @@ select * from booking where (createTime > subtime(current_timestamp(), '0:5:0'))
 
 
 select booking.id, booking.attractionId, attractions.name, attractions.address, attractions.images, booking.date, booking.time, booking.price from booking inner join attractions on booking.attractionId = attractions.id where booking.userId = '10';
+
+DELETE FROM attractions WHERE (id >= 200) and (id < 300);
