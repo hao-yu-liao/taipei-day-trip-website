@@ -89,8 +89,8 @@ model.nav.child_modal_signIn.fetchData = async function(currentState) {
                 'Content-Type': 'application/json',
             };
             let body = JSON.stringify({
-                email: element.modal_signIn.input_email.getAttribute('value'),
-                password: element.modal_signIn.input_password.getAttribute('value')
+                email: document.querySelector('#modal_signIn_input_email').value,
+                password: document.querySelector('#modal_signIn_input_password').value
             })
             let init = {
                 method: 'PATCH',
@@ -113,10 +113,10 @@ model.nav.child_modal_signIn.fetchData = async function(currentState) {
                 'Content-Type': 'application/json',
             };
             let body = JSON.stringify({
-                name: element.modal_signIn.input_name.getAttribute('value'),
-                email: element.modal_signIn.input_email.getAttribute('value'),
-                password: element.modal_signIn.input_password.getAttribute('value')
-            })
+                name: document.querySelector('#modal_signIn_input_name').value,
+                email: document.querySelector('#modal_signIn_input_email').value,
+                password: document.querySelector('#modal_signIn_input_password').value
+    })
             let init = {
                 method: 'POST',
                 headers: headers,
@@ -431,39 +431,62 @@ controller.modal_signIn.submitForm = function() {
             
             if (currentState.name === 'ifSignUp') {
                 try {
-                    let headers = {
+                    let headers = new Headers({
                         'Content-Type': 'application/json',
-                    };
-                    let body = JSON.stringify({
-                        email: element.modal_signIn.input_email.getAttribute('value'),
-                        password: element.modal_signIn.input_password.getAttribute('value')
-                    })
+                    });
+
+                    /*
+                    let body = {
+                        email: document.querySelector('#modal_signIn_input_email').value,
+                        password: document.querySelector('#modal_signIn_input_password').value
+                    }
+                    */
+
+                    let body = {
+                        email: element.modal_signIn.input_email.value,
+                        password: element.modal_signIn.input_password.value
+                    }
+
+                    console.log('body: ', body);
+
                     let init = {
                         method: 'PATCH',
                         headers: headers,
-                        body: body
+                        body: JSON.stringify(body)
                     }
+
                     let srcResponse = await fetch('/api/user', init);
                     isResponseOk = srcResponse.ok;
-                    response = await srcResponse.json();        
+                    response = await srcResponse.json();  
                 }
                 catch(error) {}
             }
             
             if (currentState.name === 'ifNotSignUp') {
                 try {
-                    let headers = {
+                    let headers = new Headers({
                         'Content-Type': 'application/json',
-                    };
+                    });
+                    /*
                     let body = JSON.stringify({
-                        name: element.modal_signIn.input_name.getAttribute('value'),
-                        email: element.modal_signIn.input_email.getAttribute('value'),
-                        password: element.modal_signIn.input_password.getAttribute('value')
-                    })
+                        name: element.modal_signIn.input_name.value,
+                        email: element.modal_signIn.input_email.value,
+                        password: element.modal_signIn.input_password.value
+                    })                    
+                    */
+
+                    let body = {
+                        name: document.querySelector('#modal_signIn_input_name').value,
+                        email: document.querySelector('#modal_signIn_input_email').value,
+                        password: document.querySelector('#modal_signIn_input_password').value
+                    }
+
+                    console.log('body: ', body);
+                    
                     let init = {
                         method: 'POST',
                         headers: headers,
-                        body: body
+                        body: JSON.stringify(body)
                     }
             
                     let srcResponse = await fetch(lib.getURL('/api/user'), init);
@@ -472,7 +495,8 @@ controller.modal_signIn.submitForm = function() {
                     // console.log('isResponseOk: ', isResponseOk);
                     // console.log('response: ', response);
                 }
-                catch(error) {}
+                catch(error) {
+                }
             }
 
             if (isResponseOk === true) {
