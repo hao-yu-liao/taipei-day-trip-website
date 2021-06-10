@@ -321,8 +321,7 @@ def handleApiUser():
 
 	# Controller
 	if request.method == "GET":
-		# print('session: ', session)
-		# print(session['id'], session['name'], session['email'])
+		print('session: ', session)
 		#  if ((session['id'] != False) & (session['name'] != False) & (session['email'] != False)):
 
 		if (bool(session)):
@@ -351,7 +350,6 @@ def handleApiUser():
 
 	if request.method == "PATCH":
 		try:
-			#
 			data = request.json
 			print(data)
 
@@ -402,7 +400,7 @@ def handleApiUser():
 			return response
 
 	if request.method == "POST":
-		try:
+		try:			
 			# 註冊一個新的使用者
 		
 			# execute()
@@ -457,13 +455,9 @@ def handleApiUser():
 
 	if request.method == "DELETE":
 		
-		# print(session['id'], session['name'], session['email'])
-
 		session.pop('id', None)
 		session.pop('name', None)
 		session.pop('email', None)
-
-		# print(session['id'], session['name'], session['email'])
 		
 		responseBody = {
 			"ok": True
@@ -528,10 +522,10 @@ def handleApiBooking():
 		result = {}
 		return result
 
-	
 	if request.method == "GET":
 		print('session: ', session)
 		if bool(session):
+			
 			bookingDataList = checkBookingByUserId(session['id'])
 			responseBody = {
 				'data': None
