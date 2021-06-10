@@ -2,7 +2,8 @@ import os, re, json
 
 from flask import *
 from sqlalchemy import create_engine, text
-
+import requests as req
+from datetime import datetime
 
 # for print error; ref: https://dotblogs.com.tw/caubekimo/2018/09/17/145733
 import sys
@@ -579,7 +580,9 @@ def handleApiBooking():
 			else:
 				return getErrorReponse('未登入系統，拒絕存取', 403)
 		except Exception as error:
-			printError(error)
+			# printError(error)
+			print(error.args)
+
 			return getErrorReponse('伺服器內部錯誤', 500)
 
 @app.route("/api/booking/<bookingId>", methods=['OPTION'])
@@ -617,5 +620,189 @@ def handleApiBookingDelete(bookingId):
 				return getErrorReponse('刪除失敗，輸入不正確或其他原因', 400)
 		else:
 			return getErrorReponse('未登入系統，拒絕存取', 403)
+
+@app.route("/api/orders", methods=['OPTION'])
+def handleApiOrdersPreflight():
+	responseBody = {}
+	responseHeaders = {
+		"Access-Control-Request-Headers": "content-type",
+		"Access-Control-Request-Methods": "['GET', 'POST']"
+	}
+
+	response = make_response(responseBody, responseHeaders)
+	return response
+
+@app.route("/api/orders", methods=['GET', 'POST'])
+def handleApiOrders():
+	if request.method == "GET":
+		print('session: ', session)
+		if bool(session):
+			
+			bookingDataList = checkBookingByUserId(session['id'])
+			responseBody = {
+				'data': None
+			}
+
+			if bookingDataList != None:
+				responseBody['data'] = []
+				for bookingData in bookingDataList:
+					imageList = cleanseImagesData(bookingData['images'])
+
+					responseData = {
+						'id': bookingData['id'],
+						'attraction': {
+							'id': bookingData['attractionId'],
+							'name': bookingData['name'],
+							'address': bookingData['address'],
+							'image': imageList[0]
+						},
+						'date': bookingData['date'],
+						'time': bookingData['time'],
+						'price': bookingData['price']
+					}
+					responseBody['data'].append(responseData)
+
+				return make_response(json.dumps(responseBody, ensure_ascii=False), 200)
+
+			else:
+				return make_response(json.dumps(responseBody, ensure_ascii=False), 200)
+		else:
+			return getErrorReponse('未登入系統，拒絕存取', 403)
+	if request.method == "POST":
+		try:
+			if bool(session):
+				# print('access POST /api/orders with session')
+				clientData = request.json
+				# print('requestBody: ', clientData)
+
+				# request tappay api
+				_timestamp_ = datetime.now()
+				tappayInfo = {
+					'_timestampString_': str("{:0>4d}".format(_timestamp_.year)) + str("{:0>2d}".format(_timestamp_.month)) + str("{:0>2d}".format(_timestamp_.day)) + str("{:0>2d}".format(_timestamp_.hour)) + str("{:0>2d}".format(_timestamp_.minute)) + str("{:0>2d}".format(_timestamp_.second)),
+					'partner_key': 'partner_c4LGHUS1P9TeTSm53cblCCjVws22XInlCuCNR5AomcwM0N1AKqUnBMeP',
+					'merchant_id': 'haoyuliaocurb_CTBC',
+				}
+				
+				orderInfo = {
+					'booking': {
+						'price': clientData['order']['price'],
+						'trip': {
+							'date': clientData['order']['trip']['date'],
+							'time': clientData['order']['trip']['time'],
+						},
+						'contact': {
+							"name": clientData['order']['contact']['name'],
+							"email": clientData['order']['contact']['email'],
+							"phone": clientData['order']['contact']['phone'],						
+						}
+					},
+					'details': 'half-day tour',
+					'rec_trade_id': None,
+					'order_number': tappayInfo['_timestampString_'] + 'aaa',
+					'bank_transaction_id': tappayInfo['_timestampString_'] + 'AAA',
+				}
+
+				#  + str(os.urandom(16))
+				# print('orderInfo: ', orderInfo)
+
+				requestTappayMaterial = {
+					'URL': 'https://sandbox.tappaysdk.com/tpc/payment/pay-by-prime',
+					'headers': {
+						'Content-Type': 'application/json',
+						'x-api-key': tappayInfo['partner_key']					
+					},
+					'body': {
+						"prime": 'test_3a2fb2b7e892b914a03c95dd4dd5dc7970c908df67a49527c0a648b2bc9',
+						"partner_key": tappayInfo['partner_key'],
+						"merchant_id": tappayInfo['merchant_id'],
+						"amount": str(orderInfo['booking']['price']),
+						"details": orderInfo['details'],
+						"order_number": orderInfo['order_number'],
+						"bank_transaction_id": orderInfo['bank_transaction_id'],
+						"cardholder": {
+							"phone_number": str(orderInfo['booking']['contact']['phone']),
+							"name": orderInfo['booking']['contact']['name'].encode("utf-8").decode("latin1"),
+							"email": orderInfo['booking']['contact']['email'],
+							"zip_code": "",
+							"address": "",
+							"national_id": ""
+						},
+						"remember": True
+					},
+				}
+
+				# print("requestTappayMaterial['body']: ", requestTappayMaterial['body'])
+
+				requestTappay = req.post(
+					requestTappayMaterial['URL'],
+					headers = requestTappayMaterial['headers'],
+					data = json.dumps(requestTappayMaterial['body'], ensure_ascii=False)
+				)
+
+				def createOrder(orderStatus, orderInfoDict):
+					'''	
+					# dataFetchDB
+									
+					'rec_trade_id': orderInfo['rec_trade_id']
+					'order_number': orderInfo['order_number']
+					'bank_transaction_id': orderInfo['bank_transaction_id']
+					'bank_transaction_time': orderInfo['bank_transaction_time']
+					'''
+
+					# execute command					
+					
+					return True
+
+				if requestTappay.status_code != 200:
+					print('requestTappay.status_code: ', requestTappay.status_code)
+					createOrderResult = createOrder(1, orderInfo)
+					if bool(createOrderResult):
+						return getErrorReponse('付款失敗，訂單狀態為未付款', 400)
+					else:
+						return getErrorReponse('訂單建立失敗，輸入不正確或其他原因', 400)
+
+				responseTappay = requestTappay.json()
+				if responseTappay['status'] != 0:
+					print("responseTappay['status']: ", responseTappay['status'])
+					createOrderResult = createOrder(1, orderInfo)
+					if bool(createOrderResult):
+						return getErrorReponse('付款失敗，訂單狀態為未付款', 400)
+					else:
+						return getErrorReponse('訂單建立失敗，輸入不正確或其他原因', 400)
+					# print('request tappay api error message: ', responseTappay['msg'])
+
+				# 建立付款狀態成功的訂單
+				orderInfo['rec_trade_id'] = responseTappay['rec_trade_id']
+				# orderInfo['bank_transaction_time'] = responseTappay['bank_transaction_time']
+
+				print(orderInfo['rec_trade_id'], orderInfo['bank_transaction_time'])
+
+				createOrderResult = createOrder(0, orderInfo)
+
+				if bool(createOrderResult):
+					responseBody = {
+						"data": {
+							"number": "20210425121135",
+							"payment": {
+								"status": 0,
+								"message": "付款成功"
+							}
+						}						
+					}
+					response = make_response(
+						json.dumps(responseBody, ensure_ascii=False),
+						200
+					)
+					return response					
+					
+				else:
+					# 需連線 tappay 取消付款
+					return getErrorReponse('訂單建立失敗，輸入不正確或其他原因', 400)
+			else:
+				return getErrorReponse('未登入系統，拒絕存取', 403)
+		except Exception as error:
+			printError(error)
+			# print(error.args)
+			return getErrorReponse('伺服器內部錯誤', 500)	
 
 app.run(host="0.0.0.0", port=3000)

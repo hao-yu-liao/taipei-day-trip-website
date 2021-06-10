@@ -25,6 +25,7 @@ const model = {
         fetchDeleteBooking: function() {},
         fetchPostOrder: function() {},
         cleanseBookingDataDate: function() {},
+        initTPDirect: function() {},
         data: {
             unpaidBookingCardsId: [],
         },
@@ -75,13 +76,98 @@ model.section_unpaidBooking.fetchDeleteBooking = async function(bookingId) {
 }
 
 model.section_unpaidBooking.fetchPostOrder = async function() {
-    let requestBody = model.section_unpaidBooking._fetchPostOrderMaterial;
-
-    let response = null;
-    model.section_unpaidBooking._fetchPostOrderMaterial = null;
     let returnPromise = new Promise(function(resolve, reject) {
-        resolve(response);
-    });
+        TPDirect.card.getPrime(async (result) => {
+            if (result.status === 0) {
+                let tappayPrime = result.card.prime;
+                // console.log('result.card.prime: ', tappayPrime);
+        
+                model.section_unpaidBooking._fetchPostOrderMaterial.prime = tappayPrime;
+                // console.log('model.section_unpaidBooking._fetchPostOrderMaterial: ', model.section_unpaidBooking._fetchPostOrderMaterial);  
+    
+                let requestHeaders = new Headers({
+                    'Content-Type': 'application/json',
+                });
+                let requestBody = model.section_unpaidBooking._fetchPostOrderMaterial;
+                // console.log('requestBody: ', requestBody);
+                let initObj = {
+                    method: 'POST',
+                    headers: requestHeaders,
+                    body: JSON.stringify(requestBody),
+                };
+                let srcResponse = await fetch(lib.getURL('/api/orders'), initObj);
+                let response = await srcResponse.json();
+                console.log('response of POST /api/booking', response);
+
+                model.section_unpaidBooking._fetchPostOrderMaterial = null;
+
+                resolve(response);
+            }
+            else {
+                console.log('error message of getting  tappay prime: ', result.msg);
+                resolve(result.msg);
+            }
+        })
+    });  
+
+    return returnPromise
+}
+
+model.section_unpaidBooking.initTPDirect = function() {
+    // setup SDK
+    let _APPKEY_ = 'app_aZCYMha5Pc1ywLOxmUgD3O1g3i90rnEx7DFMqwf1QGpEZgpRvF96fFMC2h8i';
+    TPDirect.setupSDK(20704, _APPKEY_, 'sandbox');
+
+    // setup card
+    // Display ccv field
+    let fields = {
+        number: {
+            element: '#card-number',
+            placeholder: '**** **** **** ****'
+        },
+        expirationDate: {
+            element: document.getElementById('card-expiration-date'),
+            placeholder: 'MM / YY'
+        },
+        ccv: {
+            element: '#card-ccv',
+            placeholder: 'ccv'
+        }
+    }
+
+    let argument = {
+        fields: fields,
+        styles: {
+        'input': {
+            'color': 'red'
+        },
+        'input.ccv': {
+            'font-size': '16px'
+        },
+        'input.expiration-date': {
+            'font-size': '16px'
+        },
+        'input.card-number': {
+            'font-size': '16px'
+        },
+        ':focus': {
+            'color': 'black'
+        },
+        '.valid': {
+            'color': 'green'
+        },
+        '.invalid': {
+            'color': 'red'
+        },
+        '@media screen and (max-width: 400px)': {
+            'input': {
+                'color': 'orange'
+            }
+        }}
+    };
+
+    console.log('TPDirect.card.setup argument: ', argument)
+    TPDirect.card.setup(argument);
 }
 
 const view = {
@@ -293,6 +379,7 @@ view.section_unpaidBooking.content.generateComponent = function(response) {
                                 contact_label_phone.classList.add('body');
                                 contact_label_phone.textContent = '手機號碼：'
                                     contact_label_phone_input = createTextInput();
+                                    contact_label_phone_input.value = '0912345678';
                                     contact_label_phone.appendChild(contact_label_phone_input);
         
                                 let contact_p_2 = document.createElement('p');
@@ -308,6 +395,20 @@ view.section_unpaidBooking.content.generateComponent = function(response) {
         
                             let UnpaidBookingCard_details_block_payment = document.createElement('div');
                             UnpaidBookingCard_details_block_payment.classList.add('UnpaidBookingCard_details_block');
+
+                                let payment_tpfield_cardNumber = document.createElement('div');
+                                payment_tpfield_cardNumber.classList.add('tpfield');
+                                payment_tpfield_cardNumber.setAttribute('id', 'card-number');
+                                let payment_tpfield_cardExpirationDate = document.createElement('div');
+                                payment_tpfield_cardExpirationDate.classList.add('tpfield');
+                                payment_tpfield_cardExpirationDate.setAttribute('id', 'card-expiration-date');
+                                let payment_tpfield_cardCcv = document.createElement('div');
+                                payment_tpfield_cardCcv.classList.add('tpfield');
+                                payment_tpfield_cardCcv.setAttribute('id', 'card-ccv');
+
+                                UnpaidBookingCard_details_block_payment.appendChild(payment_tpfield_cardNumber);
+                                UnpaidBookingCard_details_block_payment.appendChild(payment_tpfield_cardExpirationDate);
+                                UnpaidBookingCard_details_block_payment.appendChild(payment_tpfield_cardCcv);
                             
                             let UnpaidBookingCard_details_buttonSet = document.createElement('div');
                             UnpaidBookingCard_details_buttonSet.classList.add('UnpaidBookingCard_details_buttonSet');
@@ -367,35 +468,51 @@ view.section_unpaidBooking.content.generateComponent = function(response) {
 
                 UnpaidBookingCard_details.addEventListener('submit', function(event) {
                     event.preventDefault();
+                    console.log('trigger submit UnpaidBookingCard_details');
+
                     function checkCardDetailsForm() {
                         if (!(contact_label_phone_input.value)) {
                             return false
                         }
+
+                        // 確認 tpfield
+                        let tappayStatus = TPDirect.card.getTappayFieldsStatus();
+                        console.log('tappayStatus: ', tappayStatus);
+                        if (tappayStatus.canGetPrime === false) {
+                            return false
+                        }
+
                         return true
                     }
+
                     if (checkCardDetailsForm()) {
+                        console.log('checkCardDetailsForm() is true');
                         model.section_unpaidBooking._fetchPostOrderMaterial = {
-                            prime: "前端從第三方金流 TapPay 取得的交易碼",
+                            prime: null,
                             order: {
-                              price: bookingDataArray[i]['price'],
-                              trip: {
-                                attraction: {
-                                  id: bookingDataArray[i]['attraction']['id'],
-                                  name: bookingDataArray[i]['attraction']['name'],
-                                  address: bookingDataArray[i]['attraction']['address'],
-                                  image: bookingDataArray[i]['attraction']['image']
+                                price: bookingDataArray[i]['price'],
+                                trip: {
+                                    attraction: {
+                                    id: bookingDataArray[i]['attraction']['id'],
+                                    name: bookingDataArray[i]['attraction']['name'],
+                                    address: bookingDataArray[i]['attraction']['address'],
+                                    image: bookingDataArray[i]['attraction']['image']
+                                    },
+                                    date: transferBookingDate(bookingDataArray[i]['date']),
+                                    time: bookingDataArray[i]['time']
                                 },
-                                date: transferBookingDate(bookingDataArray[i]['date']),
-                                time: bookingDataArray[i]['time']
-                              },
-                              contact: {
-                                name: gen.exportFunc.getSignInData().name,
-                                email: gen.exportFunc.getSignInData().email,
-                                phone: contact_label_phone_input.value,
-                              }
-                            }                         
-                        };
-                        // console.log('model.section_unpaidBooking._fetchPostOrderMaterial: ', model.section_unpaidBooking._fetchPostOrderMaterial);
+                                contact: {
+                                    name: gen.exportFunc.getSignInData().name,
+                                    email: gen.exportFunc.getSignInData().email,
+                                    phone: contact_label_phone_input.value,
+                                },
+                            }
+                        }
+                        model.section_unpaidBooking.fetchPostOrder();
+                    }
+                    else {
+                        // 若 cardDetailsForm 欄位填寫不正確
+                        return
                     }
                 });
 
@@ -477,5 +594,6 @@ controller.section_unpaidBooking.postOrder = async function() {
 window.addEventListener('load', async function() {
     await gen.exportFunc.initGeneral();
     await controller.section_unpaidBooking.initComponent();
+    model.section_unpaidBooking.initTPDirect();
     // console.log('element.unpaidBookingCards.array: ', element.section_unpaidBooking.unpaidBookingCards.array);
 });

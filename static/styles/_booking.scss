@@ -9,6 +9,14 @@ $padding_constant: 2.8%;
     transform: rotate(0.5turn);
 }
 
+.tpfield {
+    height: 40px;
+    width: 300px;
+    border: 1px solid gray;
+    margin: 5px 0;
+    padding: 5px;
+}
+
 main {
     > .section_unpaidBooking {
         padding-top: 46px;
