@@ -106,12 +106,16 @@ def printError(e):
 	errMsg = "File \"{}\", line {}, in {}: [{}] {}".format(fileName, lineNum, funcName, error_class, detail)
 	print(errMsg)
 
-def checkOrderById(orderId):
-	t_checkOrder = text('select orders.number, orders.phone, orders.status, booking.price, booking.date, booking.time, attractions.id, attractions.name, attractions.address, attractions.images from ((orders inner join booking on orders.bookingId = booking.id) inner join attractions on orders.attractionId = attractions.id) where orders.id = :id')
+def checkOrderByNumber(orderNumber):
+	# print('orderNumber in checkOrderByNumber: ', orderNumber)
+	t_checkOrder = text('select orders.number, orders.phone, orders.status, booking.price, booking.date, booking.time, attractions.id, attractions.name, attractions.address, attractions.images from ((orders inner join booking on orders.bookingId = booking.id) inner join attractions on orders.attractionId = attractions.id) where orders.number = :number')
 	result = execute(
 		t_checkOrder,
-		id = orderId
+		number = orderNumber
 	).first()
+
+	if (result == None):
+		return None
 
 	return dict(result)
 
@@ -121,6 +125,9 @@ def checkOrderByUserId():
 		t_checkOrderByUserId,
 		userId = session['id']
 	).first()
+
+	if (result == None):
+		return None
 
 	return dict(result)
 	
@@ -133,6 +140,9 @@ def checkIsOrderCreated():
 	).first()
 	# print('result: ', result)
 	# result = dict(result)
+
+	if (result == None):
+		return None
 
 	return dict(result)
 	
@@ -853,9 +863,13 @@ def handleApiOrders():
 def handleApiOrder(orderNumber):
 	if request.method == "GET":
 		print('session: ', session)
+		print('orderNumber: ', orderNumber)
 		if bool(session):
-			orderData = checkOrderById(orderNumber)
+			orderData = checkOrderByNumber(orderNumber)
 			# print('orderData: ', orderData)
+			responseBody = {
+				"data": None		
+			}
 
 			if orderData != None:
 				imageList = cleanseImagesData(orderData['images'])

@@ -9,14 +9,6 @@ $padding_constant: 2.8%;
     transform: rotate(0.5turn);
 }
 
-.tpfield {
-    height: 40px;
-    width: 300px;
-    border: 1px solid gray;
-    margin: 5px 0;
-    padding: 5px;
-}
-
 main {
     > .section_unpaidBooking {
         padding-top: 46px;
@@ -28,8 +20,9 @@ main {
             }
         }
         > p.body {
-            margin-top: 35px;
+            margin-top: 12px;
             color: gen.$gray_800;
+            line-height: 24px;
             @include lib.media(gen.$bp_contentLayout){
                 padding: 0 $padding_constant;
             }            
@@ -140,15 +133,30 @@ main {
                             color: gen.$gray_800;
                             margin-bottom: 24px;
                         }
+
+                        > p.button:last-child {
+                            margin-top: 24px;
+                        }
+
                         > label {
                             display: block;
                             color: gen.$gray_800;
                             margin-bottom: 15px;
+                            @include lib.flex(normal, center);
+
                             > input {
                                 @include lib.size(200px, 38px);
                                 padding: 10px;
                                 border-radius: 5px;
                                 border: gen.$gray_300 1px solid;
+                            }
+                            > .tpfield {
+                                display: inline-block !important;
+                                background-color: white;
+                                @include lib.size(200px, 38px);
+                                padding: 10px;
+                                border-radius: 5px;
+                                border: gen.$gray_300 1px solid; 
                             }
                         }
                         > p.body {

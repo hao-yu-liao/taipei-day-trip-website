@@ -138,32 +138,29 @@ model.section_unpaidBooking.initTPDirect = function() {
     let argument = {
         fields: fields,
         styles: {
-        'input': {
-            'color': 'red'
-        },
-        'input.ccv': {
-            'font-size': '16px'
-        },
-        'input.expiration-date': {
-            'font-size': '16px'
-        },
-        'input.card-number': {
-            'font-size': '16px'
-        },
-        ':focus': {
-            'color': 'black'
-        },
-        '.valid': {
-            'color': 'green'
-        },
-        '.invalid': {
-            'color': 'red'
-        },
-        '@media screen and (max-width: 400px)': {
             'input': {
-                'color': 'orange'
+                'color': 'black',
+                'font-family': 'Noto Sans TC',
+                'font-style': 'normal',
+                'font-size': '16px',
+                'line-height': '21px',
+                'font-weight': 'normal',
+            },
+            ':focus': {
+                'color': 'black'
+            },
+            '.valid': {
+                'color': 'green'
+            },
+            '.invalid': {
+                'color': 'red'
+            },
+            '@media screen and (max-width: 400px)': {
+                'input': {
+                    'color': 'orange'
+                }
             }
-        }}
+        }
     };
 
     console.log('TPDirect.card.setup argument: ', argument)
@@ -211,44 +208,6 @@ view.section_unpaidBooking.content.generateComponent = function(response) {
                 }
             }
 
-            function transferBookingDate(dateString) {
-                function transferBookingDateMonth(dateMonthName) {
-                    switch (dateMonthName) {
-                        case 'Jan':
-                            return '01'
-                        case 'Feb':
-                            return '02'          
-                        case 'Mar':
-                            return '03'
-                        case 'Apr':
-                            return '04'     
-                        case 'May':
-                            return '05'
-                        case 'Jun':
-                            return '06'     
-                        case 'Jul':
-                            return '07'
-                        case 'Aug':
-                            return '08'          
-                        case 'Sep':
-                            return '09'
-                        case 'Oct':
-                            return '10'     
-                        case 'Nov':
-                            return '11'
-                        case 'Dec':
-                            return '12'
-                    }                     
-                }
-
-                let dateStringArray = dateString.split(' ');
-                let dateDay = dateStringArray[1];
-                let dateMonth = transferBookingDateMonth(dateStringArray[2]);
-                let dateYear = dateStringArray[3];
-                
-                return `${dateYear}-${dateMonth}-${dateDay}`                          
-            }
-
             for (let i = 0; i < bookingDataArray.length; i++) {
                 // generate a unpaidBookingCard
                 // 除了第一個 card，其他的 details 都要 dp-none
@@ -284,9 +243,10 @@ view.section_unpaidBooking.content.generateComponent = function(response) {
                                         let info_div_div_p_date = document.createElement('p');
                                         info_div_div_p_date.classList.add('body');
                                         info_div_div_p_date.textContent = '日期：';
+                                            let dateStringObj = lib.transferMysqlDateString(bookingDataArray[i]['date']);
                                             let info_div_div_p_date_span = document.createElement('span');
                                             info_div_div_p_date_span.classList.add('body');
-                                            info_div_div_p_date_span.textContent = transferBookingDate(bookingDataArray[i]['date']);
+                                            info_div_div_p_date_span.textContent = `${dateStringObj['year']}-${dateStringObj['month']}-${dateStringObj['day']}`;
                                             info_div_div_p_date.appendChild(info_div_div_p_date_span);
 
                                         let info_div_div_p_time = document.createElement('p');
@@ -396,19 +356,40 @@ view.section_unpaidBooking.content.generateComponent = function(response) {
                             let UnpaidBookingCard_details_block_payment = document.createElement('div');
                             UnpaidBookingCard_details_block_payment.classList.add('UnpaidBookingCard_details_block');
 
-                                let payment_tpfield_cardNumber = document.createElement('div');
-                                payment_tpfield_cardNumber.classList.add('tpfield');
-                                payment_tpfield_cardNumber.setAttribute('id', 'card-number');
-                                let payment_tpfield_cardExpirationDate = document.createElement('div');
-                                payment_tpfield_cardExpirationDate.classList.add('tpfield');
-                                payment_tpfield_cardExpirationDate.setAttribute('id', 'card-expiration-date');
-                                let payment_tpfield_cardCcv = document.createElement('div');
-                                payment_tpfield_cardCcv.classList.add('tpfield');
-                                payment_tpfield_cardCcv.setAttribute('id', 'card-ccv');
+                                let payment_p_1 = document.createElement('p');
+                                payment_p_1.classList.add('button');
+                                payment_p_1.classList.add('bold');
+                                payment_p_1.textContent = '信用卡付款資訊';
 
-                                UnpaidBookingCard_details_block_payment.appendChild(payment_tpfield_cardNumber);
-                                UnpaidBookingCard_details_block_payment.appendChild(payment_tpfield_cardExpirationDate);
-                                UnpaidBookingCard_details_block_payment.appendChild(payment_tpfield_cardCcv);
+                                let payment_label_cardNumber = document.createElement('label');
+                                payment_label_cardNumber.classList.add('body');
+                                payment_label_cardNumber.textContent = '卡片號碼：';
+                                    let payment_tpfield_cardNumber = document.createElement('div');
+                                    payment_tpfield_cardNumber.classList.add('tpfield');
+                                    payment_tpfield_cardNumber.setAttribute('id', 'card-number');
+                                    payment_label_cardNumber.appendChild(payment_tpfield_cardNumber);
+
+                                let payment_label_cardExpirationDate = document.createElement('label');
+                                payment_label_cardExpirationDate.classList.add('body');
+                                payment_label_cardExpirationDate.textContent = '過期時間：';
+                                    let payment_tpfield_cardExpirationDate = document.createElement('div');
+                                    payment_tpfield_cardExpirationDate.classList.add('tpfield');
+                                    payment_tpfield_cardExpirationDate.setAttribute('id', 'card-expiration-date');
+                                    payment_label_cardExpirationDate.appendChild(payment_tpfield_cardExpirationDate);
+
+
+                                let payment_label_cardCcv = document.createElement('label');
+                                payment_label_cardCcv.classList.add('body');
+                                payment_label_cardCcv.textContent = '驗證密碼：';
+                                    let payment_tpfield_cardCcv = document.createElement('div');
+                                    payment_tpfield_cardCcv.classList.add('tpfield');
+                                    payment_tpfield_cardCcv.setAttribute('id', 'card-ccv');
+                                    payment_label_cardCcv.appendChild(payment_tpfield_cardCcv);
+
+                                UnpaidBookingCard_details_block_payment.appendChild(payment_p_1);
+                                UnpaidBookingCard_details_block_payment.appendChild(payment_label_cardNumber);
+                                UnpaidBookingCard_details_block_payment.appendChild(payment_label_cardExpirationDate);
+                                UnpaidBookingCard_details_block_payment.appendChild(payment_label_cardCcv);
                             
                             let UnpaidBookingCard_details_buttonSet = document.createElement('div');
                             UnpaidBookingCard_details_buttonSet.classList.add('UnpaidBookingCard_details_buttonSet');
@@ -491,6 +472,8 @@ view.section_unpaidBooking.content.generateComponent = function(response) {
 
                     if (checkCardDetailsForm()) {
                         console.log('checkCardDetailsForm() is true');
+                        let dateStringObj = lib.transferMysqlDateString(bookingDataArray[i]['date']);
+
                         model.section_unpaidBooking._fetchPostOrderMaterial = {
                             prime: null,
                             order: {
@@ -503,7 +486,7 @@ view.section_unpaidBooking.content.generateComponent = function(response) {
                                     address: bookingDataArray[i]['attraction']['address'],
                                     image: bookingDataArray[i]['attraction']['image']
                                     },
-                                    date: transferBookingDate(bookingDataArray[i]['date']),
+                                    date: `${dateStringObj['year']}-${dateStringObj['month']}-${dateStringObj['day']}`,
                                     time: bookingDataArray[i]['time']
                                 },
                                 contact: {
@@ -513,7 +496,7 @@ view.section_unpaidBooking.content.generateComponent = function(response) {
                                 },
                             }
                         }
-                        model.section_unpaidBooking.fetchPostOrder();
+                        controller.section_unpaidBooking.postOrder();
                     }
                     else {
                         // 若 cardDetailsForm 欄位填寫不正確
@@ -554,7 +537,6 @@ view.section_unpaidBooking.content.generateComponent = function(response) {
         }
         */
     }
-
 }
 
 view.section_unpaidBooking.content.patchComponent = function() {
@@ -594,6 +576,14 @@ controller.section_unpaidBooking.setComponent = function() {
 
 controller.section_unpaidBooking.postOrder = async function() {
     let result = await model.section_unpaidBooking.fetchPostOrder();
+    if (result['data']) {
+        console.log("result['data']['number']: ", result['data']['number']);
+        window.location = lib.getURL(`/thankyou?number=${result['data']['number']}`);
+    }
+
+    if (result['error']) {
+        // 應顯示錯誤訊息
+    }
 }
 
 window.addEventListener('load', async function() {

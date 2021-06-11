@@ -111,6 +111,99 @@ const calcElementsHeight = {
     }
 }
 
+function cleanseQueryString(queryString) {
+    let srcQueryStringArray = queryString.split("")
+    srcQueryStringArray.shift();
+    let queryStringArray = srcQueryStringArray.join("").split("&");
+    let queryStringObj = {};
+
+    for (let i = 0; i < queryStringArray.length; i++) {
+        let keyValuePair = queryStringArray[i].split("=");
+        queryStringObj[keyValuePair[0]] =  keyValuePair[1];
+    }
+
+    // console.log('queryStringObj: ', queryStringObj);
+
+    return queryStringObj
+}
+
+function transferMysqlDateString(dateString, monthShowInWord = false, daytypeShowinWord = false) {
+    console.log('dateString in transferMysqlDateString: ', dateString);
+    
+    let dateStringArray = dateString.split(' ');
+    let dataStringObj = {}
+
+    // 處理 daytype name
+    let srcDaytypeName = dateStringArray[0];
+    let srcDaytypeNameArray = srcDaytypeName.split("");
+    srcDaytypeNameArray.pop();
+    let daytypeName = srcDaytypeNameArray.join("");
+    dateStringArray[0] = daytypeName
+
+    // 處理時間
+    let timeArray = dateStringArray[5].split(':')
+
+    function transferMysqlDateStringMonth(monthName) {
+        switch (monthName) {
+            case 'Jan':
+                return '01'
+            case 'Feb':
+                return '02'          
+            case 'Mar':
+                return '03'
+            case 'Apr':
+                return '04'     
+            case 'May':
+                return '05'
+            case 'Jun':
+                return '06'     
+            case 'Jul':
+                return '07'
+            case 'Aug':
+                return '08'          
+            case 'Sep':
+                return '09'
+            case 'Oct':
+                return '10'     
+            case 'Nov':
+                return '11'
+            case 'Dec':
+                return '12'
+        }                     
+    }
+
+    function transferMysqlDateStringDaytype(daytypeName) {
+        switch (daytypeName) {
+            case 'Mon':
+                return '1'
+            case 'Tue':
+                return '2'          
+            case 'Wed':
+                return '3'
+            case 'Thu':
+                return '4'     
+            case 'Fri':
+                return '5'
+            case 'Sat':
+                return '6'     
+            case 'Sun':
+                return '7'
+        }                     
+    }
+
+    // "Sat, 12 Jun 2021 00:00:00 GMT"
+
+    dataStringObj['day'] = dateStringArray[1];
+    dataStringObj['month'] = (monthShowInWord === false)? transferMysqlDateStringMonth(dateStringArray[2]): dateStringArray[2];
+    dataStringObj['year'] = dateStringArray[3];
+    dataStringObj['daytype'] = (daytypeShowinWord === false)? transferMysqlDateStringDaytype(dateStringArray[0]): dateStringArray[0];
+    dataStringObj['hour'] = timeArray[0];
+    dataStringObj['minute'] = timeArray[1];
+    dataStringObj['second'] = timeArray[2];
+    
+    return dataStringObj                          
+}
+
 export default {
     getURL,
     removePx,
@@ -120,5 +213,7 @@ export default {
     vbhiddenElement,
     undoVbhiddenElement,
     getElementHeight,
-    calcElementsHeight
+    calcElementsHeight,
+    cleanseQueryString,
+    transferMysqlDateString
 };

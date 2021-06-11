@@ -1,3 +1,9 @@
+# 把 booking 多加 status
+alter table booking
+add status int default 2
+
+update booking set status = 2
+
 # order
 create table orders (
     id int auto_increment,
@@ -28,7 +34,7 @@ select * from orders where (createTime > subtime(current_timestamp(), '0:5:0')) 
 #
 select * from orders where bookingId = (select max(bookingId) from orders where userId = "9")
 
-select *  from orders where id = (select max(id) from orders where user = "9")
+select *  from orders where id = (select max(id) from orders where userId = "9")
 
 ###########################################################
 
