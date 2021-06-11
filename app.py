@@ -106,6 +106,94 @@ def printError(e):
 	errMsg = "File \"{}\", line {}, in {}: [{}] {}".format(fileName, lineNum, funcName, error_class, detail)
 	print(errMsg)
 
+def checkOrderById(orderId):
+	t_checkOrder = text('select orders.number, orders.phone, orders.status, booking.price, booking.date, booking.time, attractions.id, attractions.name, attractions.address, attractions.images from ((orders inner join booking on orders.bookingId = booking.id) inner join attractions on orders.attractionId = attractions.id) where orders.id = :id')
+	result = execute(
+		t_checkOrder,
+		id = orderId
+	).first()
+
+	return dict(result)
+
+def checkOrderByUserId():
+	t_checkOrderByUserId = text('select orders.number, orders.phone, booking.price, booking.date, booking.time, attractions.id, attractions.name, attractions.address, attractions.images from ((orders inner join booking on orders.bookingId = booking.id) inner join attractions on orders.attractionId = attractions.id) where orders.userId = :userId')
+	result = execute(
+		t_checkOrderByUserId,
+		userId = session['id']
+	).first()
+
+	return dict(result)
+	
+def checkIsOrderCreated():
+	# print('userId: ', session['id'])
+	t_checkIsOrderCreated = text("select *  from orders where id = (select max(id) from orders where userId = ':userId')")
+	result = execute(
+		t_checkIsOrderCreated,
+		userId = session['id']
+	).first()
+	# print('result: ', result)
+	# result = dict(result)
+
+	return dict(result)
+	
+	'''
+	t_checkIsOrderCreated = text("select * from orders where userId = ' :userId ')")
+	results = execute(
+		t_checkIsOrderCreated,
+		userId = f"{session['id']}"
+	).first()
+	print('results: ', results)		
+	resultList = []
+	finalResult = None
+
+	# userId = session['id']
+
+	if results != None:
+		for result in results:
+			resultList.append(result)
+		else:
+			finalResult = resultList[(len(resultList) - 1)]
+
+		return finalResult
+	else:
+		return None
+	'''
+
+def createOrder(orderStatus, orderInfoDict):
+	if orderStatus == 1:
+		orderInfoDict['bank_transaction_id'] = ""
+
+	t_createOrder = text('insert into orders (number, status, rec_trade_id, bank_transaction_id, phone, userId, attractionId, bookingId) values(:number, :status, :rec_trade_id, :bank_transaction_id, :phone, :userId, :attractionId, :bookingId)')
+	execute(
+		t_createOrder,
+		number = orderInfoDict['order_number'],
+		status = orderStatus,
+		rec_trade_id = orderInfoDict['rec_trade_id'],
+		bank_transaction_id = orderInfoDict['bank_transaction_id'],
+		phone = orderInfoDict['booking']['contact']['phone'],
+		userId = session['id'],
+		attractionId = orderInfoDict['booking']['trip']['attractionId'],
+		bookingId = orderInfoDict['booking']['bookingId']
+	)
+
+	'''
+	execute(
+		t_createOrder,
+		number = 20210611121500,
+		status = 0,
+		rec_trade_id = "",
+		bank_transaction_id = "",
+		phone = '0912345678',
+		userId = 9,
+		attractionId = 5,
+		bookingId = 15
+	)
+	'''
+
+	result = checkIsOrderCreated()
+
+	return result
+
 # Pages
 @app.route("/")
 def index():
@@ -634,40 +722,6 @@ def handleApiOrdersPreflight():
 
 @app.route("/api/orders", methods=['GET', 'POST'])
 def handleApiOrders():
-	if request.method == "GET":
-		print('session: ', session)
-		if bool(session):
-			
-			bookingDataList = checkBookingByUserId(session['id'])
-			responseBody = {
-				'data': None
-			}
-
-			if bookingDataList != None:
-				responseBody['data'] = []
-				for bookingData in bookingDataList:
-					imageList = cleanseImagesData(bookingData['images'])
-
-					responseData = {
-						'id': bookingData['id'],
-						'attraction': {
-							'id': bookingData['attractionId'],
-							'name': bookingData['name'],
-							'address': bookingData['address'],
-							'image': imageList[0]
-						},
-						'date': bookingData['date'],
-						'time': bookingData['time'],
-						'price': bookingData['price']
-					}
-					responseBody['data'].append(responseData)
-
-				return make_response(json.dumps(responseBody, ensure_ascii=False), 200)
-
-			else:
-				return make_response(json.dumps(responseBody, ensure_ascii=False), 200)
-		else:
-			return getErrorReponse('未登入系統，拒絕存取', 403)
 	if request.method == "POST":
 		try:
 			if bool(session):
@@ -685,8 +739,10 @@ def handleApiOrders():
 				
 				orderInfo = {
 					'booking': {
+						'bookingId': clientData['order']['id'],
 						'price': clientData['order']['price'],
 						'trip': {
+							'attractionId': clientData['order']['trip']['attraction']['id'],
 							'date': clientData['order']['trip']['date'],
 							'time': clientData['order']['trip']['time'],
 						},
@@ -697,7 +753,7 @@ def handleApiOrders():
 						}
 					},
 					'details': 'half-day tour',
-					'rec_trade_id': None,
+					'rec_trade_id': "",
 					'order_number': tappayInfo['_timestampString_'] + 'aaa',
 					'bank_transaction_id': tappayInfo['_timestampString_'] + 'AAA',
 				}
@@ -720,7 +776,7 @@ def handleApiOrders():
 						"order_number": orderInfo['order_number'],
 						"bank_transaction_id": orderInfo['bank_transaction_id'],
 						"cardholder": {
-							"phone_number": str(orderInfo['booking']['contact']['phone']),
+							"phone_number": orderInfo['booking']['contact']['phone'],
 							"name": orderInfo['booking']['contact']['name'].encode("utf-8").decode("latin1"),
 							"email": orderInfo['booking']['contact']['email'],
 							"zip_code": "",
@@ -738,20 +794,6 @@ def handleApiOrders():
 					headers = requestTappayMaterial['headers'],
 					data = json.dumps(requestTappayMaterial['body'], ensure_ascii=False)
 				)
-
-				def createOrder(orderStatus, orderInfoDict):
-					'''	
-					# dataFetchDB
-									
-					'rec_trade_id': orderInfo['rec_trade_id']
-					'order_number': orderInfo['order_number']
-					'bank_transaction_id': orderInfo['bank_transaction_id']
-					'bank_transaction_time': orderInfo['bank_transaction_time']
-					'''
-
-					# execute command					
-					
-					return True
 
 				if requestTappay.status_code != 200:
 					print('requestTappay.status_code: ', requestTappay.status_code)
@@ -775,20 +817,22 @@ def handleApiOrders():
 				orderInfo['rec_trade_id'] = responseTappay['rec_trade_id']
 				# orderInfo['bank_transaction_time'] = responseTappay['bank_transaction_time']
 
-				print(orderInfo['rec_trade_id'], orderInfo['bank_transaction_time'])
+				print(orderInfo['rec_trade_id'])
 
 				createOrderResult = createOrder(0, orderInfo)
 
 				if bool(createOrderResult):
 					responseBody = {
 						"data": {
-							"number": "20210425121135",
+							"number": createOrderResult['number'],
 							"payment": {
-								"status": 0,
+								"status": createOrderResult['status'],
 								"message": "付款成功"
 							}
 						}						
 					}
+					print('responseBody of DB: ', responseBody)
+
 					response = make_response(
 						json.dumps(responseBody, ensure_ascii=False),
 						200
@@ -800,9 +844,51 @@ def handleApiOrders():
 					return getErrorReponse('訂單建立失敗，輸入不正確或其他原因', 400)
 			else:
 				return getErrorReponse('未登入系統，拒絕存取', 403)
-		except Exception as error:
+		except ZeroDivisionError as error:
 			printError(error)
 			# print(error.args)
 			return getErrorReponse('伺服器內部錯誤', 500)	
+
+@app.route("/api/order/<orderNumber>", methods=['GET'])
+def handleApiOrder(orderNumber):
+	if request.method == "GET":
+		print('session: ', session)
+		if bool(session):
+			orderData = checkOrderById(orderNumber)
+			# print('orderData: ', orderData)
+
+			if orderData != None:
+				imageList = cleanseImagesData(orderData['images'])
+				
+				responseBody = {
+					"data": {
+						"number": orderData['number'],
+						"price": orderData['price'],
+						"trip": {
+						"attraction": {
+							"id": orderData['id'],
+							"name": orderData['name'],
+							"address": orderData['address'],
+							"image": imageList[0]
+						},
+						"date": orderData['date'],
+						"time": orderData['time']
+						},
+						"contact": {
+						"name": session['name'],
+						"email": session['email'],
+						"phone": orderData['phone']
+						},
+						"status": orderData['status']
+					}
+				}
+				print('responseBody: ', responseBody)
+
+				return make_response(json.dumps(responseBody, ensure_ascii=False), 200)
+
+			else:
+				return make_response(json.dumps(responseBody, ensure_ascii=False), 200)
+		else:
+			return getErrorReponse('未登入系統，拒絕存取', 403)
 
 app.run(host="0.0.0.0", port=3000)

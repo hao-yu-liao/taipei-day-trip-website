@@ -457,9 +457,13 @@ view.section_unpaidBooking.content.generateComponent = function(response) {
                     console.log("if UnpaidBookingCard_details.classList.contains('dp-none'): ", UnpaidBookingCard_details.classList.contains('dp-none'));
 
                     if (UnpaidBookingCard_details.classList.contains('dp-none')) {
+                        let element = document.querySelector('.UnpaidBookingCard_details:not(.dp-none)')
+                        element.classList.add('dp-none');
                         UnpaidBookingCard_details.classList.remove('dp-none');
                         UnpaidBookingCard_button_fold.classList.add('upsideDown');
                     }
+
+
                     else {
                         UnpaidBookingCard_details.classList.add('dp-none');
                         UnpaidBookingCard_button_fold.classList.remove('upsideDown');
@@ -490,6 +494,7 @@ view.section_unpaidBooking.content.generateComponent = function(response) {
                         model.section_unpaidBooking._fetchPostOrderMaterial = {
                             prime: null,
                             order: {
+                                id: bookingDataArray[i].id,
                                 price: bookingDataArray[i]['price'],
                                 trip: {
                                     attraction: {
