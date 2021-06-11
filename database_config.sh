@@ -7,11 +7,11 @@ update booking set status = 2
 # order
 create table orders (
     id int auto_increment,
-    number bigint not null,
+    number varchar(255) not null,
     status int default 1,
     rec_trade_id varchar(255) default "",
     bank_transaction_id varchar(255) default "",
-    phone int not null,
+    phone varchar(255) not null,
     createTime timestamp default current_timestamp,
     userId int not null,
     attractionId int not null,

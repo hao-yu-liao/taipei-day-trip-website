@@ -1,0 +1,138 @@
+// SCSS
+@use "src/library" as lib; 
+@use "src/general" as gen; 
+@use "src/modal_log" as modalLog; 
+
+$padding_constant: 2.8%;
+
+main {
+    > .section_thankyou {
+        padding-top: 46px;
+        padding-bottom: 40px;
+        > p.button {
+            color: gen.$gray_800;
+            @include lib.media(gen.$bp_contentLayout){
+                padding: 0 $padding_constant;
+            }
+        }
+        > p.body {
+            margin-top: 12px;
+            color: gen.$gray_800;
+            line-height: 24px;
+            @include lib.media(gen.$bp_contentLayout){
+                padding: 0 $padding_constant;
+            }            
+        }
+
+        .span_orderNumber {
+            color:gen.$cyan_800;
+            padding: 0 7px;
+        }
+
+        > div {
+            > :not(:first-child) {
+                border-top: solid 1px gen.$gray_300;                
+            }
+            > .ThankyouCard {
+                @include lib.size(100%);
+                position: relative;
+                padding-top: 35px;
+                > .ThankyouCard_info {
+                    @include lib.size(100%);
+                    margin-bottom: 40px;
+                    @include lib.media(gen.$bp_contentLayout) {
+                        padding: 0 $padding_constant;
+                    }
+                    @include lib.media(gen.$bp_contentLayout) {
+                        position: relative;
+                    }
+                    > div {
+                        @include lib.flex(start, top);
+                        @include lib.media(gen.$bp_contentLayout) {
+                            flex-wrap: wrap;
+                        }
+                        > img {
+                            @include lib.size(250px, 200px);
+                            object-fit: cover;
+                            object-position: center center;
+    
+                            @include lib.media(gen.$bp_contentLayout) {
+                                @include lib.size(100%);
+                            }
+                        }
+                        > div {
+                            padding-left: 30px;
+                            @include lib.media(gen.$bp_contentLayout) {
+                                padding-left: 0px;
+                                margin-top: 35px;
+                            }
+                             p {
+                                > span {
+                                    display: inline;
+                                    color: gen.$gray_800;
+                                }
+                            }
+
+                            > div {
+                                > .bold {
+                                    color: gen.$cyan_800;
+                                    > span {
+                                        color: gen.$cyan_800;
+                                    }
+                                }
+
+                                > :last-child {
+                                    margin-bottom: 20px;
+                                } 
+
+                                > :not(:last-child) {
+                                    margin-bottom: 10px;
+                                }                              
+                            }
+
+                            > :not(.bold) {
+                                margin-bottom: 10px;
+                            }
+                        }
+                    }
+                    > button.UnpaidBookingCard_button_delete {
+                        position: absolute;
+                        @include lib.size(30px, 30px);
+                        border: none;
+                        background-position: center center;
+                        background-image: url(images/icons/icon_delete.svg);
+                        background-color: transparent;
+                        top: 35px;
+                        right: 125px;
+                        @include lib.media(1875px) {
+                            right: calc(6.85px + 6.3vw);
+                        }
+                        @include lib.media(gen.$bp_contentLayout) {
+                            top: auto;
+                            bottom: 144px;
+                            right: $padding_constant;
+                        }
+                    }
+                    > button.UnpaidBookingCard_button_fold {
+                        position: absolute;
+                        @include lib.size(30px, 30px);
+                        border: none;
+                        background-position: center center;
+                        background-image: url(images/icons/icon_fold.svg);
+                        background-color: transparent;
+                        top: 205px;
+                        right: 125px; 
+                        @include lib.media(1875px) {
+                            right: calc(6.85px + 6.3vw);
+                        }    
+                        @include lib.media(gen.$bp_contentLayout) {
+                            top: auto;
+                            bottom: 8px;
+                            right: $padding_constant;
+                        }           
+                    }        
+                }
+            }            
+        }
+    }
+}
