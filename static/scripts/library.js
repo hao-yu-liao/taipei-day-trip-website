@@ -12,7 +12,7 @@ function getURL(path) {
     let port = '3000'
     let composedDomain = `${localhost}:${port}`;
 
-    let domain = composedDomain;
+    let domain = domain_localServer;
 
     // for production
     return `${protocal}://${domain}${path}`
