@@ -1,12 +1,18 @@
 function getURL(path) {
     // protocal
     let protocal = 'http';
-    // domain
-    let localServer = '127.0.0.1:3000';
-    let vsCodeliveServer = '127.0.0.1:5500';
-    let EC2 = '18.136.117.43:3000';
 
-    let domain = localServer;
+    // domain
+    let domain_localServer = '127.0.0.1:3000';
+    let domain_vsCodeliveServer = '127.0.0.1:5500';
+    let domain_EC2 = '18.136.117.43:3000';
+
+    // host, port
+    let localhost = 'localhost';
+    let port = '3000'
+    let composedDomain = `${localhost}:${port}`;
+
+    let domain = composedDomain;
 
     // for production
     return `${protocal}://${domain}${path}`
