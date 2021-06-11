@@ -1,0 +1,179 @@
+// SCSS
+@use "src/library" as lib; 
+@use "src/general" as gen; 
+@use "src/modal_log" as modalLog; 
+
+$padding_constant: 2.8%;
+
+.upsideDown {
+    transform: rotate(0.5turn);
+}
+
+main {
+    > .section_unpaidBooking {
+        padding-top: 46px;
+        padding-bottom: 40px;
+        > p.button {
+            color: gen.$gray_800;
+            @include lib.media(gen.$bp_contentLayout){
+                padding: 0 $padding_constant;
+            }
+        }
+        > p.body {
+            margin-top: 35px;
+            color: gen.$gray_800;
+            @include lib.media(gen.$bp_contentLayout){
+                padding: 0 $padding_constant;
+            }            
+        }
+        > div {
+            > :not(:first-child) {
+                border-top: solid 1px gen.$gray_300;                
+            }
+            > .UnpaidBookingCard {
+                @include lib.size(100%);
+                position: relative;
+                padding-top: 35px;
+                > .UnpaidBookingCard_info {
+                    @include lib.size(100%);
+                    margin-bottom: 40px;
+                    @include lib.media(gen.$bp_contentLayout) {
+                        padding: 0 $padding_constant;
+                    }
+                    @include lib.media(gen.$bp_contentLayout) {
+                        position: relative;
+                    }
+                    > div {
+                        @include lib.flex(start, top);
+                        @include lib.media(gen.$bp_contentLayout) {
+                            flex-wrap: wrap;
+                        }
+                        > img {
+                            @include lib.size(250px, 200px);
+                            object-fit: cover;
+                            object-position: center center;
+    
+                            @include lib.media(gen.$bp_contentLayout) {
+                                @include lib.size(100%);
+                            }
+                        }
+                        > div {
+                            padding-left: 30px;
+                            @include lib.media(gen.$bp_contentLayout) {
+                                padding-left: 0px;
+                                margin-top: 35px;
+                            }
+                            > p {
+                                > span {
+                                    display: inline;
+                                    color: gen.$gray_800;
+                                }
+                            }
+                            > .bold {
+                                color: gen.$cyan_800;
+                                margin-bottom: 20px;
+                                > span {
+                                    color: gen.$cyan_800;
+                                }
+                            }
+                            > :not(.bold) {
+                                margin-bottom: 10px;
+                            }
+                        }
+                    }
+                    > button.UnpaidBookingCard_button_delete {
+                        position: absolute;
+                        @include lib.size(30px, 30px);
+                        border: none;
+                        background-position: center center;
+                        background-image: url(images/icons/icon_delete.svg);
+                        background-color: transparent;
+                        top: 35px;
+                        right: 125px;
+                        @include lib.media(1875px) {
+                            right: calc(6.85px + 6.3vw);
+                        }
+                        @include lib.media(gen.$bp_contentLayout) {
+                            top: auto;
+                            bottom: 144px;
+                            right: $padding_constant;
+                        }
+                    }
+                    > button.UnpaidBookingCard_button_fold {
+                        position: absolute;
+                        @include lib.size(30px, 30px);
+                        border: none;
+                        background-position: center center;
+                        background-image: url(images/icons/icon_fold.svg);
+                        background-color: transparent;
+                        top: 205px;
+                        right: 125px; 
+                        @include lib.media(1875px) {
+                            right: calc(6.85px + 6.3vw);
+                        }    
+                        @include lib.media(gen.$bp_contentLayout) {
+                            top: auto;
+                            bottom: 8px;
+                            right: $padding_constant;
+                        }           
+                    }        
+                }
+                > .UnpaidBookingCard_details {
+                    @include lib.size(100%);
+                    position: relative;
+                    background-color: gen.$gray_50;
+                    padding: 0 $padding_constant;
+                    > .UnpaidBookingCard_details_block  {
+                        @include lib.size(100%);
+                        padding-top: 44px;
+                        padding-bottom: 40px;
+                        border-bottom: solid 1px gen.$gray_300;
+                        > p.button {
+                            color: gen.$gray_800;
+                            margin-bottom: 24px;
+                        }
+                        > label {
+                            display: block;
+                            color: gen.$gray_800;
+                            margin-bottom: 15px;
+                            > input {
+                                @include lib.size(200px, 38px);
+                                padding: 10px;
+                                border-radius: 5px;
+                                border: gen.$gray_300 1px solid;
+                            }
+                        }
+                        > p.body {
+                            color: gen.$gray_800;
+                        }
+                    }
+                    > .UnpaidBookingCard_details_buttonSet {
+                        @include lib.size(173px);
+                        margin-top: 43px;
+                        padding-bottom: 35px;
+                        margin-left: auto;
+                        @include lib.flex(center);
+                        flex-wrap: wrap;
+                        > p {
+                            color: gen.$gray_800;
+                        }
+                        > button {
+                            @include lib.size(100%, 36px);
+                            text-align: center;
+                            margin-top: 25px;
+                            border-radius: 5px;
+                            border: none;
+                            background-color: gen.$cyan_800;
+                            color: white;
+                        }
+                    }
+                }
+            }
+        }
+
+    }
+
+    > .section_paidBooking {
+
+    }
+}

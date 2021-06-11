@@ -1,0 +1,260 @@
+// SCSS
+@use "src/library" as lib; 
+@use "src/general" as gen; 
+@use "src/modal_log" as modalLog; 
+
+main {
+    @include lib.flex(center);
+
+    > .attraction {
+        // @include lib.border;
+        color: gen.$gray_800;
+        position: relative;
+        z-index: 1;
+
+        /*
+        gen.$bp_contentLayout: 1050px;
+
+        @include lib.media(gen.$bp_contentLayout) {
+            @include lib.size(100%);
+            max-width: none;
+            min-width: 360px;
+            padding-left: calc( -189px + 36%);
+            padding-right: calc( -189px + 36%);
+        }
+        */
+
+        > .attraction_part_1 {
+            padding: 40px 0;
+            @include lib.size(100%, 45%);
+            min-height: 460px;
+            border-bottom: solid gen.$gray_300 1px;
+            @include lib.flex(center,center);
+            @include lib.media(gen.$bp_contentLayout) {
+                flex-wrap: wrap;
+                // padding為負值，就會自動視為無效
+                @include lib.size(100%);
+            }
+            $carousel_width: 45%;
+
+
+            > .carousel {
+                @include lib.size($carousel_width, 100%);
+                @include lib.media(gen.$bp_contentLayout) {
+                    @include lib.size(100%, 350px);
+                }
+                background-color: gen.$gray_300;
+
+                position: relative;
+                // @include lib.border;
+
+                > .chevron-left {
+                    @include lib.size(36px, 36px);
+                    position: absolute;
+                    z-index: 5;
+                    top: 0;
+                    bottom: 0;
+                    left: 10px;
+                    margin: auto 0;
+                    background-image: url(images/icons/icon_chevron_left.svg);
+                }
+
+                > .chevron-right {
+                    @include lib.size(36px, 36px);
+                    position: absolute;
+                    z-index: 5;
+                    top: 0;
+                    bottom: 0;
+                    right: 10px;
+                    margin: auto 0;
+                    background-image: url(images/icons/icon_chevron_left.svg);
+                    transform: scaleX(-1);
+                }
+
+                > .dot_selector {
+                    position: absolute;
+                    z-index: 5;
+                    left: 0;
+                    right: 0;
+                    margin: 0 auto;
+                    bottom: 10px;
+                    @include lib.flex(center, center);
+                    
+                    > .dot {
+                        @include lib.size(12px, 12px);
+                        background-color: white;
+                        display: inline-block;
+                        border-radius: 6px;
+                        @include lib.border(white);
+                    }
+
+                    > .dot_selected {
+                        background-color: black;
+                    }
+
+                    > :not(:first-child) {
+                        margin-left: 12px;
+                    }
+                }
+
+                > img {
+                    position: absolute;
+                    @include lib.size(100%, 100%);
+                    top: 0;
+                    left: 0;
+                    object-fit: cover;
+                    object-position: center center;
+                    visibility: visible;
+                }
+            }
+
+            > .profile {
+                padding: 0 3%;
+                @include lib.size(calc(100% - #{$carousel_width}), 100%);
+                @include lib.media(gen.$bp_contentLayout) {
+                    margin-top: 30px;
+                    @include lib.size(100%, 390px);
+                    margin-left: 10px;
+                    margin-right: 10px;
+                    padding: 0;
+                }
+
+                // @include lib.border;
+                position: relative;
+
+                $profile_1st_child_height: 39px;
+                $profile_2nd_child_height: 41px;
+
+                > :first-child {
+                    @include lib.size(100%, $profile_1st_child_height);
+                    padding-bottom: 15px;
+                }
+
+                > :nth-child(2){
+                    @include lib.size(100%, $profile_2nd_child_height);
+                    padding-bottom: 20px;
+                }
+
+                > form {
+                    background-color: gen.$gray_300;
+                    @include lib.size(100%, calc(100% - #{$profile_1st_child_height} - #{$profile_2nd_child_height}));
+                    min-height: 340px;
+                    min-width: 340px;
+                    padding-top: 3%;
+                    padding-left: 3.5%;
+                    padding-right: 3.5%;
+                    position: relative;
+                    border-radius: 5px;
+
+                    > :nth-child(2) {
+                        margin-top: 2.5%;
+                    }
+
+                    > div {
+                        margin-top: 2.5%;
+                        @include lib.flex(flex-start, center);
+
+                        > p {
+                            display: inline-block;
+                        }
+
+                        // input[type="date"]
+                        input[type="date"] {
+                            @include lib.size(193px, 35px);
+                            margin-left: 5px;
+                            border: none;
+                            outline: none;
+                        }
+
+                        // input[type="radio"]
+                        > label.radio {
+                            @include  lib.size(87px, 22px);
+                            padding-left: 5px;
+                            padding-right: 8px;  
+                            display: inline-flex;
+                            justify-content: center;
+                            align-items: center;
+
+                            > :nth-child(2){
+                                margin-right: 4px;
+                            }
+
+                            input[type="radio"] {
+                                @include lib.size(0, 0);
+                            }
+
+                            input[type="radio"] + .radio_dot {
+                                width:16px;
+                                height:16px;
+                                border-radius:8px;
+                                @include lib.border(white, 2px);
+                                display: inline-block;
+                                background-color: white;
+                            }
+
+                            input[type="radio"]:checked + .radio_dot {
+                                background-color: gen.$cyan_800;
+                            }
+
+                            input[type="radio"]:disabled + .radio_dot {
+                                background-color: white;
+                            }
+
+                        }
+
+                    }
+
+                    > .buttonSet {
+                        $buttonHeight: 36px;
+
+                        @include lib.size(154px, 70px);
+                        position: absolute;
+                        bottom: 14%;
+
+                        > p {
+                            position: absolute;
+                            bottom: calc(10px + #{$buttonHeight});
+                        }
+                        > button {
+                            @include lib.size(154px, $buttonHeight);
+                            position: absolute;
+                            bottom: 0;
+
+                            background-color: gen.$cyan_800;
+                            color: white;
+                            border-radius: 5px;
+                            border: none;
+                            font-weight: normal;
+                            text-align: center;
+                        }                        
+                    }
+                }
+            }
+        }
+
+        > .attraction_part_2 {
+            margin-top: 50px;
+            @include lib.size(100%);
+            @include lib.media(gen.$bp_contentLayout) {
+                @include lib.size(100%);
+            }
+
+            > * {
+                margin-left: 20px;
+                margin-right: 20px;
+            }
+
+            > :not(:first-child) {
+                margin-top: 30px;
+            }
+
+            .bold + .content {
+                margin-top: 6px;
+            }
+
+            > :last-child {
+                margin-bottom: 60px;
+            }
+        }
+    }
+}

@@ -1,3 +1,6 @@
+import lib from './library.js'
+import gen from './general.js'
+
 // global
 let nextPage = null;
 let _onsrclTimeout = null;
@@ -57,19 +60,21 @@ const scrlUnit = (data) => {
     scrlUnit.appendChild(scrlUnitFig);
     scrlUnit.appendChild(scrlUnitCnt);
 
+    // 加入 id property
+    scrlUnit.attractionId = data.id;
+
     return scrlUnit;
 };
 
 //
-function generateURL(page, keyword, path = 'http://18.136.117.43:3000/api/attractions') {
-    // console.log(`page: ${page}`);
-
+function getURLwithQueryString(page, keyword, path) {
+    if (path === undefined) {
+        path = lib.getURL('/api/attractions');
+    }
+    
     if (page === null) return null
 
-    /// console.log(`path: ${path}`);
     let url = `${path}?page=${page}`;
-    // let url = 'http://18.136.117.43:3000/api/attractions?page=1';
-    // console.log(`url: ${url}`);
 
     if (!(keyword)) {
         return new Request(url)
@@ -95,12 +100,12 @@ function addScrlUnits(request, scrlSecOpt) {
     .then((srcData) => {
 
         let data = srcData['data'];
-        console.log(data)
+        // console.log(data)
         nextPage = srcData['nextPage'];
-        console.log(`nextPage: ${nextPage}`);
+        // console.log(`nextPage: ${nextPage}`);
 
         if (JSON.stringify(data) === JSON.stringify([])){
-            console.log('addScrlUnits: false');
+            // console.log('addScrlUnits: false');
 
             let noScrlUnitMessage = document.createElement('p');
             noScrlUnitMessage.classList.add('c_noScrlUnitMessage', 'body');
@@ -111,10 +116,15 @@ function addScrlUnits(request, scrlSecOpt) {
         }
 
         data.forEach(function(value, index){
-            scrlSecOpt.appendChild(scrlUnit(value));
+            let currentScrlUnit = scrlUnit(value);
+            scrlSecOpt.appendChild(currentScrlUnit);
+            currentScrlUnit.addEventListener('click', function() {
+                // console.log('trial');
+                window.location = lib.getURL(`/attraction/${currentScrlUnit.attractionId}`);
+            })
         });
 
-        console.log(`succesfully fetch data`);
+        // console.log(`succesfully fetch data`);
     })
 }
 
@@ -131,7 +141,7 @@ function onscrlAddScrlUnits(request, scrlSecOpt) {
                 //異步請求數據,局部刷新dom
                 addScrlUnits(request, scrlSecOpt)
             }
-            // console.log('successfully onsrclAddScrlUnits()')
+            // // console.log('successfully onsrclAddScrlUnits()')
         }, 105);
       }, 100);
   
@@ -145,7 +155,7 @@ function onscrlAddScrlUnits(request, scrlSecOpt) {
             documentScrollTop = document.documentElement.scrollTop;
         }
         scrollTop = (bodyScrollTop - documentScrollTop > 0) ? bodyScrollTop : documentScrollTop;
-        // console.log("scrollTop: "+scrollTop);
+        // // console.log("scrollTop: "+scrollTop);
         return scrollTop;
       }
   
@@ -157,7 +167,7 @@ function onscrlAddScrlUnits(request, scrlSecOpt) {
         } else {
             windowHeight = document.body.clientHeight;
         }
-        // console.log("windowHeight: "+windowHeight);
+        // // console.log("windowHeight: "+windowHeight);
         return windowHeight;
       }
   
@@ -171,29 +181,32 @@ function onscrlAddScrlUnits(request, scrlSecOpt) {
             documentScrollHeight = document.documentElement.scrollHeight;
         }
         scrollHeight = (bodyScrollHeight - documentScrollHeight > 0) ? bodyScrollHeight : documentScrollHeight;
-        // console.log("scrollHeight: "+scrollHeight);
+        // // console.log("scrollHeight: "+scrollHeight);
         return scrollHeight;
     }  
 }
 
+
+
 // 主程式
-window.addEventListener('load', function() {
-    console.log(`window loaded`);
+window.addEventListener('load', async function() {
+    // console.log(`window loaded`);
+    await gen.exportFunc.initGeneral();
     createScrlSec('attractions');
     currentScrlSec = scrlSecOpt['attractions'];
     nextPage = 0;
 
     currentScrlSec.classList.remove('dp-none');
     addScrlUnits(
-        generateURL(0, keyword), 
+        getURLwithQueryString(0, keyword), 
         currentScrlSec
     );
 });
 
 window.addEventListener('scroll', function() {
-    // console.log(`window scrolled`);
+    // // console.log(`window scrolled`);
     onscrlAddScrlUnits(
-        generateURL(nextPage, keyword),
+        getURLwithQueryString(nextPage, keyword),
         currentScrlSec
     );
 });
@@ -202,11 +215,11 @@ window.addEventListener('scroll', function() {
 // 創造新的scrlSec
 
 document.getElementById('searchSpot').addEventListener('submit', function(event) {
-    console.log(`search submited`);
+    // console.log(`search submited`);
 
     event.preventDefault();
     keyword = document.getElementById('searchSpot_input').value;
-    console.log(keyword);
+    // console.log(keyword);
 
     createScrlSec(keyword);
     currentScrlSec.classList.add('dp-none');
@@ -215,7 +228,7 @@ document.getElementById('searchSpot').addEventListener('submit', function(event)
     currentScrlSec = scrlSecOpt[keyword];
     currentScrlSec.classList.remove('dp-none');
     addScrlUnits(
-        generateURL(0, keyword), 
+        getURLwithQueryString(0, keyword), 
         currentScrlSec
     );
 })

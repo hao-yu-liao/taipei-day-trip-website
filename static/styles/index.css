@@ -1,31 +1,4 @@
-/* Property */
-.dp-none {
-  display: none !important;
-}
-
-/* Font */
-.body, .content, button, h3, h2, h1 {
-  font-family: Noto Sans TC;
-  font-style: normal;
-}
-
-/* Color */
-/* Size */
-/* Layout */
-/* Global */
-html {
-  width: 100vw;
-  height: 100%;
-}
-
-body {
-  min-width: 360px;
-  width: 100vw;
-  height: 100%;
-  position: relative;
-}
-
-/* Global: Border-box */
+/* Border-box */
 html {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -38,6 +11,74 @@ html {
   -webkit-box-sizing: inherit;
   -moz-box-sizing: inherit;
   box-sizing: inherit;
+}
+
+/* Property Class-option */
+.dp-none {
+  display: none !important;
+}
+
+.vb-hidden {
+  visibility: hidden !important;
+}
+
+.pt-relative {
+  position: relative !important;
+}
+
+.errorMessage {
+  color: red !important;
+}
+
+.zidx-negativeOne {
+  position: relative;
+  z-index: -1 !important;
+}
+
+/* Property Mixin */
+/* Font */
+.body, .content, button, h3, h2, h1 {
+  font-family: Noto Sans TC;
+  font-style: normal;
+  text-align: justify;
+}
+
+/* Color */
+/* Layout */
+.contentLayout {
+  width: 64%;
+  height: auto;
+  max-width: 1200px;
+  margin: 0 auto;
+  /* media_contentLayout */
+}
+@media (max-width: 1050px) {
+  .contentLayout {
+    width: 100%;
+    height: auto;
+    max-width: none;
+    min-width: 360px;
+    padding-left: calc( -189px + 36%);
+    padding-right: calc( -189px + 36%);
+  }
+}
+
+.transitionVisibilityProp {
+  transition: visibility 2s ease-out;
+}
+
+/* Global */
+html {
+  width: 100vw;
+  height: 100vh;
+  min-width: 360px;
+  min-height: 1080px;
+}
+
+body {
+  width: 100%;
+  height: calc(100% + 1px);
+  position: relative;
 }
 
 /* Typography */
@@ -77,7 +118,7 @@ button {
   /* Button */
   font-size: 19px;
   line-height: 16px;
-  font-weight: bold;
+  font-weight: normal;
 }
 
 .content {
@@ -95,18 +136,23 @@ button {
 }
 
 /* Component */
-.c_nav {
-  width: 100vw;
-  height: 54px;
+header {
+  width: 100%;
+  height: calc(54px);
+  position: fixed;
+  top: 0;
+  z-index: 10;
+  background: white;
+}
+header .c_nav {
+  width: 100%;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: white;
-  position: fixed;
-  top: 0;
-  z-index: 1;
+  border-bottom: solid #E8E8E8 1px;
 }
-.c_nav > nav {
+header .c_nav > nav {
   width: 64%;
   height: 100%;
   display: flex;
@@ -115,31 +161,152 @@ button {
   position: relative;
 }
 @media (max-width: 1785px) {
-  .c_nav > nav {
+  header .c_nav > nav {
     width: 89%;
     height: 100%;
   }
 }
-.c_nav > nav > * {
+header .c_nav > nav > * {
   display: inline;
   color: #666666;
   border: none;
 }
-.c_nav > nav > button {
+header .c_nav > nav > a {
   background-color: white;
 }
-.c_nav > nav > :focus {
-  outline: none;
+header .c_nav > nav > a:link {
+  text-decoration: none;
 }
-.c_nav > nav > :not(:first-child) {
+header .c_nav > nav > a:visited {
+  text-decoration: none;
+}
+header .c_nav > nav > :not(:first-child) {
   padding: 10px;
 }
-.c_nav > nav > :first-child {
-  color: #448899;
+header .c_nav > nav > :first-child {
   position: absolute;
   left: 0px;
 }
+header .c_nav > nav > :first-child > a {
+  color: #448899;
+}
+header .c_nav > nav > :first-child > a:link {
+  text-decoration: none;
+}
+header .c_nav > nav > :first-child > a:visited {
+  text-decoration: none;
+  color: #448899;
+}
 
+main {
+  width: 100%;
+  height: auto;
+  min-height: 100%;
+  padding-top: calc(54px);
+  padding-bottom: 104px;
+}
+
+footer {
+  width: 100%;
+  height: 104px;
+  position: fixed;
+  z-index: 10;
+  bottom: 0;
+  background-color: #757575;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+footer > .body {
+  color: white;
+}
+
+.modal_signIn {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  z-index: 5 !important;
+  top: 0;
+}
+.modal_signIn > .modalMask {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.25);
+}
+.modal_signIn > form {
+  width: 340px;
+  height: 380px;
+  background-color: white;
+  position: absolute;
+  top: 80px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  border-radius: 6px;
+  padding: 25px 15px 15px 15px;
+}
+.modal_signIn > form > * {
+  display: block;
+  margin: 0 auto;
+  text-align: center;
+}
+.modal_signIn > form > .icon_close {
+  width: 16px;
+  height: 16px;
+  position: absolute;
+  background-image: url(images/icons/icon_close.svg);
+  top: 27px;
+  right: 17px;
+}
+.modal_signIn > form > .deco_modal {
+  width: 100%;
+  height: 10px;
+  background: linear-gradient(270deg, #337788 0%, #66AABB 100%);
+  border-radius: 6px 6px 0 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.modal_signIn > form > h3 {
+  color: #666666;
+  margin-bottom: 15px;
+}
+.modal_signIn > form > label > input {
+  width: 100%;
+  height: auto;
+  padding: 15px;
+  margin-bottom: 10px;
+  border-color: #CCCCCC;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 5px;
+}
+.modal_signIn > form > :last-child {
+  position: absolute;
+  bottom: 15px;
+  left: 0;
+  right: 0;
+  margin: 0 15px;
+}
+.modal_signIn > form > :last-child > button {
+  width: 100%;
+  height: 47px;
+  background-color: #448899;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  text-align: center;
+}
+.modal_signIn > form > :last-child > p {
+  margin-top: 10px;
+  text-align: center;
+  color: #666666;
+}
+.modal_signIn > form > :last-child > p:first-child {
+  margin-bottom: 10px;
+}
+
+/* Component */
 .c_hero_sec {
   width: 100vw;
   height: 320px;
@@ -147,7 +314,6 @@ button {
   position: relative;
   z-index: 0;
   overflow: hidden;
-  margin-top: 54px;
 }
 @media (max-width: 1285px) {
   .c_hero_sec {
@@ -235,16 +401,6 @@ form.c_search button {
   border: none;
 }
 
-main {
-  width: 100vw;
-  height: auto;
-  min-height: calc(100% - 54px - 104px + 1px);
-}
-@media (max-width: 1285px) {
-  main {
-    min-height: calc(100% - 54px - 104px + 1px);
-  }
-}
 main > section.c_scrlSec {
   width: 64%;
   height: auto;
@@ -387,18 +543,6 @@ main > section.c_scrlSec > p.c_noScrlUnitMessage {
   justify-content: center;
   align-items: center;
   color: #757575;
-}
-
-footer {
-  width: 100vw;
-  height: 104px;
-  background-color: #757575;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-footer > .body {
-  color: white;
 }
 
 /*# sourceMappingURL=index.css.map */

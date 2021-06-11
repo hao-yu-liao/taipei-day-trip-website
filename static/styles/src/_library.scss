@@ -1,0 +1,71 @@
+/* Border-box */
+html {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+            box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+    -webkit-box-sizing: inherit;
+        -moz-box-sizing: inherit;
+            box-sizing: inherit;
+}
+
+/* Property Class-option */
+.dp-none {
+    display: none !important;
+}
+
+.vb-hidden {
+    visibility: hidden !important;
+}
+
+.pt-relative {
+    position: relative !important;
+}
+
+.errorMessage {
+    color: red !important;
+}
+
+.zidx-negativeOne {
+    position: relative;
+    z-index: -1 !important;
+}
+
+/* Property Mixin */
+@mixin size($width: auto, $height: auto) {
+    width: $width;
+    height: $height;
+}
+
+@mixin flex($justify: normal, $align: normal, $contentOpt: false) {
+    display: flex;
+    justify-content: $justify;
+
+    @if $contentOpt {
+        align-content: $align;
+    } @else {
+        align-items: $align;
+    }
+}
+
+@mixin border($color: black, $width: 1px, $style: solid) {
+    border-color: $color;
+    border-width: $width;
+    border-style: $style;
+}
+
+@mixin textline($size: 1rem, $height: 1rem) {
+    font-size: $size;
+    line-height: $height;
+
+}
+
+@mixin media($max-width) {
+    @media (max-width: $max-width) {
+        @content;
+      }
+}
