@@ -52,9 +52,6 @@ create table booking (
     constraint FK_Booking_attractionId foreign key (attractionId) references attractions(id)
 );
 
-
-
-
 alter table booking
 add createTime timestamp default current_timestamp
 
@@ -96,5 +93,3 @@ select * from booking where (createTime > subtime(current_timestamp(), '0:5:0'))
 
 
 select booking.id, booking.attractionId, attractions.name, attractions.address, attractions.images, booking.date, booking.time, booking.price from booking inner join attractions on booking.attractionId = attractions.id where booking.userId = '10';
-
-DELETE FROM attractions WHERE (id >= 300) and (id < 400);
