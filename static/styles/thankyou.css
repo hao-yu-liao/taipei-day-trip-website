@@ -306,102 +306,107 @@ footer > .body {
   margin-bottom: 10px;
 }
 
-.upsideDown {
-  transform: rotate(0.5turn);
-}
-
-main > .section_unpaidBooking {
+main > .section_thankyou {
   padding-top: 46px;
   padding-bottom: 40px;
 }
-main > .section_unpaidBooking > p.button {
+main > .section_thankyou > p.button {
   color: #666666;
 }
 @media (max-width: 1050px) {
-  main > .section_unpaidBooking > p.button {
+  main > .section_thankyou > p.button {
     padding: 0 2.8%;
   }
 }
-main > .section_unpaidBooking > p.body {
+main > .section_thankyou > p.body {
   margin-top: 12px;
   color: #666666;
   line-height: 24px;
 }
 @media (max-width: 1050px) {
-  main > .section_unpaidBooking > p.body {
+  main > .section_thankyou > p.body {
     padding: 0 2.8%;
   }
 }
-main > .section_unpaidBooking > div > :not(:first-child) {
+main > .section_thankyou .span_orderNumber {
+  color: #448899;
+  padding: 0 7px;
+}
+main > .section_thankyou > div > :not(:first-child) {
   border-top: solid 1px #E8E8E8;
 }
-main > .section_unpaidBooking > div > .UnpaidBookingCard {
+main > .section_thankyou > div > .ThankyouCard {
   width: 100%;
   height: auto;
   position: relative;
   padding-top: 35px;
 }
-main > .section_unpaidBooking > div > .UnpaidBookingCard > .UnpaidBookingCard_info {
+main > .section_thankyou > div > .ThankyouCard > .ThankyouCard_info {
   width: 100%;
   height: auto;
   margin-bottom: 40px;
 }
 @media (max-width: 1050px) {
-  main > .section_unpaidBooking > div > .UnpaidBookingCard > .UnpaidBookingCard_info {
+  main > .section_thankyou > div > .ThankyouCard > .ThankyouCard_info {
     padding: 0 2.8%;
   }
 }
 @media (max-width: 1050px) {
-  main > .section_unpaidBooking > div > .UnpaidBookingCard > .UnpaidBookingCard_info {
+  main > .section_thankyou > div > .ThankyouCard > .ThankyouCard_info {
     position: relative;
   }
 }
-main > .section_unpaidBooking > div > .UnpaidBookingCard > .UnpaidBookingCard_info > div {
+main > .section_thankyou > div > .ThankyouCard > .ThankyouCard_info > div {
   display: flex;
   justify-content: start;
   align-items: top;
 }
 @media (max-width: 1050px) {
-  main > .section_unpaidBooking > div > .UnpaidBookingCard > .UnpaidBookingCard_info > div {
+  main > .section_thankyou > div > .ThankyouCard > .ThankyouCard_info > div {
     flex-wrap: wrap;
   }
 }
-main > .section_unpaidBooking > div > .UnpaidBookingCard > .UnpaidBookingCard_info > div > img {
+main > .section_thankyou > div > .ThankyouCard > .ThankyouCard_info > div > img {
   width: 250px;
   height: 200px;
   object-fit: cover;
   object-position: center center;
 }
 @media (max-width: 1050px) {
-  main > .section_unpaidBooking > div > .UnpaidBookingCard > .UnpaidBookingCard_info > div > img {
+  main > .section_thankyou > div > .ThankyouCard > .ThankyouCard_info > div > img {
     width: 100%;
     height: auto;
   }
 }
-main > .section_unpaidBooking > div > .UnpaidBookingCard > .UnpaidBookingCard_info > div > div {
+main > .section_thankyou > div > .ThankyouCard > .ThankyouCard_info > div > div {
   padding-left: 30px;
 }
 @media (max-width: 1050px) {
-  main > .section_unpaidBooking > div > .UnpaidBookingCard > .UnpaidBookingCard_info > div > div {
+  main > .section_thankyou > div > .ThankyouCard > .ThankyouCard_info > div > div {
     padding-left: 0px;
     margin-top: 35px;
   }
 }
-main > .section_unpaidBooking > div > .UnpaidBookingCard > .UnpaidBookingCard_info > div > div > p > span {
+main > .section_thankyou > div > .ThankyouCard > .ThankyouCard_info > div > div p > span {
   display: inline;
   color: #666666;
 }
-main > .section_unpaidBooking > div > .UnpaidBookingCard > .UnpaidBookingCard_info > div > div > .bold {
+main > .section_thankyou > div > .ThankyouCard > .ThankyouCard_info > div > div > div > .bold {
   color: #448899;
+}
+main > .section_thankyou > div > .ThankyouCard > .ThankyouCard_info > div > div > div > .bold > span {
+  color: #448899;
+}
+main > .section_thankyou > div > .ThankyouCard > .ThankyouCard_info > div > div > div > :last-child {
   margin-bottom: 20px;
 }
-main > .section_unpaidBooking > div > .UnpaidBookingCard > .UnpaidBookingCard_info > div > div > .bold > span {
-  color: #448899;
-}
-main > .section_unpaidBooking > div > .UnpaidBookingCard > .UnpaidBookingCard_info > div > div > :not(.bold) {
+main > .section_thankyou > div > .ThankyouCard > .ThankyouCard_info > div > div > div > :not(:last-child) {
   margin-bottom: 10px;
 }
-main > .section_unpaidBooking > div > .UnpaidBookingCard > .UnpaidBookingCard_info > button.UnpaidBookingCard_button_delete {
+main > .section_thankyou > div > .ThankyouCard > .ThankyouCard_info > div > div > :not(.bold) {
+  margin-bottom: 10px;
+}
+main > .section_thankyou > div > .ThankyouCard > .ThankyouCard_info > button.UnpaidBookingCard_button_delete {
   position: absolute;
   width: 30px;
   height: 30px;
@@ -413,18 +418,18 @@ main > .section_unpaidBooking > div > .UnpaidBookingCard > .UnpaidBookingCard_in
   right: 125px;
 }
 @media (max-width: 1875px) {
-  main > .section_unpaidBooking > div > .UnpaidBookingCard > .UnpaidBookingCard_info > button.UnpaidBookingCard_button_delete {
+  main > .section_thankyou > div > .ThankyouCard > .ThankyouCard_info > button.UnpaidBookingCard_button_delete {
     right: calc(6.85px + 6.3vw);
   }
 }
 @media (max-width: 1050px) {
-  main > .section_unpaidBooking > div > .UnpaidBookingCard > .UnpaidBookingCard_info > button.UnpaidBookingCard_button_delete {
+  main > .section_thankyou > div > .ThankyouCard > .ThankyouCard_info > button.UnpaidBookingCard_button_delete {
     top: auto;
     bottom: 144px;
     right: 2.8%;
   }
 }
-main > .section_unpaidBooking > div > .UnpaidBookingCard > .UnpaidBookingCard_info > button.UnpaidBookingCard_button_fold {
+main > .section_thankyou > div > .ThankyouCard > .ThankyouCard_info > button.UnpaidBookingCard_button_fold {
   position: absolute;
   width: 30px;
   height: 30px;
@@ -436,88 +441,16 @@ main > .section_unpaidBooking > div > .UnpaidBookingCard > .UnpaidBookingCard_in
   right: 125px;
 }
 @media (max-width: 1875px) {
-  main > .section_unpaidBooking > div > .UnpaidBookingCard > .UnpaidBookingCard_info > button.UnpaidBookingCard_button_fold {
+  main > .section_thankyou > div > .ThankyouCard > .ThankyouCard_info > button.UnpaidBookingCard_button_fold {
     right: calc(6.85px + 6.3vw);
   }
 }
 @media (max-width: 1050px) {
-  main > .section_unpaidBooking > div > .UnpaidBookingCard > .UnpaidBookingCard_info > button.UnpaidBookingCard_button_fold {
+  main > .section_thankyou > div > .ThankyouCard > .ThankyouCard_info > button.UnpaidBookingCard_button_fold {
     top: auto;
     bottom: 8px;
     right: 2.8%;
   }
 }
-main > .section_unpaidBooking > div > .UnpaidBookingCard > .UnpaidBookingCard_details {
-  width: 100%;
-  height: auto;
-  position: relative;
-  background-color: #f8f8f8;
-  padding: 0 2.8%;
-}
-main > .section_unpaidBooking > div > .UnpaidBookingCard > .UnpaidBookingCard_details > .UnpaidBookingCard_details_block {
-  width: 100%;
-  height: auto;
-  padding-top: 44px;
-  padding-bottom: 40px;
-  border-bottom: solid 1px #E8E8E8;
-}
-main > .section_unpaidBooking > div > .UnpaidBookingCard > .UnpaidBookingCard_details > .UnpaidBookingCard_details_block > p.button {
-  color: #666666;
-  margin-bottom: 24px;
-}
-main > .section_unpaidBooking > div > .UnpaidBookingCard > .UnpaidBookingCard_details > .UnpaidBookingCard_details_block > p.button:last-child {
-  margin-top: 24px;
-}
-main > .section_unpaidBooking > div > .UnpaidBookingCard > .UnpaidBookingCard_details > .UnpaidBookingCard_details_block > label {
-  display: block;
-  color: #666666;
-  margin-bottom: 15px;
-  display: flex;
-  justify-content: normal;
-  align-items: center;
-}
-main > .section_unpaidBooking > div > .UnpaidBookingCard > .UnpaidBookingCard_details > .UnpaidBookingCard_details_block > label > input {
-  width: 200px;
-  height: 38px;
-  padding: 10px;
-  border-radius: 5px;
-  border: #E8E8E8 1px solid;
-}
-main > .section_unpaidBooking > div > .UnpaidBookingCard > .UnpaidBookingCard_details > .UnpaidBookingCard_details_block > label > .tpfield {
-  display: inline-block !important;
-  background-color: white;
-  width: 200px;
-  height: 38px;
-  padding: 10px;
-  border-radius: 5px;
-  border: #E8E8E8 1px solid;
-}
-main > .section_unpaidBooking > div > .UnpaidBookingCard > .UnpaidBookingCard_details > .UnpaidBookingCard_details_block > p.body {
-  color: #666666;
-}
-main > .section_unpaidBooking > div > .UnpaidBookingCard > .UnpaidBookingCard_details > .UnpaidBookingCard_details_buttonSet {
-  width: 173px;
-  height: auto;
-  margin-top: 43px;
-  padding-bottom: 35px;
-  margin-left: auto;
-  display: flex;
-  justify-content: center;
-  align-items: normal;
-  flex-wrap: wrap;
-}
-main > .section_unpaidBooking > div > .UnpaidBookingCard > .UnpaidBookingCard_details > .UnpaidBookingCard_details_buttonSet > p {
-  color: #666666;
-}
-main > .section_unpaidBooking > div > .UnpaidBookingCard > .UnpaidBookingCard_details > .UnpaidBookingCard_details_buttonSet > button {
-  width: 100%;
-  height: 36px;
-  text-align: center;
-  margin-top: 25px;
-  border-radius: 5px;
-  border: none;
-  background-color: #448899;
-  color: white;
-}
 
-/*# sourceMappingURL=booking.css.map */
+/*# sourceMappingURL=thankyou.css.map */

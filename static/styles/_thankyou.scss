@@ -5,12 +5,8 @@
 
 $padding_constant: 2.8%;
 
-.upsideDown {
-    transform: rotate(0.5turn);
-}
-
 main {
-    > .section_unpaidBooking {
+    > .section_thankyou {
         padding-top: 46px;
         padding-bottom: 40px;
         > p.button {
@@ -27,15 +23,21 @@ main {
                 padding: 0 $padding_constant;
             }            
         }
+
+        .span_orderNumber {
+            color:gen.$cyan_800;
+            padding: 0 7px;
+        }
+
         > div {
             > :not(:first-child) {
                 border-top: solid 1px gen.$gray_300;                
             }
-            > .UnpaidBookingCard {
+            > .ThankyouCard {
                 @include lib.size(100%);
                 position: relative;
                 padding-top: 35px;
-                > .UnpaidBookingCard_info {
+                > .ThankyouCard_info {
                     @include lib.size(100%);
                     margin-bottom: 40px;
                     @include lib.media(gen.$bp_contentLayout) {
@@ -64,19 +66,30 @@ main {
                                 padding-left: 0px;
                                 margin-top: 35px;
                             }
-                            > p {
+                             p {
                                 > span {
                                     display: inline;
                                     color: gen.$gray_800;
                                 }
                             }
-                            > .bold {
-                                color: gen.$cyan_800;
-                                margin-bottom: 20px;
-                                > span {
+
+                            > div {
+                                > .bold {
                                     color: gen.$cyan_800;
+                                    > span {
+                                        color: gen.$cyan_800;
+                                    }
                                 }
+
+                                > :last-child {
+                                    margin-bottom: 20px;
+                                } 
+
+                                > :not(:last-child) {
+                                    margin-bottom: 10px;
+                                }                              
                             }
+
                             > :not(.bold) {
                                 margin-bottom: 10px;
                             }
@@ -119,77 +132,7 @@ main {
                         }           
                     }        
                 }
-                > .UnpaidBookingCard_details {
-                    @include lib.size(100%);
-                    position: relative;
-                    background-color: gen.$gray_50;
-                    padding: 0 $padding_constant;
-                    > .UnpaidBookingCard_details_block  {
-                        @include lib.size(100%);
-                        padding-top: 44px;
-                        padding-bottom: 40px;
-                        border-bottom: solid 1px gen.$gray_300;
-                        > p.button {
-                            color: gen.$gray_800;
-                            margin-bottom: 24px;
-                        }
-
-                        > p.button:last-child {
-                            margin-top: 24px;
-                        }
-
-                        > label {
-                            display: block;
-                            color: gen.$gray_800;
-                            margin-bottom: 15px;
-                            @include lib.flex(normal, center);
-
-                            > input {
-                                @include lib.size(200px, 38px);
-                                padding: 10px;
-                                border-radius: 5px;
-                                border: gen.$gray_300 1px solid;
-                            }
-                            > .tpfield {
-                                display: inline-block !important;
-                                background-color: white;
-                                @include lib.size(200px, 38px);
-                                padding: 10px;
-                                border-radius: 5px;
-                                border: gen.$gray_300 1px solid; 
-                            }
-                        }
-                        > p.body {
-                            color: gen.$gray_800;
-                        }
-                    }
-                    > .UnpaidBookingCard_details_buttonSet {
-                        @include lib.size(173px);
-                        margin-top: 43px;
-                        padding-bottom: 35px;
-                        margin-left: auto;
-                        @include lib.flex(center);
-                        flex-wrap: wrap;
-                        > p {
-                            color: gen.$gray_800;
-                        }
-                        > button {
-                            @include lib.size(100%, 36px);
-                            text-align: center;
-                            margin-top: 25px;
-                            border-radius: 5px;
-                            border: none;
-                            background-color: gen.$cyan_800;
-                            color: white;
-                        }
-                    }
-                }
-            }
+            }            
         }
-
-    }
-
-    > .section_paidBooking {
-
     }
 }
