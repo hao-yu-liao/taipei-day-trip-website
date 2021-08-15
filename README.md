@@ -12,13 +12,13 @@
         - 後端開發
         - 開發工具
     - [目錄架構](#目錄架構)
-    - [開發流程](#開發流程)
+    - [開發、部署流程](#開發部署流程)
+        - 開發
+        - 部署  
     - [程式設計摘要](#程式設計摘要)
-        1. [SPA Routing](#SPA-Routing)
-        2. [會員系統建立、登入狀態管理](#會員系統建立登入狀態管理)
-        3. [登入狀態驗證、redirect](#登入狀態驗證redirect)
-        4. [composition 概念、reusable component](composition-概念reusable-component)
-        5. [Imperative operation：useRef、ref 屬性](#imperative-operationuserefref-屬性)
+        1. [會員系統建立、登入狀態管理](#會員系統建立登入狀態管理)
+        2. [Application server 程式架構](#Application-server-程式架構)
+        3. [串接第三方金流](#串接第三方金流)
 4. [附錄](#附錄)
     - [技術介紹](#技術介紹)
 
@@ -33,7 +33,7 @@
 ![](https://github.com/haoyuliaocurb/taipei-day-trip-website/blob/develop/images/index-lg.png)
 
 - ### 首頁
-在首頁中，使用者可以瀏覽台北著名景點，並輸入關鍵字進行全文搜尋。實踐 infinite scroll(#專案細節)，向下滑動可自動載入下一頁資料，直到沒有相符搜尋結果。
+在首頁中，使用者可以瀏覽台北著名景點，並輸入關鍵字進行全文搜尋。實踐 [infinite scroll](#專案細節)，向下滑動可自動載入下一頁資料，直到沒有相符搜尋結果。
 
 圖左：首頁，可輸入關鍵字全文搜尋台北著名景點<br>
 圖右：登入/註冊 modal，圖中提示登入失敗字樣
@@ -54,6 +54,7 @@
 在預定行程頁中，使用者瀏覽尚未付款的預定行程，並進一步使用信用卡付款。系統會自動帶入使用者聯絡資訊。
 
 圖：預定行程頁，可使用信用卡付款
+
 ![](https://github.com/haoyuliaocurb/taipei-day-trip-website/blob/develop/images/booking-lg.png)
 
 圖左：行程簡介頁<br>
@@ -66,47 +67,43 @@
 ![](https://github.com/haoyuliaocurb/taipei-day-trip-website/blob/develop/images/taipei-day-trip-website%20%E5%89%8D%E5%BE%8C%E7%AB%AF%E6%9E%B6%E6%A7%8B.jpeg)
 
 - 更多細節可見附錄 [技術介紹](#技術介紹)
-
-串接台北 API
-清洗資料
-MVC
-
-
-- 前端開發：使用 [Sass/SCSS](#sassscss)、[React 生態系]((#react)) 獨立開發，沒有使用任何前端 UI 套件
+- 前端開發：使用 [MVC](#MVC) 架構、[Sass/SCSS](#sassscss)、[Normalize.css]((#Normalizecss)) 等獨立開發，並實踐 [RWD、AJAX](#專案細節)，沒有使用任何前端 UI 套件
 - 後端開發：使用 [Firebase](#Firebase-Firestore) 服務開發資料庫、web server、會員系統等，其中為了串接兩個第三方服務：[TapPay](#第三方服務) (金流)、[Algolia](#第三方服務) (Full-text search 套件)，需要使用 [Firebase Cloud Functions](#Firebase-Cloud-Functions) 自訂兩個跨網域 API，以 [Node.js、Express.js、Axios](#nodejsexpressjsaxios) 技術撰寫程式碼，使前端與 API、API 與第三方服務 req/res
 - 開發工具：使用 [Git/GitHub](#gitgithub) 做版本控管，並迭代進行 QA，更多細節可見 [開發流程](#開發流程)
 
 ### 目錄架構
-以 [Create-react-app](#Create-react-app) 建立專案目錄基礎分立 src、public，其中 src 之中分立 app、components、pages、styles、utils 等子目錄
-* app、components、pages：放置 React component 檔案；root component App.js 放置 app 目錄；HomePage、SearchPage 等頁面 component 放置 pages 目錄，其餘者依照所屬 page 分類在 components 目錄
-* styles：放置 Styled components 檔案，依照所屬 page 分類；general.scss 具有全域 styles，cssMaterials.js 存放 styles 相關變數及跨頁面邏輯 
-* utils：放置 Firebase config script、開發者自身 Library 等
-### 開發流程
-以 [Git Flow](#gitgithub) 為基礎進行開發，並迭代進行 QA
-* 初始化專案時，具有 develop、develop branch
-* 開發新頁面、新功能時，則新增 branch feature/featureName 進行開發
-* 開發完成後以 develop merge  feature/featureName branch
-* 階段性發行版本則以 release/versionName 紀錄
-* 配合 QA 表格測試、Debug，搭配使用 [USB Debugging](#USB-debugging) 等技術
+  - 專案目錄下有 static 目錄供 Python server 套件 [Flask.py](#PythonFlaskpy) 取得靜態檔案；templates 目錄下的 HTML 檔案則會配合 Jinja2 樣版引擎渲染
+  - static 目錄下分立 scripts、styles 子目錄  
+    - scripts：依照頁面拆分檔案；其中跨頁面共用組件，如 Nav Bar、SignIn modal 等，則將相關邏輯編寫在 general.js
+    - styles：依照頁面拆分檔案；又 src 子目錄中，_general.scss 具有全域 styles，_library.js 存放開發者常用樣式模組
+ 
+### 開發、部署流程
+- 開發
+  - 以 [GitHub Flow](#gitgithub) 為基礎進行開發，包含要求 reviewer 同意 pull request 實踐 GitHub Flow，並迭代進行 QA
+  - 使用 [MVC 架構](#MVC) 撰寫前端程式碼，並依所屬組件分類，以 attraction 頁面為例，在 load 事件後執行包含 controller.attraction.initComponent 的 callback，controller 中先是呼叫 model 函式取得資料，之後再以 view 函式渲染畫面
+    - Model 函式：model.attraction.fetchAttractionData
+    - View 函式：view.attraction.renderComponent
+    - Controller 函式：controller.attraction.initComponent
+  - 依據後端規格文件建立 [MySQL 資料庫](#MySQL)、開發 [RESTful API](#RESTful-API)
+  - 清洗臺北旅遊網 Open API 的原始資料，並建立 MySQL 資料庫 attractions 資料表
+- 部署
+  - 使用 [AWS EC2](#AWS-EC2) 作 Virtual machine，選用 Linux Ubuntu 發行版本，並運行由 [Python、Flask.py](#pythonflaskpy) 編寫之 Application server
+  - 編寫並執行 configs 檔案，在 [AWS EC2](#AWS-EC2) 上快速建立 MySQL 資料庫
+  - 使用 nohup 指令讓 Application server 在 [AWS EC2](#AWS-EC2) 背景運作
+
 ### 程式設計摘要
-1. #### SPA Routing
-* 使用 [React Router](#React-Router) 為 SPA Routing 技術基礎
-* 骨幹 Routing 實現於 \<Main /> 中，以 \<Switch>、\<Route> 來轉址對應的 URL path /pageName，並 render 的 page component
-  * 例如：/todolist 即 render \<TodolistPage />，/cart 即 render \<CartPage />
-  * 配合帶入 \<Main /> 中的 isSignIn、windowWidth 兩個 state 給 page components
-2. #### 會員系統建立、登入狀態管理
-- 使用 Firebase Auth 建立後端會員系統
-- 前端以 \<Main /> 中的 isSignIn state 觸發，render 不同登入狀態的頁面功能及畫面
-- 使用 Firebase Auth 提供的 onAuthStateChanged 監聽器，當登入狀態改變，onAuthStateChanged 會呼叫 callback 函式以改變 isSignIn，進而 re-render 畫面
-- isSignIn 預設為未登入，值為 null；登入時，值為後端會員系統的識別碼 uid，可配合 fetch 資料庫資料使用
-3. #### 登入狀態驗證、redirect
-- 包含敏感資料頁面，如 \<Paymentpage />、\<Authpage />，render 時會自 URL path 取得相關資料識別碼，與登入狀態比對，如不符合即 redirect 至前一頁面
-  - 例如：在 /auth/uid/:UserId 頁面中會使用 UserId 變數取得會員相關資料並 render \<AuthPage />，然而在這之前，會先將 UserId 值與 isSignIn 作比對，若不符合，則視為非法瀏覽頁面，跳轉至 /auth/signIn 登入頁面
-4. #### composition 概念、reusable component
-- 運用 Composition 概念，將跨頁面功能相似者，例如：各種 button、modal、scrollable bar、Carousel 等，保留其事件 callback、圖文內容、state 等位置為空白，就像一個容器，並於使用時傳入對應的 props 彈性地呈現特定內容，藉此達到 reuse 程式碼的目的
-5. #### Imperative operation：useRef、ref 屬性
-- 操作組件 modal 等視覺效果時，若以 ref 屬性直接操作該 DOM element，而非透過 React state 來觸發 re-render，可以帶來開發方便、節省效能的益處。
-- 開發中多直接控制 React element tree 末端者的 classList，以操作 css 並控制組件的視覺效果
+1. #### 會員系統建立、登入狀態管理
+- 使用 [MySQL 資料庫](#MySQL) users 資料表建立會員系統
+- 使用 [Flask.py](#PythonFlaskpy) Session 套件實踐 cookies、server-side session 讓 HTTP stateful，以此實踐登入、登出功能
+- 在每個頁面中，前端會先呼叫 general.js 中的 initGeneral、getSignInData 等函式，透過 GET HTTP 方法向 /api/user 要求目前使用者登入狀態，並渲染對應的畫面
+
+2. #### Application server 程式架構
+- 使用 [Flask.py](#PythonFlaskpy) 建立 Routing system
+- 配合規格文件實踐 [RESTful API](#RESTful-API)，依照不同 HTTP 方法的請求，執行對應的程式碼
+
+3. #### 串接第三方金流
+- 前端透過 [第三方金流 TapPay](#第三方金流) 官方 TapPay SDK 模組渲染輸入介面，以取得使用者輸入之信用卡資訊，其後得觸發 submit 事件，callback 中先以 TapPay SDK 函式取得驗證碼，接著透過 POST HTTP 方法向 /api/orders 請求開始付款程序，後端進一步使用前端資訊請求 TapPay API，並依據 TapPay API 回應判斷給予前端之回應
+
 <!-- ## 優化方向 -->
 ## 附錄
 <!-- ### 功能介紹 -->
@@ -119,6 +116,11 @@ MVC
   使用 Normalize.css 作跨瀏覽器 CSS 問題處理
 - ##### Modern JavaScript
   使用 Modern JavaScript 操作 DOM 建立前端動態
+- ##### MVC
+  使用 MVC 架構撰寫前端程式碼，並依所屬組件分類，以 attraction 頁面為例，在 load 事件後執行包含 controller.attraction.initComponent 的 callback，controller 中先是呼叫 model 函式取得資料，之後再以 view 函式渲染畫面
+  - Model 函式：model.attraction.fetchAttractionData
+  - View 函式：view.attraction.renderComponent
+  - Controller 函式：controller.attraction.initComponent
 - ##### 專案細節
   - 實踐 RWD
   - 實踐 infinite scroll、carousel
@@ -131,18 +133,18 @@ MVC
   使用 AWS EC2 作 Virtual machine，選用 Linux Ubuntu 發行版本，並運行 Application server
 - ##### RESTful API
   實踐 RESTful API 並更新資料庫
-- ##### Cookies、Server Session
-  實踐 Cookies、Server Session 讓 HTTP stateful
+- ##### cookies、server-side session
+  使用 [Flask.py](#PythonFlaskpy) Session 套件實踐 cookies、server-side session 讓 HTTP stateful
 - ##### 第三方金流
   串接 TapPay 作第三方金流，實踐信用卡付款功能
 - ##### MySQL
   使用 MySQL 建立關聯式資料庫
-- ##### Pool connection
-  使用 SQLAlchemy 與資料庫建立 Pool connection
+- ##### pool connection
+  使用 SQLAlchemy 與資料庫建立 pool connection
 
 #### 開發工具
 - ##### Git/GitHub
-  使用 Git/GitHub 做版本控管，配合 Pull request 實踐 GitHub Flow
+  使用 Git/GitHub 做版本控管，配合 pull request 實踐 GitHub Flow
 * ##### NPM、ES6 module system 、Webpack、Babel
   使用 NPM、ES6 module system 、Webpack、Babel 導入套件、解析 ES6 JS 語法
 <!-- ### 程式設計
