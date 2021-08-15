@@ -1,12 +1,8 @@
 # taipei-day-trip-website
 ## 目錄
 1. [專案展示](#專案展示)
-2. [專案簡介](#專案簡介)
-    - [首頁](#首頁)
-    - [登入/註冊 modal](#登入註冊-modal)
-    - [行程簡介頁](#行程簡介頁)
-    - [預定行程頁](#預定行程頁)
-3. [開發簡介](#開發簡介)
+2. [專案摘要](#專案摘要)
+3. [開發介紹](#開發介紹)
     - [技術架構及摘要](#技術架構及摘要)
         - 前端開發
         - 後端開發
@@ -21,48 +17,23 @@
         3. [串接第三方金流](#串接第三方金流)
 4. [附錄](#附錄)
     - [技術介紹](#技術介紹)
+    - [專案介紹](#專案介紹)
+        - [首頁](#首頁)
+        - [登入/註冊 modal](#登入註冊-modal)
+        - [行程簡介頁](#行程簡介頁)
+        - [預定行程頁](#預定行程頁)
 
 ## 專案展示
 - 專案網址：http://18.136.117.43:3000/
 - 測試帳號：ply@ply.com
 - 測試帳號：12345678
 
-## 專案簡介
+## 專案摘要
 「台北一日遊」為一旅遊電商網站，其提供使用者搜尋台北著名景點，進一步預約導覽行程時間，並提供信用卡付款。
 
 ![](https://github.com/haoyuliaocurb/taipei-day-trip-website/blob/develop/images/index-lg.png)
 
-- ### 首頁
-在首頁中，使用者可以瀏覽台北著名景點，並輸入關鍵字進行全文搜尋。實踐 [infinite scroll](#專案細節)，向下滑動可自動載入下一頁資料，直到沒有相符搜尋結果。
-
-圖左：首頁，可輸入關鍵字全文搜尋台北著名景點<br>
-圖右：登入/註冊 modal，圖中提示登入失敗字樣
-
-![](https://github.com/haoyuliaocurb/taipei-day-trip-website/blob/develop/images/index-combined-sm.png)
-
-- ### 登入/註冊 modal
-在各個頁面的導航列中，都可以透過「登入/註冊」按鈕顯示彈跳視窗，進一步登入、註冊帳戶。登入者，可使用導航列「登出」按鈕登出帳戶。
-
-- ### 行程簡介頁
-在行程簡介頁中呈現景點相關資訊，包含 [carousel]((#專案細節)) 實踐，並可讓使用者預約導覽行程時間，跳轉預定行程頁進一步付款。
-
-圖：行程簡介頁，可瀏覽景點相關資訊，並預約導覽行程時間
-
-![](https://github.com/haoyuliaocurb/taipei-day-trip-website/blob/develop/images/attraction-lg.png)
-
-- ### 預定行程頁
-在預定行程頁中，使用者瀏覽尚未付款的預定行程，並進一步使用信用卡付款。系統會自動帶入使用者聯絡資訊。
-
-圖：預定行程頁，可使用信用卡付款
-
-![](https://github.com/haoyuliaocurb/taipei-day-trip-website/blob/develop/images/booking-lg.png)
-
-圖左：行程簡介頁<br>
-圖右：預定行程頁
-
-![](https://github.com/haoyuliaocurb/taipei-day-trip-website/blob/develop/images/attractionNBooking-sm.png)
-
-## 開發簡介
+## 開發介紹
 ### 技術架構及摘要
 ![](https://github.com/haoyuliaocurb/taipei-day-trip-website/blob/develop/images/taipei-day-trip-website-constructure-1.jpeg)
 
@@ -149,6 +120,41 @@
   使用 Git/GitHub 做版本控管，配合 pull request 實踐 GitHub Flow
 * ##### NPM、ES6 module system 、Webpack、Babel
   使用 NPM、ES6 module system 、Webpack、Babel 導入套件、解析 ES6 JS 語法
+  
+### 專案介紹
+「台北一日遊」為一旅遊電商網站，其提供使用者搜尋台北著名景點，進一步預約導覽行程時間，並提供信用卡付款。
+
+![](https://github.com/haoyuliaocurb/taipei-day-trip-website/blob/develop/images/index-lg.png)
+
+- #### 首頁
+在首頁中，使用者可以瀏覽台北著名景點，並輸入關鍵字進行全文搜尋。實踐 [infinite scroll](#專案細節)，向下滑動可自動載入下一頁資料，直到沒有相符搜尋結果。
+
+圖左：首頁，可輸入關鍵字全文搜尋台北著名景點<br>
+圖右：登入/註冊 modal，圖中提示登入失敗字樣
+
+![](https://github.com/haoyuliaocurb/taipei-day-trip-website/blob/develop/images/index-combined-sm.png)
+
+- #### 登入/註冊 modal
+在各個頁面的導航列中，都可以透過「登入/註冊」按鈕顯示彈跳視窗，進一步登入、註冊帳戶。登入者，可使用導航列「登出」按鈕登出帳戶。
+
+- #### 行程簡介頁
+在行程簡介頁中呈現景點相關資訊，包含 [carousel]((#專案細節)) 實踐，並可讓使用者預約導覽行程時間，跳轉預定行程頁進一步付款。
+
+圖：行程簡介頁，可瀏覽景點相關資訊，並預約導覽行程時間
+
+![](https://github.com/haoyuliaocurb/taipei-day-trip-website/blob/develop/images/attraction-lg.png)
+
+- #### 預定行程頁
+在預定行程頁中，使用者瀏覽尚未付款的預定行程，並進一步使用信用卡付款。系統會自動帶入使用者聯絡資訊。
+
+圖：預定行程頁，可使用信用卡付款
+
+![](https://github.com/haoyuliaocurb/taipei-day-trip-website/blob/develop/images/booking-lg.png)
+
+圖左：行程簡介頁<br>
+圖右：預定行程頁
+
+![](https://github.com/haoyuliaocurb/taipei-day-trip-website/blob/develop/images/attractionNBooking-sm.png)
 <!-- ### 程式設計
 ### 組件開發總覽
 #### \<App />
