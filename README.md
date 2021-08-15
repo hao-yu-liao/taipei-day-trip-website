@@ -84,7 +84,7 @@
     - Model 函式：model.attraction.fetchAttractionData
     - View 函式：view.attraction.renderComponent
     - Controller 函式：controller.attraction.initComponent
-  - 依據後端規格文件建立 [MySQL 資料庫](#MySQL)、開發 [RESTful API](#RESTful-API)
+  - 依據後端規格文件建立 [MySQL 資料庫](#MySQL)、開發 [RESTful API](#RESTful-API)，實踐細節可見 [會員系統建立、登入狀態管理](#會員系統建立登入狀態管理)
   - 清洗臺北旅遊網 Open API 的原始資料，並建立 MySQL 資料庫 attractions 資料表
 - 部署
   - 使用 [AWS EC2](#AWS-EC2) 作 Virtual machine，選用 Linux Ubuntu 發行版本，並運行由 [Python、Flask.py](#pythonflaskpy) 編寫之 Application server
