@@ -1,4 +1,4 @@
-# TodoShop
+# taipei-day-trip-website
 ## 目錄
 1. [專案展示](#專案展示)
 2. [專案簡介](#專案簡介)
@@ -30,7 +30,7 @@
 ## 專案簡介
 「台北一日遊」為一旅遊電商網站，其提供使用者搜尋台北著名景點，進一步預約導覽行程時間，並提供信用卡付款。
 
-![](https://github.com/haoyuliaocurb/TodoShop/blob/develop/images/index-lg.png)
+![](https://github.com/haoyuliaocurb/taipei-day-trip-website/blob/develop/images/index-lg.png)
 
 - ### 首頁
 在首頁中，使用者可以瀏覽台北著名景點，並輸入關鍵字進行全文搜尋。實踐 infinite scroll(#專案細節)，向下滑動可自動載入下一頁資料，直到沒有相符搜尋結果。
@@ -38,7 +38,7 @@
 圖左：首頁，可輸入關鍵字全文搜尋台北著名景點<br>
 圖右：登入/註冊 modal，圖中提示登入失敗字樣
 
-![](https://github.com/haoyuliaocurb/TodoShop/blob/develop/images/imdex-combined-sm.png)
+![](https://github.com/haoyuliaocurb/taipei-day-trip-website/blob/develop/images/index-combined-sm.png)
 
 - ### 登入/註冊 modal
 在各個頁面的導航列中，都可以透過「登入/註冊」按鈕顯示彈跳視窗，進一步登入、註冊帳戶。登入者，可使用導航列「登出」按鈕登出帳戶。
@@ -48,22 +48,22 @@
 
 圖：行程簡介頁，可瀏覽景點相關資訊，並預約導覽行程時間
 
-![](https://github.com/haoyuliaocurb/TodoShop/blob/develop/images/attraction-lg.png)
+![](https://github.com/haoyuliaocurb/taipei-day-trip-website/blob/develop/images/attraction-lg.png)
 
 - ### 預定行程頁
 在預定行程頁中，使用者瀏覽尚未付款的預定行程，並進一步使用信用卡付款。系統會自動帶入使用者聯絡資訊。
 
 圖：預定行程頁，可使用信用卡付款
-![](https://github.com/haoyuliaocurb/TodoShop/blob/develop/images/booking-lg.png)
+![](https://github.com/haoyuliaocurb/taipei-day-trip-website/blob/develop/images/booking-lg.png)
 
 圖左：行程簡介頁<br>
 圖右：預定行程頁
 
-![](https://github.com/haoyuliaocurb/TodoShop/blob/develop/images/attractionNBooking-sm.png)
+![](https://github.com/haoyuliaocurb/taipei-day-trip-website/blob/develop/images/attractionNBooking-sm.png)
 
 ## 開發簡介
 ### 技術架構及摘要
-![](https://github.com/haoyuliaocurb/TodoShop/blob/develop/images/TodoShop%20%E5%89%8D%E5%BE%8C%E7%AB%AF%E6%9E%B6%E6%A7%8B.jpeg)
+![](https://github.com/haoyuliaocurb/taipei-day-trip-website/blob/develop/images/taipei-day-trip-website%20%E5%89%8D%E5%BE%8C%E7%AB%AF%E6%9E%B6%E6%A7%8B.jpeg)
 
 - 更多細節可見附錄 [技術介紹](#技術介紹)
 
