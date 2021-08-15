@@ -64,7 +64,7 @@
 
 ## 開發簡介
 ### 技術架構及摘要
-![](https://github.com/haoyuliaocurb/taipei-day-trip-website/blob/develop/images/taipei-day-trip-website%20%E5%89%8D%E5%BE%8C%E7%AB%AF%E6%9E%B6%E6%A7%8B.jpeg)
+![](https://github.com/haoyuliaocurb/taipei-day-trip-website/blob/develop/images/taipei-day-trip-website-constructure-1.jpeg)
 
 - 更多細節可見附錄 [技術介紹](#技術介紹)
 - 前端開發：使用 [MVC](#MVC) 架構、[Sass/SCSS](#sassscss)、[Normalize.css]((#Normalizecss)) 等獨立開發，並實踐 [RWD、AJAX](#專案細節)，沒有使用任何前端 UI 套件
@@ -78,6 +78,8 @@
     - styles：依照頁面拆分檔案；又 src 子目錄中，_general.scss 具有全域 styles，_library.js 存放開發者常用樣式模組
  
 ### 開發、部署流程
+![](https://github.com/haoyuliaocurb/taipei-day-trip-website/blob/develop/images/taipei-day-trip-website-constructure-2.jpeg)
+
 - 開發
   - 以 [GitHub Flow](#gitgithub) 為基礎進行開發，包含要求 reviewer 同意 pull request 實踐 GitHub Flow，並迭代進行 QA
   - 使用 [MVC 架構](#MVC) 撰寫前端程式碼，並依所屬組件分類，以 attraction 頁面為例，在 load 事件後執行包含 controller.attraction.initComponent 的 callback，controller 中先是呼叫 model 函式取得資料，之後再以 view 函式渲染畫面
