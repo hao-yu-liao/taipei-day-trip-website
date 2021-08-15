@@ -217,17 +217,19 @@ header {
 }
 
 main {
-    @include lib.size(100%);
-    min-height: 100%;
+    // @include lib.size(100%, calc(100% - #{$footer_height}));
+    width: 100%;
+    min-height: calc(100% - #{$footer_height});
     padding-top: $header_height;
-    padding-bottom: $footer_height;
+    // padding-bottom: $footer_height;
 }
 
 footer {
     @include lib.size(100%, $footer_height);
-    position: fixed;
+    // position: fixed;
+    position: relative;
     z-index: 10;
-    bottom: 0;
+    // bottom: 0;
     background-color: $gray_700;
     @include lib.flex(center, center);
 

@@ -2,9 +2,10 @@
 ## 目錄
 1. [專案展示](#專案展示)
 2. [專案簡介](#專案簡介)
-    - [購物清單頁](#購物清單頁)
-    - [搜尋頁：輕鬆模式、普通模式](#搜尋頁輕鬆模式普通模式)
-    - [購物車、付款頁、會員中心](#購物車付款頁會員中心)
+    - [首頁](#首頁)
+    - [登入/註冊 modal](#登入註冊-modal)
+    - [行程簡介頁](#行程簡介頁)
+    - [預定行程頁](#預定行程頁)
 3. [開發簡介](#開發簡介)
     - [技術架構及摘要](#技術架構及摘要)
         - 前端開發
@@ -22,47 +23,55 @@
     - [技術介紹](#技術介紹)
 
 ## 專案展示
-- 專案網址：https://todoshop-5fd25.web.app
-- 測試帳號：trial@gmail.com
-- 測試帳號：trialtrial
+- 專案網址：http://18.136.117.43:3000/
+- 測試帳號：ply@ply.com
+- 測試帳號：12345678
 
 ## 專案簡介
-「TodoShop 從購物清單開始：創新電商網站」，其創新之處在於可以讓使用者從建立購物清單開始，並將購物清單無縫地轉換，進一步搜尋清單中的所有商品，簡單的在一個頁面中呈現
+「台北一日遊」為一旅遊電商網站，其提供使用者搜尋台北著名景點，進一步預約導覽行程時間，並提供信用卡付款。
 
-![](https://github.com/haoyuliaocurb/TodoShop/blob/main/images/HomePage-lg.png)
+![](https://github.com/haoyuliaocurb/TodoShop/blob/main/images/index-lg.png)
 
-- ### 購物清單頁
-在購物清單頁中，使用者可以瀏覽、新增、刪除購物清單，並進一步編輯購物清單內容，新增、刪除清單項目。於手機螢幕中，瀏覽購物清單、編輯購物清單會分為兩個頁面呈現。
+- ### 首頁
+在首頁中，使用者可以瀏覽台北著名景點，並輸入關鍵字進行全文搜尋。實踐 infinite scroll(#專案細節)，向下滑動可自動載入下一頁資料，直到沒有相符搜尋結果。
 
-圖：購物清單頁左半部所被選取的購物清單，其內容會顯示於右半部
+圖左：首頁，可輸入關鍵字全文搜尋台北著名景點<br>
+圖右：登入/註冊 modal，圖中提示登入失敗字樣
 
-![](https://github.com/haoyuliaocurb/TodoShop/blob/main/images/TodolistPage-lg.png)
+![](https://github.com/haoyuliaocurb/TodoShop/blob/main/images/imdex-combined-sm.png)
 
-- ### 搜尋頁：輕鬆模式、普通模式
-在搜尋頁中可以任意切換輕鬆模式、普通模式，在輕鬆模式中，多種商品被集合在一個頁面中，讓使用者可以透過橫欄的方式選購商品；TodoShop 創新之處便在於可以從建立購物清單開始，並將購物清單無縫地轉換，至輕鬆模式中搜尋清單中的所有商品
+- ### 登入/註冊 modal
+在各個頁面的導航列中，都可以透過「登入/註冊」按鈕顯示彈跳視窗，進一步登入、註冊帳戶。登入者，可使用導航列「登出」按鈕登出帳戶。
 
-圖左：普通模式，搜尋結果以價格高至低排序<br>
-圖右：輕鬆模式，可用來搜尋購物清單中羅列的多種商品
+- ### 行程簡介頁
+在行程簡介頁中呈現景點相關資訊，包含 [carousel]((#專案細節)) 實踐，並可讓使用者預約導覽行程時間，跳轉預定行程頁進一步付款。
 
-![](https://github.com/haoyuliaocurb/TodoShop/blob/main/images/SearchPage-sm.png)
+圖：行程簡介頁，可瀏覽景點相關資訊，並預約導覽行程時間
 
-- ### 購物車、付款頁、會員中心
-在購物車中，使用者可以選取特定的商品，並點選「結帳」轉換成訂單，其後於付款頁中填入相關資訊，串接第三方金流，完成付款。訂單狀態可於會員中心「購買訂單」中瀏覽。
+![](https://github.com/haoyuliaocurb/TodoShop/blob/main/images/attraction-lg.png)
 
-圖左：購物車，工具列即時顯示所點選的商品總價，點選「結帳」跳轉付款頁<br>
-圖右：付款頁，串接第三方金流 TapPay
+- ### 預定行程頁
+在預定行程頁中，使用者瀏覽尚未付款的預定行程，並進一步使用信用卡付款。系統會自動帶入使用者聯絡資訊。
 
-![](https://github.com/haoyuliaocurb/TodoShop/blob/main/images/CartPageNPaymentPage-sm.png)
+圖：預定行程頁，可使用信用卡付款
+![](https://github.com/haoyuliaocurb/TodoShop/blob/main/images/booking-lg.png)
 
-圖：會員中心頁，「購買訂單」區塊顯示所有訂單狀態及相關資訊
+圖左：行程簡介頁<br>
+圖右：預定行程頁
 
-![](https://github.com/haoyuliaocurb/TodoShop/blob/main/images/AuthPage-orders-lg.png)
+![](https://github.com/haoyuliaocurb/TodoShop/blob/main/images/attractionNBooking-sm.png)
 
 ## 開發簡介
 ### 技術架構及摘要
 ![](https://github.com/haoyuliaocurb/TodoShop/blob/main/images/TodoShop%20%E5%89%8D%E5%BE%8C%E7%AB%AF%E6%9E%B6%E6%A7%8B.jpeg)
 
 - 更多細節可見附錄 [技術介紹](#技術介紹)
+
+串接台北 API
+清洗資料
+MVC
+
+
 - 前端開發：使用 [Sass/SCSS](#sassscss)、[React 生態系]((#react)) 獨立開發，沒有使用任何前端 UI 套件
 - 後端開發：使用 [Firebase](#Firebase-Firestore) 服務開發資料庫、web server、會員系統等，其中為了串接兩個第三方服務：[TapPay](#第三方服務) (金流)、[Algolia](#第三方服務) (Full-text search 套件)，需要使用 [Firebase Cloud Functions](#Firebase-Cloud-Functions) 自訂兩個跨網域 API，以 [Node.js、Express.js、Axios](#nodejsexpressjsaxios) 技術撰寫程式碼，使前端與 API、API 與第三方服務 req/res
 - 開發工具：使用 [Git/GitHub](#gitgithub) 做版本控管，並迭代進行 QA，更多細節可見 [開發流程](#開發流程)
@@ -103,45 +112,39 @@
 <!-- ### 功能介紹 -->
 ### 技術介紹
 #### 前端
+- ##### HTML
 - ##### Sass/SCSS
-  使用 Sass/SCSS 預處理、開發全域 styling 樣式
-- ##### Styled Components
-  使用 Styled Components 配合 React 開發
+  使用 Sass/SCSS 預處理、靜態切版
 - ##### Normalize.css
   使用 Normalize.css 作跨瀏覽器 CSS 問題處理
-* ##### React Router
-  使用 React Router 實踐 SPA 的 router 管理，見 [SPA Routing](#SPA-Routing)
-- ##### ES6 JavaScript
-  使用 ES6 JavaScript 語法做開發
-- ##### ESLint/Prettier
-  導入 ESLint/Prettier 統一開發風格
+- ##### Modern JavaScript
+  使用 Modern JavaScript 操作 DOM 建立前端動態
 - ##### 專案細節
-  - 實踐 RWD、Infinite scroll、Event throttle and debounce、Loader 、Modal、Carousel 等
-  - 使用 React Router、Firebase Auth UI 對於會員、付款頁面做輸入驗證、登入狀態驗證、Redirect
-  - 實踐 CRUD、Composition 概念，建立 reusable React component
+  - 實踐 RWD
+  - 實踐 infinite scroll、carousel
+  - 使用 Fetch API 實踐 AJAX
+
 #### 後端
-- ##### Firebase Firestore
-  使用 Firestore 作為非關聯式資料庫
-- ##### Firebase Auth
-  使用 Auth 建立會員系統，實踐輸入驗證、即時監聽會員登入狀態改變前端畫面
-- ##### Firebase Hosting
-  使用 Hosting 建立 Web server
-- ##### 第三方服務
-  串接兩個第三方服務：TapPay 金流、Algolia Full-text search 套件
-- ##### Firebase Cloud Functions
-  使用 Firebase Cloud Functions 自訂兩個跨網域 API
-- ##### Node.js、Express.js、Axios
-  使用 Node.js、Express.js、Axios 技術撰寫 API 使前端與 API、API 與第三方服務 req/res
-- ##### 環境變數
-  使用 functions config 設置環境變數：App ID、App key 等敏感資料
+- ##### Python、Flask.py
+  使用 Python、Flask.py 建立 Application server
+- ##### AWS EC2
+  使用 AWS EC2 作 Virtual machine，選用 Linux Ubuntu 發行版本，並運行 Application server
+- ##### RESTful API
+  實踐 RESTful API 並更新資料庫
+- ##### Cookies、Server Session
+  實踐 Cookies、Server Session 讓 HTTP stateful
+- ##### 第三方金流
+  串接 TapPay 作第三方金流，實踐信用卡付款功能
+- ##### MySQL
+  使用 MySQL 建立關聯式資料庫
+- ##### Pool connection
+  使用 SQLAlchemy 與資料庫建立 Pool connection
 
 #### 開發工具
 - ##### Git/GitHub
-  使用 Git/GitHub 做版本控管，嘗試實踐 Git Flow
-* ##### Create-react-app
-  使用 NPM、ES6 module system、Create-re-act-app 導入套件、將前端程式碼模組化
-- ##### USB Debugging
-  透過 USB Debugging 技術在開發者工具中呈現手機版網頁運作狀況，包含 Console、styles 等
+  使用 Git/GitHub 做版本控管，配合 Pull request 實踐 GitHub Flow
+* ##### NPM、ES6 module system 、Webpack、Babel
+  使用 NPM、ES6 module system 、Webpack、Babel 導入套件、解析 ES6 JS 語法
 <!-- ### 程式設計
 ### 組件開發總覽
 #### \<App />

@@ -15,10 +15,10 @@ function getURL(path) {
     let domain = domain_EC2;
 
     // for production
-    return `${protocal}://${domain}${path}`
+    // return `${protocal}://${domain}${path}`
 
     // for development
-    // return path
+    return path
 }
 
 function removePx(originValue) {
