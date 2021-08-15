@@ -30,7 +30,7 @@
 ## 專案簡介
 「台北一日遊」為一旅遊電商網站，其提供使用者搜尋台北著名景點，進一步預約導覽行程時間，並提供信用卡付款。
 
-![](https://github.com/haoyuliaocurb/TodoShop/blob/main/images/index-lg.png)
+![](https://github.com/haoyuliaocurb/TodoShop/blob/develop/images/index-lg.png)
 
 - ### 首頁
 在首頁中，使用者可以瀏覽台北著名景點，並輸入關鍵字進行全文搜尋。實踐 infinite scroll(#專案細節)，向下滑動可自動載入下一頁資料，直到沒有相符搜尋結果。
@@ -38,7 +38,7 @@
 圖左：首頁，可輸入關鍵字全文搜尋台北著名景點<br>
 圖右：登入/註冊 modal，圖中提示登入失敗字樣
 
-![](https://github.com/haoyuliaocurb/TodoShop/blob/main/images/imdex-combined-sm.png)
+![](https://github.com/haoyuliaocurb/TodoShop/blob/develop/images/imdex-combined-sm.png)
 
 - ### 登入/註冊 modal
 在各個頁面的導航列中，都可以透過「登入/註冊」按鈕顯示彈跳視窗，進一步登入、註冊帳戶。登入者，可使用導航列「登出」按鈕登出帳戶。
@@ -48,22 +48,22 @@
 
 圖：行程簡介頁，可瀏覽景點相關資訊，並預約導覽行程時間
 
-![](https://github.com/haoyuliaocurb/TodoShop/blob/main/images/attraction-lg.png)
+![](https://github.com/haoyuliaocurb/TodoShop/blob/develop/images/attraction-lg.png)
 
 - ### 預定行程頁
 在預定行程頁中，使用者瀏覽尚未付款的預定行程，並進一步使用信用卡付款。系統會自動帶入使用者聯絡資訊。
 
 圖：預定行程頁，可使用信用卡付款
-![](https://github.com/haoyuliaocurb/TodoShop/blob/main/images/booking-lg.png)
+![](https://github.com/haoyuliaocurb/TodoShop/blob/develop/images/booking-lg.png)
 
 圖左：行程簡介頁<br>
 圖右：預定行程頁
 
-![](https://github.com/haoyuliaocurb/TodoShop/blob/main/images/attractionNBooking-sm.png)
+![](https://github.com/haoyuliaocurb/TodoShop/blob/develop/images/attractionNBooking-sm.png)
 
 ## 開發簡介
 ### 技術架構及摘要
-![](https://github.com/haoyuliaocurb/TodoShop/blob/main/images/TodoShop%20%E5%89%8D%E5%BE%8C%E7%AB%AF%E6%9E%B6%E6%A7%8B.jpeg)
+![](https://github.com/haoyuliaocurb/TodoShop/blob/develop/images/TodoShop%20%E5%89%8D%E5%BE%8C%E7%AB%AF%E6%9E%B6%E6%A7%8B.jpeg)
 
 - 更多細節可見附錄 [技術介紹](#技術介紹)
 
@@ -83,7 +83,7 @@ MVC
 * utils：放置 Firebase config script、開發者自身 Library 等
 ### 開發流程
 以 [Git Flow](#gitgithub) 為基礎進行開發，並迭代進行 QA
-* 初始化專案時，具有 main、develop branch
+* 初始化專案時，具有 develop、develop branch
 * 開發新頁面、新功能時，則新增 branch feature/featureName 進行開發
 * 開發完成後以 develop merge  feature/featureName branch
 * 階段性發行版本則以 release/versionName 紀錄
